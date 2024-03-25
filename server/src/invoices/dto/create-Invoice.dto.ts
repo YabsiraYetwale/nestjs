@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber} from 'class-validator';
+import {IsDateString, IsNotEmpty, IsNumber, MaxLength} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class  CreateInvoiceDto{
     @ApiProperty()
@@ -6,11 +6,14 @@ export class  CreateInvoiceDto{
     name:string 
     @ApiProperty()
     @IsNotEmpty()
+    @MaxLength(20, { message: 'invoice_number must be a maximum of 20 characters' })
     invoice_number :string 
     @ApiProperty()
     @IsNotEmpty()
+    @IsDateString()
     date:Date
     @IsNotEmpty()
+    @IsDateString()
     due_date:Date
     @ApiProperty()
     @IsNumber()
@@ -18,7 +21,7 @@ export class  CreateInvoiceDto{
     @ApiProperty()
     @IsNotEmpty()
     client_id :string 
-  }
+}
   
 
 

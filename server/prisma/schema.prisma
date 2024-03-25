@@ -28,9 +28,9 @@ model Invoices {
   id              String      @id @default(uuid())
   name            String
   invoice_number  String @unique
-  date            DateTime  @default(now())
-  due_date        DateTime @default(now())
-  total_amount    Int
+  date            DateTime  
+  due_date        DateTime 
+  total_amount    Decimal  @db.Decimal(10, 2)
   status          String?
   client_id       String   
     
@@ -42,8 +42,8 @@ model Line_Items {
   id              String      @id @default(uuid())
   description     String
   quantity        Int
-  unit_price      Int
-  tax_rate        Int
+  unit_price      Decimal  @db.Decimal(10, 2)
+  tax_rate        Decimal  @db.Decimal(5, 2)
   invoice_id      String
   invoice         Invoices    @relation("invoiceLineItems", fields: [invoice_id], references: [id],onDelete:Cascade )
 }

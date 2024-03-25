@@ -1,16 +1,20 @@
-import { Controller, Get,Post,Put,Delete ,Param,Body, UseGuards} from '@nestjs/common';
+import { Controller, Get,Post,Put,Delete ,Param,Body,Query, UseGuards} from '@nestjs/common';
 import { JwtAdminGuard, JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto} from './dto/create-Invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-Invoice.dto';
+import { Query as expressQuery} from 'express-serve-static-core';
 
 @Controller('invoices')
-export class InvoicesController {
+export class InvoicesController{
   constructor(private invoicesService: InvoicesService) {}
+
  @Get()
- getAllInvoices(){
-  return this.invoicesService.getAllInvoices()
- }
+async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query: expressQuery,
+)
+ {
+  return this.invoicesService.getAllInvoices(searchQuery,query);
+}
  @Get(':id')
  @UseGuards(JwtAuthGuard)
  getOneInvoice(@Param() id:string){
