@@ -1,19 +1,3 @@
-// /** @format */
-
-// import Link from "next/link";
-
-// import React from "react";
-// import { buttonVariants } from "./ui/button";
-
-
-// export default function SideNavbar() {
-//   return(
-//     <div className="container flex justify-between w-[100vw] ">
-//     <Link href='/'>Invoice System</Link>
-//     <Link className={buttonVariants()} href='/auth'>Login</Link>
-//   </div>
-//   )
-// }
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 import { HandMetal } from 'lucide-react';

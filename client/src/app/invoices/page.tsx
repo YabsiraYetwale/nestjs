@@ -18,6 +18,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
+import {CirclePlus} from "lucide-react";
+import Link from "next/link";
 
 type Props = {};
 type Payment = {
@@ -154,9 +156,14 @@ const data: Payment[] = [
 
 export default function OrdersPage({}: Props) {
   return (
-    <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Orders" />
-      <DataTable columns={columns} data={data} />
-    </div>
+        <div className="flex justify-evenly">
+        <div className="flex flex-col gap-5  w-full">
+          <PageTitle title="Invoices" />
+          <DataTable columns={columns} data={data} />
+        </div>
+        <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
+        <Link href='/invoices/addInvoice'><CirclePlus/></Link>
+        </div>
+        </div>
   );
 }

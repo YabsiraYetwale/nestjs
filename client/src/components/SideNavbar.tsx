@@ -10,6 +10,7 @@ import {
   ShoppingCart,
   LayoutDashboard,
   UsersRound,
+  Users,
   Settings,
   ChevronRight
 } from "lucide-react";
@@ -40,7 +41,7 @@ export default function SideNavbar({}: Props) {
           </Button>
         </div>
       )}
-      <div className={`sm:block ${isCollapsed? true : 'hidden'} bg-zinc-100 py-2 border-b border-s-zinc-200 w-[80px] height-[100vh] z-10 absolutee left-[90px] sm:relative `}>
+      <div className={`sm:block ${isCollapsed? true : 'hidden'} sm:bg-transparent bg-zinc-100 py-2 border-b border-s-zinc-200 sm:w-full w-[80px] z-10 sm:relative fixed`}>
       <Nav
         isCollapsed={mobileWidth ? true : isCollapsed}
         links={[
@@ -51,15 +52,21 @@ export default function SideNavbar({}: Props) {
             variant: "default"
           },
           {
-            title: "Users",
-            href: "/users",
+            title: "Invoices",
+            href: "/invoices",
+            icon: ShoppingCart,
+            variant: "ghost"
+          },
+          {
+            title: "Customers",
+            href: "/customers",
             icon: UsersRound,
             variant: "ghost"
           },
           {
-            title: "Ordrs",
-            href: "/orders",
-            icon: ShoppingCart,
+            title: "Users",
+            href: "/users",
+            icon: Users,
             variant: "ghost"
           },
           {

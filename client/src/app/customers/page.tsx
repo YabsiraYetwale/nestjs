@@ -11,8 +11,8 @@ import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import PageTitle from "@/components/PageTitle";
-import {UserPlus,User} from "lucide-react";
 import Link from "next/link";
+import {Trash2,UserPlus,User} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 
 type Props = {};
@@ -31,7 +31,7 @@ const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-2 items-center">
-           <div className="h-10 w-10  bg-zinc-100 py-2 border-b border-s-zinc-200 flex items-center justify-center">
+          <div className="h-10 w-10  bg-zinc-100 py-2 border-b border-s-zinc-200 flex items-center justify-center">
           <User/>
           </div>
           <p>{row.getValue("name")} </p>
@@ -57,7 +57,7 @@ const columns: ColumnDef<Payment>[] = [
     cell: ({ row,id }) => {
       return (
         <div className="flex gap-2 items-center">
-          <Link className={buttonVariants()} href={`/users/details/${id}`}>View</Link>
+          <Link className={buttonVariants()} href={`/customers/details/${id}`}>View</Link>
         </div>
       );
     }
@@ -176,11 +176,11 @@ export default function UsersPage({}: Props) {
   return (
     <div className="flex justify-evenly">
     <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Users" />
+      <PageTitle title="Customers" />
       <DataTable columns={columns} data={data} />
     </div>
     <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
-    <Link href='/users/addUser'><UserPlus/></Link>
+    <Link href='/customers/addCustomer' ><UserPlus/></Link>
     </div>
     </div>
   );
