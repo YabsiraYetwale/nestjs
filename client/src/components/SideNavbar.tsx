@@ -28,9 +28,9 @@ export default function SideNavbar({}: Props) {
   }
 
   return (
-    <div className="relative min-w-[80px] border-r px-3  pb-10 pt-24 ">
-      {!mobileWidth && (
-        <div className="absolute right-[-20px] top-7">
+    <div className={`relative z-1000 sm:mi-w-[80px]  sm:border-r sm:px-3 pb-10 pt-24 `}>
+      {(
+        <div className="absolute sm:right-[-20px] sm:top-7 sm:hidden md:block top-3">
           <Button
             onClick={toggleSidebar}
             variant="secondary"
@@ -40,6 +40,7 @@ export default function SideNavbar({}: Props) {
           </Button>
         </div>
       )}
+      <div className={`sm:block ${isCollapsed? true : 'hidden'} bg-zinc-100 py-2 border-b border-s-zinc-200 w-[80px] height-[100vh] z-10 absolutee left-[90px] sm:relative `}>
       <Nav
         isCollapsed={mobileWidth ? true : isCollapsed}
         links={[
@@ -69,6 +70,7 @@ export default function SideNavbar({}: Props) {
           }
         ]}
       />
+      </div>
     </div>
   );
 }

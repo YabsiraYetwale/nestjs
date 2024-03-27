@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "../lib/utils";
 import SideNavbar from "@/components/SideNavbar";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,12 +29,16 @@ export default function RootLayout({
             "debug-screens": process.env.NODE_ENV === "development"
           }
         )}
-      >
-        {/* sidebar */}
-        {/* <p className="border">Sidebar</p> */}
+      > 
+      <div className="flex flex-col">
+        <div className="absolute top-3 ">
+        <Navbar/>
+        </div>
+        <div className="mt-[50px] flex flex-col">
         <SideNavbar />
-        {/* main page */}
-        <div className="p-8 w-full">{children}</div>
+        </div>
+        </div>
+        <div className="p-8 mt-[50px] w-full">{children}</div>
       </body>
     </html>
   );
