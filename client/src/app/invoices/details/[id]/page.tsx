@@ -2,9 +2,9 @@ import PageTitle from "@/components/PageTitle";
 import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "@/components/Card";
 import SalesCard, { SalesProps } from "@/components/SalesCard";
-import ItemsCard from "@/components/invoiceDetail/ItemsCard";
-import MiddleCard, { MiddleCardProps } from "@/components/invoiceDetail/MiddleCard";
-import StatusCard from "@/components/invoiceDetail/StatusCard";
+import ItemsCard from "@/components/detail/invoiceDetail/ItemsCard";
+import MiddleCard, { MiddleCardProps } from "@/components/detail/invoiceDetail/MiddleCard";
+import StatusCard from "@/components/detail/invoiceDetail/StatusCard";
 import { Button, buttonVariants } from "@/components/ui/button";
 
 

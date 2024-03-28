@@ -1,9 +1,9 @@
-import SignUpForm from '@/components/form/SignUpForm';
+import CustomerDetail from "@/components/detail/CustomerDetail";
 
 const page = () => {
   return (
     <div className='w-full'>
-      <SignUpForm />
+      <CustomerDetail/>
     </div>
   );
 };
