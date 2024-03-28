@@ -17,20 +17,21 @@ import { Button } from '../ui/button';
 const FormSchema = z
   .object({
     
-    client_id : z.string().min(1, 'client_id  is required').max(100),
-    invoice_number : z.string().min(1, 'invoice_number  is required'),
-    date: z.string().min(1, ' date is required'),
-    due_date: z.string().min(1, 'due_dateis required'),
+    invoice_id  : z.string().min(1, 'invoice_id   is required').max(100),
+    description : z.string().min(1, 'description  is required'),
+    quantity : z.string().min(1, ' quantity  is required'),
+    unit_price: z.string().min(1, 'unit_price is required'),
+    tax_rate: z.string().min(1, 'tax_rate is required'),
   })
 
 const ItemsForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      client_id: '',
-      invoice_number: '',
-      date: '',
-      due_date: '',
+      invoice_id : '',
+      description: '',
+      unit_price: '',
+      tax_rate: '',
     },
   });
 
@@ -45,16 +46,16 @@ const ItemsForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
           <FormField
             control={form.control}
-            name='client_id'
+            name='invoice_id'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <select>
-                    <option>Choose client_id</option>
-                    <option>client_id1</option>
-                    <option>client_id2</option>
-                    <option>client_id3</option>
-                    <option>client_id4</option>
+                    <option>Choose invoice_id</option>
+                    <option>invoice_id1</option>
+                    <option>invoice_id2</option>
+                    <option>invoice_id3</option>
+                    <option>invoice_id4</option>
                   </select>
                 </FormControl>
                 <FormMessage />
@@ -63,11 +64,11 @@ const ItemsForm = () => {
           />
           <FormField
             control={form.control}
-            name='invoice_number'
+            name='description'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='Enter invoice_number' {...field} />
+                  <textarea className='border solid' placeholder='Enter description' {...field}  cols="125" rows="5"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,11 +76,11 @@ const ItemsForm = () => {
           />
           <FormField
             control={form.control}
-            name='date'
+            name='quantity'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='date' placeholder='Enter the date' {...field} />
+                  <Input type='number' placeholder='Enter quantity' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,11 +88,23 @@ const ItemsForm = () => {
           />
           <FormField
             control={form.control}
-            name='due_date'
+            name='unit_price'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='date' placeholder='Enter the due_date' {...field} />
+                  <Input type='number' placeholder='Enter unit price' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='tax_rate'
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type='number' placeholder='Enter tax rate' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

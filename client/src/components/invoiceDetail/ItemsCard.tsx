@@ -1,12 +1,12 @@
 import {User}from "lucide-react";
 
-export type SalesProps = {
+export type ItemsProps = {
   name: string;
   email: string;
   saleAmount: string;
 };
 
-export default function SalesCard(props: SalesProps) {
+export default function ItemsCard(props: ItemsProps) {
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">
       <section className="flex justify-between gap-3 ">

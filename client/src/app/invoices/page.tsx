@@ -1,16 +1,3 @@
-/**
- * eslint-disable @next/next/no-img-element
- *
- * @format
- */
-
-/**
- * eslint-disable @next/next/no-img-element
- *
- * @format
- */
-
-/** @format */
 "use client";
 
 import { DataTable } from "@/components/DataTable";
@@ -23,16 +10,22 @@ import Link from "next/link";
 
 type Props = {};
 type Payment = {
-  order: string;
+  invoice_number: string;
+  name: string;
   status: string;
-  lastOrder: string;
-  method: string;
+  date: string;
+  due_date: string;
+  path?: string;
 };
 
 const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "order",
-    header: "Order"
+    accessorKey: "invoice_number",
+    header: "Invoice Number"
+  },
+  {
+    accessorKey: "name",
+    header: "Customer Name"
   },
   {
     accessorKey: "status",
@@ -41,9 +34,9 @@ const columns: ColumnDef<Payment>[] = [
       return (
         <div
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
-            "bg-red-200": row.getValue("status") === "Pending",
-            "bg-orange-200": row.getValue("status") === "Processing",
-            "bg-green-200": row.getValue("status") === "Completed"
+            "bg-red-200": row.getValue("status") === "Unpaid",
+            "bg-orange-200": row.getValue("status") === "Read",
+            "bg-green-200": row.getValue("status") === "Paid"
           })}
         >
           {row.getValue("status")}
@@ -52,109 +45,135 @@ const columns: ColumnDef<Payment>[] = [
     }
   },
   {
-    accessorKey: "lastOrder",
-    header: "Last Order"
+    accessorKey: "date",
+    header: "Date"
   },
   {
-    accessorKey: "method",
-    header: "Method"
-  }
+    accessorKey: "due_date",
+    header: "Due Date"
+  },
+  {
+    accessorKey: "path",
+    header: "Manage",
+    cell: ({ row,id }) => {
+      return (
+        <div className="flex gap-2 items-center">
+          <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/invoices/details/${id}`}>View</Link>
+        </div>
+      );
+    }
+  },
 ];
 
 const data: Payment[] = [
   {
-    order: "ORD001",
-    status: "Pending",
-    lastOrder: "2023-01-15",
-    method: "Credit Card"
+    invoice_number: "ORD001",
+    name:"alice",
+    status: "Unpaid",
+    date: "2023-01-15",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD002",
-    status: "Processing",
-    lastOrder: "2023-02-20",
-    method: "PayPal"
+    invoice_number: "ORD002",
+    name:"alice",
+    status: "Read",
+    date: "2023-02-20",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD003",
-    status: "Completed",
-    lastOrder: "2023-03-10",
-    method: "Stripe"
+    invoice_number: "ORD003",
+    name:"alice",
+    status: "Paid",
+    date: "2023-03-10",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD004",
-    status: "Pending",
-    lastOrder: "2023-04-05",
-    method: "Venmo"
+    invoice_number: "ORD004",
+    name:"alice",
+    status: "Unpaid",
+    date: "2023-04-05",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD005",
-    status: "Completed",
-    lastOrder: "2023-05-12",
-    method: "Bank Transfer"
+    invoice_number: "ORD005",
+    name:"alice",
+    status: "Paid",
+    date: "2023-05-12",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD006",
-    status: "Processing",
-    lastOrder: "2023-06-18",
-    method: "Apple Pay"
+    invoice_number: "ORD006",
+    name:"alice",
+    status: "Read",
+    date: "2023-06-18",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD007",
-    status: "Completed",
-    lastOrder: "2023-07-22",
-    method: "Google Pay"
+    invoice_number: "ORD007",
+    name:"alice",
+    status: "Paid",
+    date: "2023-07-22",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD008",
-    status: "Pending",
-    lastOrder: "2023-08-30",
-    method: "Cryptocurrency"
+    invoice_number: "ORD008",
+    name:"alice",
+    status: "Unpaid",
+    date: "2023-08-30",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD009",
-    status: "Processing",
-    lastOrder: "2023-09-05",
-    method: "Alipay"
+    invoice_number: "ORD009",
+    name:"alice",
+    status: "Read",
+    date: "2023-09-05",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD010",
-    status: "Completed",
-    lastOrder: "2023-10-18",
-    method: "WeChat Pay"
+    invoice_number: "ORD010",
+    name:"alice",
+    status: "Paid",
+    date: "2023-10-18",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD011",
-    status: "Pending",
-    lastOrder: "2023-11-25",
-    method: "Square Cash"
+    invoice_number: "ORD011",
+    name:"alice",
+    status: "Unpaid",
+    date: "2023-11-25",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD012",
-    status: "Completed",
-    lastOrder: "2023-12-08",
-    method: "Zelle"
+    invoice_number: "ORD012",
+    name:"alice",
+    status: "Paid",
+    date: "2023-12-08",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD013",
-    status: "Processing",
-    lastOrder: "2024-01-15",
-    method: "Stripe"
+    invoice_number: "ORD013",
+    name:"alice",
+    status: "Read",
+    date: "2024-01-15",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD014",
-    status: "Completed",
-    lastOrder: "2024-02-20",
-    method: "PayPal"
+    invoice_number: "ORD014",
+    name:"alice",
+    status: "Paid",
+    date: "2024-02-20",
+    due_date: "2025-03-22",
   },
   {
-    order: "ORD015",
-    status: "Pending",
-    lastOrder: "2024-03-30",
-    method: "Credit Card"
-  }
+    invoice_number: "ORD015",
+    name:"alice",
+    status: "Unpaid",
+    date: "2024-03-30",
+    due_date: "2025-03-22",
+  },
 ];
 
-export default function OrdersPage({}: Props) {
+export default function invoice_numbersPage({}: Props) {
   return (
         <div className="flex justify-evenly">
         <div className="flex flex-col gap-5  w-full">

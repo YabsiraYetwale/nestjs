@@ -76,7 +76,7 @@ const CustomerForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='Enter the billing_address' {...field} />
+                  <Input placeholder='Enter the billing address' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -88,7 +88,7 @@ const CustomerForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='Enter the contact_person ' {...field} />
+                  <Input placeholder='Enter contact person ' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,7 +99,6 @@ const CustomerForm = () => {
             name='phone'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder='Enter phone number' {...field} />
                 </FormControl>

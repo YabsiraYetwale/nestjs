@@ -1,10 +1,3 @@
-/**
- * eslint-disable @next/next/no-img-element
- *
- * @format
- */
-
-/** @format */
 "use client";
 
 import { DataTable } from "@/components/DataTable";
@@ -13,28 +6,26 @@ import React from "react";
 import PageTitle from "@/components/PageTitle";
 import {UserPlus,User} from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 
 type Props = {};
 type Payment = {
-  name: string;
+  username: string;
   email: string;
-  lastOrder: string;
-  method: string;
-  path:string;
+  role: string;
+  path?:string;
 };
 
 const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "username",
+    header: "User Name",
     cell: ({ row }) => {
       return (
         <div className="flex gap-2 items-center">
            <div className="h-10 w-10  bg-zinc-100 py-2 border-b border-s-zinc-200 flex items-center justify-center">
           <User/>
           </div>
-          <p>{row.getValue("name")} </p>
+          <p>{row.getValue("username")} </p>
         </div>
       );
     }
@@ -44,12 +35,8 @@ const columns: ColumnDef<Payment>[] = [
     header: "Email"
   },
   {
-    accessorKey: "lastOrder",
-    header: "Last Order"
-  },
-  {
-    accessorKey: "method",
-    header: "Method"
+    accessorKey: "role",
+    header: "Role"
   },
   {
     accessorKey: "path",
@@ -57,7 +44,7 @@ const columns: ColumnDef<Payment>[] = [
     cell: ({ row,id }) => {
       return (
         <div className="flex gap-2 items-center">
-          <Link className={buttonVariants()} href={`/users/details/${id}`}>View</Link>
+          <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/users/details/${id}`}>View</Link>
         </div>
       );
     }
@@ -66,109 +53,79 @@ const columns: ColumnDef<Payment>[] = [
 
 const data: Payment[] = [
   {
-    name: "John Doe",
+    username: "John Doe",
     email: "john@example.com",
-    lastOrder: "2023-01-01",
-    method: "Credit Card",
-    path:''
+    role: "admin",
   },
   {
-    name: "Alice Smith",
+    username: "Alice Smith",
     email: "alice@example.com",
-    lastOrder: "2023-02-15",
-    method: "PayPal",
-    path:''
+    role: "admin",
   },
   {
-    name: "Bob Johnson",
+    username: "Bob Johnson",
     email: "bob@example.com",
-    lastOrder: "2023-03-20",
-    method: "Stripe",
-    path:''
+    role: "user",
   },
   {
-    name: "Emma Brown",
+    username: "Emma Brown",
     email: "emma@example.com",
-    lastOrder: "2023-04-10",
-    method: "Venmo",
-    path:''
+    role: "user",
   },
   {
-    name: "Michael Davis",
+    username: "Michael Davis",
     email: "michael@example.com",
-    lastOrder: "2023-05-05",
-    method: "Cash",
-    path:''
+    role: "user",
   },
   {
-    name: "Sophia Wilson",
+    username: "Sophia Wilson",
     email: "sophia@example.com",
-    lastOrder: "2023-06-18",
-    method: "Bank Transfer",
-    path:''
+    role: "user",
   },
   {
-    name: "Liam Garcia",
+    username: "Liam Garcia",
     email: "liam@example.com",
-    lastOrder: "2023-07-22",
-    method: "Payoneer",
-    path:''
+    role: "user",
   },
   {
-    name: "Olivia Martinez",
+    username: "Olivia Martinez",
     email: "olivia@example.com",
-    lastOrder: "2023-08-30",
-    method: "Apple Pay",
-    path:''
+    role: "user",
   },
   {
-    name: "Noah Rodriguez",
+    username: "Noah Rodriguez",
     email: "noah@example.com",
-    lastOrder: "2023-09-12",
-    method: "Google Pay",
-    path:''
+    role: "user",
   },
   {
-    name: "Ava Lopez",
+    username: "Ava Lopez",
     email: "ava@example.com",
-    lastOrder: "2023-10-25",
-    method: "Cryptocurrency",
-    path:''
+    role: "user",
   },
   {
-    name: "Elijah Hernandez",
+    username: "Elijah Hernandez",
     email: "elijah@example.com",
-    lastOrder: "2023-11-05",
-    method: "Alipay",
-    path:''
+    role: "user",
   },
   {
-    name: "Mia Gonzalez",
+    username: "Mia Gonzalez",
     email: "mia@example.com",
-    lastOrder: "2023-12-08",
-    method: "WeChat Pay",
-    path:''
+    role: "user",
   },
   {
-    name: "James Perez",
+    username: "James Perez",
     email: "james@example.com",
-    lastOrder: "2024-01-18",
-    method: "Square Cash",
-    path:''
+    role: "user",
   },
   {
-    name: "Charlotte Carter",
+    username: "Charlotte Carter",
     email: "charlotte@example.com",
-    lastOrder: "2024-02-22",
-    method: "Zelle",
-    path:''
+    role: "user",
   },
   {
-    name: "Benjamin Taylor",
+    username: "Benjamin Taylor",
     email: "benjamin@example.com",
-    lastOrder: "2024-03-30",
-    method: "Stripe",
-    path:''
+    role: "user",
   },
 ];
 
@@ -179,9 +136,9 @@ export default function UsersPage({}: Props) {
       <PageTitle title="Users" />
       <DataTable columns={columns} data={data} />
     </div>
-    <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
+    {/* <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
     <Link href='/users/addUser'><UserPlus/></Link>
-    </div>
+    </div> */}
     </div>
   );
 }

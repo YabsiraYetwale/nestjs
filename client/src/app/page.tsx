@@ -1,10 +1,7 @@
-/** @format */
-
 import PageTitle from "@/components/PageTitle";
-import Image from "next/image";
 import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "@/components/Card";
-import BarChart from "@/components/BarChart";
+// import BarChart from "@/components/BarChart";
 import SalesCard, { SalesProps } from "@/components/SalesCard";
 
 const cardData: CardProps[] = [
@@ -12,26 +9,27 @@ const cardData: CardProps[] = [
     label: "Total Revenue",
     amount: "$45,231.89",
     discription: "+20.1% from last month",
-    icon: DollarSign
+    icon: DollarSign,
   },
   {
-    label: "Subscriptions",
+    label: "Total Customers",
     amount: "+2350",
     discription: "+180.1% from last month",
-    icon: Users
+    icon: Users,
   },
   {
-    label: "Sales",
+    label: "Outstanding Invoices",
     amount: "+12,234",
     discription: "+19% from last month",
-    icon: CreditCard
+    icon: CreditCard,
   },
   {
-    label: "Active Now",
-    amount: "+573",
-    discription: "+201 since last hour",
-    icon: Activity
-  }
+    label: "Status",
+    amount: "+256 Pending",
+    discription: "invoices",
+    icon: Activity,
+    path:'view status'
+  },
 ];
 
 const uesrSalesData: SalesProps[] = [
@@ -74,20 +72,21 @@ export default function Home() {
             discription={d.discription}
             icon={d.icon}
             label={d.label}
+            path={d.path}
           />
         ))}
       </section>
-      <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-2">
-        <CardContent>
+      <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
+        {/* <CardContent>
           <p className="p-4 font-semibold">Overview</p>
 
-          <BarChart />
-        </CardContent>
+           <BarChart />
+        </CardContent> */}
         <CardContent className="flex justify-between gap-4">
           <section>
-            <p>Recent Sales</p>
+            <p>Recent Activities</p>
             <p className="text-sm text-gray-400">
-              You made 265 sales this month.
+              You made 265 activities this month.
             </p>
           </section>
           {uesrSalesData.map((d, i) => (
@@ -99,8 +98,6 @@ export default function Home() {
             />
           ))}
         </CardContent>
-
-        {/*  */}
       </section>
     </div>
   );
