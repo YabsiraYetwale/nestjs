@@ -44,13 +44,14 @@ const InvoiceForm = () => {
       <p className='font-bold text-[30px]'>Add Invoice</p>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
-          <FormField
+        <div className='w-[100%] flex gap-5'>
+        <FormField
             control={form.control}
             name='client_id'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <select>
+                  <select {...field} className="border text-center w-[10vw] h-[40px]  flex  gap-5" >
                     <option>Choose client_id</option>
                     <option>client_id1</option>
                     <option>client_id2</option>
@@ -68,19 +69,21 @@ const InvoiceForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='Enter invoice_number' {...field} />
+                  <Input className='w-[54vw] flex  gap-5'  placeholder='Enter invoice_number' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+          </div>
+            <div className='w-[100%] flex gap-5'>
+            <FormField
             control={form.control}
             name='date'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='date' placeholder='Enter the date' {...field} />
+                  <Input type='date' className='w-[32vw] flex  gap-5' placeholder='Enter the date' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,17 +95,17 @@ const InvoiceForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='date' placeholder='Enter the due_date' {...field} />
+                  <Input type='date' className='w-[32vw] flex  gap-5' placeholder='Enter the due_date' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-       <Link href='/items/addItems'> 
-       <Button className='w-full mt-6' type='submit'>
-          Save And Add Items
+            </div>
+            
+       <Button className='w-[100px]' type='submit'>
+          Save 
         </Button>
-        </Link>
       </form>
     </Form>
     </div>

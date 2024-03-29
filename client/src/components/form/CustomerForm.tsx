@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -36,14 +37,14 @@ const CustomerForm = () => {
       phone: '',
     },
   });
-
+const [isEdit , setIsEdit]= useState(false)
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     console.log(values);
   };
 
   return (
     <div className='flex flex-col gap-5 justify-center items-center'>
-      <p className='font-bold text-[30px]'>Add Customer</p>
+      <p className='font-bold text-[30px]'>{isEdit ? 'Update ':'Add '}Customer</p>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
           <FormField
@@ -107,7 +108,7 @@ const CustomerForm = () => {
             )}
           />
         <Button className='w-full mt-6' type='submit'>
-          Add customer
+          {isEdit ? 'Update ':'Add ' }Customer
         </Button>
       </form>
     </Form>

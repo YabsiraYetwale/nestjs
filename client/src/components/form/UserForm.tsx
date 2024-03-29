@@ -15,6 +15,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
+import { CardContent } from '../Card';
 
 const FormSchema = z
   .object({
@@ -43,10 +44,12 @@ const UserForm = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5 justify-center items-center'>
+  <CardContent>
+      <div className='flex flex-col gap-5 justify-center items-center'>
       <p className='font-bold text-[30px]'>Update User</p>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-[40px]'>
+        <div className='flex flex-col gap-5'>
       <FormField
             control={form.control}
             name='username'
@@ -89,18 +92,24 @@ const UserForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder='Enter role ' {...field} />
+                  <select {...field}  className='border text-center w-[200px] h-[50px]'>
+                    <option>Choose role</option>
+                    <option>admin</option>
+                    <option>user</option>
+                  </select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          </div>
         <Button className='w-full mt-6' type='submit'>
           Update user
         </Button>
       </form>
     </Form>
     </div>
+  </CardContent>
   );
 };
 

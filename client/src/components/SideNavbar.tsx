@@ -47,7 +47,7 @@ export default function SideNavbar({}: Props) {
         onClick={()=>setIsCollapsed(false)}
         className={`sm:block ${
           isCollapsed ? true : "hidden"
-        } sm:bg-transparent bg-zinc-100 py-2 border-b border-s-zinc-200 sm:w-full w-[80px] h-[100vh] sm:relative fixed`}
+        } sm:bg-transparent bg-zinc-100 py-2  border-s-zinc-200 sm:w-full w-[80px] h-[100vh] sm:relative fixed`}
       >
         <Nav
           isCollapsed={mobileWidth ? true : isCollapsed}
@@ -71,7 +71,7 @@ export default function SideNavbar({}: Props) {
               variant: "ghost",
             },
             {
-              title: "Users",
+              title: "System Users",
               href: "/users",
               icon: Users,
               variant: "ghost",

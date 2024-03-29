@@ -23,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
+          // "min-h-screen w-full bg-[#111120] text-black flex ",
           "min-h-screen w-full bg-white text-black flex ",
           inter.className,
           {

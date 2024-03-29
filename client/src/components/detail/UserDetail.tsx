@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CardContent } from "../Card";
 import { Button } from "../ui/button";
 
-export default function CustomerDetail({ id }) {
+export default function UserDetail({ id }) {
   const [isDelete, setIsDelete] = useState(false);
   const handleDelete = () => {
     setIsDelete(!isDelete);
@@ -76,7 +76,7 @@ export default function CustomerDetail({ id }) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/customers/edit/${id}`}>
+        <Link href={`/users/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
             Edit
           </Button>

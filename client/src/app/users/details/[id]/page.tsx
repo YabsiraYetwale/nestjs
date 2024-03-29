@@ -1,9 +1,9 @@
-import UserForm from '@/components/form/UserForm';
+import UserDetail from '@/components/detail/UserDetail';
 
 const page = () => {
   return (
     <div className='w-full'>
-      <UserForm />
+      <UserDetail/>
     </div>
   );
 };

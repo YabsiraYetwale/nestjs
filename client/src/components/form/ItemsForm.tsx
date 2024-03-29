@@ -26,12 +26,12 @@ const FormSchema = z.object({
 });
 
 const ItemsForm = () => {
-  const [items, setItems] = useState([{}]); // Initialize with one item by default
+  const [items, setItems] = useState([{}]); 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       invoice_id: '',
-      items: [{}], // Initialize with one item by default
+      items: [{}], 
     },
   });
 
@@ -51,8 +51,8 @@ const ItemsForm = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5 justify-center items-center'>
-      <p className='font-bold text-[30px]'>Add Items</p>
+    <div className='flex flex-col gap-5 py-7 justify-center items-center'>
+      {/* <p className='font-bold text-[30px]'>Add Items</p> */}
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
           <FormField
@@ -61,7 +61,7 @@ const ItemsForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <select {...field}>
+                  <select {...field} className="border"> 
                     <option>Choose invoice_id</option>
                     <option>invoice_id1</option>
                     <option>invoice_id2</option>
