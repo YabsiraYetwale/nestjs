@@ -26,8 +26,8 @@ export default function CustomerDetail({ id }) {
             </div>
             <p className="text-sm text-gray-400">Customer in Invoice system.</p>
           </div>
-          <section className="flex flex-col gap-5 ">
-            <div className="grid grid-cols-2 gap-[400px]">
+          <section className="flex flex-col gap-5 relative sm:left-0 left-[-4.5rem]">
+            <div className="grid grid-cols-2  md:gap-[300px] gap-5 sm:gap-5  lg:gap-[400px]">
               <div className="flex flex-col gap-2 ">
                 <div className="font-bold text-gray-400">Phone Number</div>
                 <p className="text-sm text-gray-400">+251926198491</p>
@@ -52,9 +52,9 @@ export default function CustomerDetail({ id }) {
           </section>
         </section>
       </section>
-   <div className="flex absolute right-[30rem] top-[20rem] bg-gray-200 z-10 flex-row justify-center items-center">
+   <div className="flex absolute lg:right-[30rem] top-[20rem] bg-gray-200  flex-row justify-center items-center">
         {isDelete && (
-          <CardContent className="w-[300px] flex flex-coljustify-center z-10 items-center">
+          <CardContent className="w-[300px] flex flex-coljustify-center  items-center">
             <>
             <div>Are Sou Sure To Delete</div>
             <div className="flex gap-5 flex-row justify-center items-center">

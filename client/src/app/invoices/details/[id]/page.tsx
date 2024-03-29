@@ -8,8 +8,9 @@ import MiddleCard, { MiddleCardProps } from "@/components/detail/invoiceDetail/M
 import { Button} from "@/components/ui/button";
 import { useState } from "react";
 import Link from "next/link";
+import {ChevronUp,ChevronDown} from "lucide-react";
 
-
+ 
 const uesrSalesData: SalesProps[] = [
   {
     name: "Olivia Martin",
@@ -30,6 +31,11 @@ const MiddleCardData: MiddleCardProps[] = [
 export default function Home({id}) {
   const [isDelete, setIsDelete] = useState(false);
   const [isPopUp, setIsPopUp] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
 const handleDelete = () => {
   setIsDelete(!isDelete);
 };
@@ -51,9 +57,20 @@ const handleConfirm = () => {
              Unpaid
             </p>
           </section>
-          <div className="flex absolute right-[30rem] top-[20rem] bg-gray-200 z-10 flex-row justify-center items-center">
+      <div
+        className="flex flex-col items-center justify-between p-4 cursor-pointer">
+        <div  onClick={toggleAccordion} className="text-gray-500 sm:hidden">
+          {isOpen ? <ChevronUp/> : <ChevronDown/>}
+        </div>
+        <section  className={`sm:grid ${isOpen ? 'grid' :'hidden'} sm:grid-cols-3 grid-cols-1 lg:gap-5 gap-3`}>
+          <Button className="bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500">
+          <Link href={`/invoices/edit/${id}`}>Edit</Link>
+          </Button>
+  
+            <Button onClick={handleDelete} className='sm:h-[40px] h-[30px] bg-red-600 hover:bg-red-500'>Delete</Button>
+        <div className="flex absolute lg:right-[30rem] right-[3rem] top-[20rem] top-[15rem]  bg-gray-200 flex-row justify-center items-center">
         {isDelete && (
-          <CardContent className="w-[300px] flex flex-coljustify-center z-10 items-center">
+          <CardContent className="w-[300px] flex flex-coljustify-center items-center">
             <>
             <div>Are Sou Sure To Delete</div>
             <div className="flex gap-5 flex-row justify-center items-center">
@@ -74,25 +91,20 @@ const handleConfirm = () => {
           </CardContent>
         )}
       </div>
-          <section  className="grid grid-cols-3 gap-5">
-          <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
-          <Link href={`/invoices/edit/${id}`}>Edit</Link>
-          </Button>
-  
-            <Button onClick={handleDelete} className='bg-red-600 hover:bg-red-500'>Delete</Button>
-      
       <div className="flex flex-col gap-5">
-          <Button onClick={handlePopUp} className='bg-green-600 hover:bg-green-500'>Mark as</Button>
+          <Button onClick={handlePopUp} className='sm:h-[40px] h-[30px] bg-green-600 hover:bg-green-500'>Mark as</Button>
          {
           isPopUp &&
-         <div className="absolute top-[13rem] flex gap-5">
-          {<Button className='bg-green-600 px-5 hover:bg-green-500'>Paid</Button>}
-         {<Button className='bg-orange-600 px-5 hover:bg-orange-500'>Read</Button>}
-          {isDelete && <Button className='bg-red-600 px-5 hover:bg-red-500'>UnPaid</Button>}
+         <div className="absolute lg:top-[13rem] md:top-[15rem] top-[20rem] flex lg:flex-row flex-col gap-3">
+          {<Button className='sm:h-[40px] h-[30px] bg-green-600 px-5 hover:bg-green-500'>Paid</Button>}
+         {<Button className='sm:h-[40px] h-[30px] bg-orange-600 px-5 hover:bg-orange-500'>Read</Button>}
+          {isDelete && <Button className='sm:h-[40px] h-[30px] bg-red-600 px-5 hover:bg-red-500'>UnPaid</Button>}
           </div>
           }
           </div>
           </section>
+      </div>
+   
         </CardContent>
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
