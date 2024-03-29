@@ -1,5 +1,7 @@
 import {combineReducers} from 'redux'
-// import { auths } from './auths'
-// import { tours } from './tours'
-// export default combineReducers({auths,tours})
-export const reducers =()=> combineReducers({})
+import { auths } from './auths'
+import { customers } from './customers'
+import { invoices } from './invoices'
+import { items } from './items'
+
+export const reducers =()=> combineReducers({auths,customers,invoices,items,})
