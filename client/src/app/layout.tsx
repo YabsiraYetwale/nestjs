@@ -1,11 +1,10 @@
-/** @format */
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "../lib/utils";
 import SideNavbar from "@/components/SideNavbar";
 import Navbar from "@/components/Navbar";
+import { ReduxProvider } from "@/redux/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +30,7 @@ export default function RootLayout({
           }
         )}
       > 
+      <ReduxProvider>
       <div className="flex flex-col">
         <div className="absolute top-3 ">
         <Navbar/>
@@ -40,6 +40,7 @@ export default function RootLayout({
         </div>
         </div>
         <div className="p-8 mt-[50px] w-full">{children}</div>
+      </ReduxProvider>
       </body>
     </html>
   );
