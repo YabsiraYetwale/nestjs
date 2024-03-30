@@ -3,17 +3,21 @@ const API = axios.create({ baseURL:"http://localhost:3001/api"});
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("InvoiceAuth")) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem("InvoiceAuth")).token
-    }`;
+    const token = JSON.parse(localStorage.getItem("InvoiceAuth")).data.token;
+    req.headers = {
+      ...req.headers,
+      Authorization: `Bearer ${token}`,
+    };
   }
   return req;
 });
 
-
 // Auth
 export const signUp = (user) => API.post("/auth/register", user);
 export const signIn = (user) => API.post("/auth/login", user);
+
+// user profile
+export const fetchCurrentUser = () => API.get("/auth/status");
 
 // customer
 export const createCustomer = (customer) => API.post("/clients", customer);

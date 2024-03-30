@@ -5,7 +5,8 @@ export const createCustomer=(customer,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
         dispatch({type:CREATE,payload:data})
-        router.push('/')
+        // router.push('/')
+        console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

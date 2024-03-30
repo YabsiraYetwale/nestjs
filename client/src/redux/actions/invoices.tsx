@@ -5,7 +5,8 @@ export const createInvoice=(invoice,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.createInvoice(invoice)
         dispatch({type:CREATE,payload:data})
-        router.push('/')
+        // router.push('/')
+        console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -32,18 +33,18 @@ export const fetchInvoice=(id)=>async(dispatch)=>{
     }
 }
 
-export const fetchInvoiceBySearch=(searchQuery,router)=>async(dispatch)=>{
+export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})
-        const {data}= await api.fetchInvoiceBySearch(searchQuery)
-        const title= data.Invoices.map(Invoice=>(Invoice.title))
-        if(title?.length){ 
-           dispatch({type:FETCH_BY_SEARCH,payload:data})
-           router.push(`/invoices/search?searchQuery=${searchQuery}`) 
-        }
-        else{
-            router.push(`/invoices/search/no_result`) 
-        }
+        const {data}= await api.fetchInvoicesBySearch(searchQuery)
+        // const title= data.Invoices.map(Invoice=>(Invoice.title))
+        // if(title?.length){ 
+        //    dispatch({type:FETCH_BY_SEARCH,payload:data})
+        //    router.push(`/invoices/search?searchQuery=${searchQuery}`) 
+        // }
+        // else{
+        //     router.push(`/invoices/search/no_result`) 
+        // }
        dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -69,10 +70,10 @@ export const markInvoiceStatusUnPaid=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const markInvoiceStatusREAD=(id)=>async(dispatch)=>{
+export const markInvoiceStatusRead=(id)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})
-        const {data}= await api.markInvoiceStatusREAD(id)
+        const {data}= await api.markInvoiceStatusRead(id)
         dispatch({type:READ,payload:data})
         dispatch({type:END_LOADING})
     } catch (error) {

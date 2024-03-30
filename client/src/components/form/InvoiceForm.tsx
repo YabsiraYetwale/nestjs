@@ -13,8 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
-
+import { createInvoice } from '@/redux/actions/invoices';
 
 const FormSchema = z
   .object({
@@ -23,10 +24,13 @@ const FormSchema = z
     invoice_number : z.string().min(1, 'invoice_number  is required'),
     date: z.string().min(1, ' date is required'),
     due_date: z.string().min(1, 'due_dateis required'),
+    name:z.string().min(1, 'namerequired'),
+    // total_amount: z.number(),
+    total_amount:z.coerce.number().gte(1, 'Must be 1 and above')
   })
-
 const InvoiceForm = () => {
-  const router = useRouter()
+  const dispatch = useDispatch()
+  const router = useRouter()  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -34,13 +38,15 @@ const InvoiceForm = () => {
       invoice_number: '',
       date: '',
       due_date: '',
+      name:'',
+      total_amount:0
     },
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
-  };
+    dispatch(createInvoice(values,router))
 
+  };
   return (
     <div className='flex flex-col gap-5 justify-center items-center'>
       <p className='font-bold text-[30px]'>Add Invoice</p>
@@ -53,18 +59,47 @@ const InvoiceForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <select {...field} className="border text-center w-[10vw] h-[40px]  flex  gap-5" >
+                  {/* <select {...field} className="border text-center w-[10vw] h-[40px]  flex  gap-5" >
                     <option>Choose client_id</option>
                     <option>client_id1</option>
                     <option>client_id2</option>
                     <option>client_id3</option>
                     <option>client_id4</option>
-                  </select>
+                  </select> */}
+                  <Input className='w-[54vw] flex  gap-5'  placeholder='Enter client_id' {...field} />
+
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+        <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='w-[54vw] flex  gap-5'  placeholder='Enter property name' {...field} />
+
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        <FormField
+            control={form.control}
+            name='total_amount'
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type='number' className='w-[54vw] flex  gap-5'  placeholder='Enter property total_amount' {...field} />
+
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+            
           <FormField
             control={form.control}
             name='invoice_number'

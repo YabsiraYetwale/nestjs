@@ -16,8 +16,9 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
+import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
-
+import { createCustomer } from '@/redux/actions/customers';
 const FormSchema = z
   .object({
     name: z.string().min(1, 'name is required').max(100),
@@ -28,6 +29,7 @@ const FormSchema = z
   })
 
 const CustomerForm = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,7 +43,8 @@ const CustomerForm = () => {
   });
 const [isEdit , setIsEdit]= useState(false)
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+    dispatch(createCustomer(values,router))
+
   };
 
   return (

@@ -4,4 +4,4 @@ import { customers } from './customers'
 import { invoices } from './invoices'
 import { items } from './items'
 
-export const reducers =()=> combineReducers({auths,customers,invoices,items,})
+export const reducers =()=> combineReducers({auths,customers,invoices,items})

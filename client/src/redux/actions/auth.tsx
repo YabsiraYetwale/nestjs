@@ -1,4 +1,4 @@
-import {END_LOADING, LOGIN, SIGNUP, START_LOADING } from '../actionTypes/index'
+import {END_LOADING, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING } from '../actionTypes/index'
 import * as api from '../api/index'
 
 export const signUp=(user,router)=>async(dispatch)=>{
@@ -30,5 +30,16 @@ export const signIn=(user,router)=>async(dispatch)=>{
     } catch (error) {
         console.log(error)
         alert('login was not successful')
+    }
+}
+
+
+export const fetchCurrentUser=()=>async(dispatch)=>{
+
+    try {
+     const {data}= await api.fetchCurrentUser()
+       return data
+    } catch (error) {
+        console.log(error)
     }
 }

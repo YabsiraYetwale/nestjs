@@ -28,8 +28,8 @@ model Invoices {
   id              String      @id @default(uuid())
   name            String
   invoice_number  String @unique
-  date            DateTime  
-  due_date        DateTime 
+  date            String  
+  due_date        String 
   total_amount    Decimal  @db.Decimal(10, 2)
   status          String?
   client_id       String   
