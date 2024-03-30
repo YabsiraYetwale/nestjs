@@ -11,9 +11,9 @@ export const items=(state={isLoading:true,items:[]},action)=>{
         case FETCH:
             return {...state,...action.payload}
         case UPDATE:
-            return {...state,items:state?.items?.map((item)=>item?._id === action?.payload?._id ? action.payload : state)}
+            return {...state,items:state?.items?.map((item)=>item?.id === action?.payload?.id ? action.payload : state)}
         case DELETE:
-            return {...state,items:state.items.filter((item)=>item._id !== action.payload)}
+            return {...state,items:state.items.filter((item)=>item.id !== action.payload)}
         default:
             return state;
     }

@@ -13,6 +13,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z.object({
   invoice_id: z.string().min(1, 'invoice_id is required').max(100),
@@ -26,6 +27,7 @@ const FormSchema = z.object({
 });
 
 const ItemsForm = () => {
+  const router = useRouter()
   const [items, setItems] = useState([{}]); 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

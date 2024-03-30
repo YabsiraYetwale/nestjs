@@ -36,7 +36,7 @@ export class AuthService {
     const {email, password } =loginUserDto;
     const existingUser= await this.prismaService.user.findUnique({ where: { email } });
     if (!existingUser) {
-      throw new HttpException("User doesn't exist.", 404);
+       throw new HttpException({message:"User doesn't exist."}, 404);
     }
    
     const isPasswordMatch = await bcrypt.compare(password, existingUser?.password);

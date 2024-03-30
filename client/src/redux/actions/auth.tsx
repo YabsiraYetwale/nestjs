@@ -1,34 +1,34 @@
-import * as api from '../api'
+import {END_LOADING, LOGIN, SIGNUP, START_LOADING } from '../actionTypes/index'
+import * as api from '../api/index'
 
-export const signUp=(user,navigate)=>async(dispatch)=>{
+export const signUp=(user,router)=>async(dispatch)=>{
     try {
-        dispatch({type:"START_LOADING"})
+        dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
-        dispatch({type:"AUTH",payload:data})
-        if(!data?.result){
-            alert (data?.message)
-        }
-        else{
-            navigate('/')
-        }
-        dispatch({type:"END_LOADING"})
+        alert(data.message)
+        dispatch({type:SIGNUP,payload:data})
+        router.push('/sign-in')
+        dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
+        alert('register was not successful')
     }
 }
-export const signIn=(user,navigate)=>async(dispatch)=>{
+export const signIn=(user,router)=>async(dispatch)=>{
     try {
-        dispatch({type:"START_LOADING"})
+        dispatch({type:START_LOADING})
         const {data}= await api.signIn(user)
-        dispatch({type:"AUTH",payload:data})
-        if(!data?.result){
-            alert (data?.message)
+        localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
+        dispatch({type:LOGIN,payload:data})
+        if(data?.token){
+            router.push('/')
         }
         else{
-            navigate('/')
-        }
-        dispatch({type:"END_LOADING"})
+            alert (data?.message)   
+         }
+        dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
+        alert('login was not successful')
     }
 }

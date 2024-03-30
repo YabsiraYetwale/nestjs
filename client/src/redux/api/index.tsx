@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
 
 // Auth
 export const signUp = (user) => API.post("/auth/register", user);
-export const signIn = (user) => API.post("/auth/n", user);
+export const signIn = (user) => API.post("/auth/login", user);
 
 // customer
 export const createCustomer = (customer) => API.post("/clients", customer);
