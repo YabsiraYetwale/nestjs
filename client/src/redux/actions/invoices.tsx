@@ -1,23 +1,20 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_BY_SEARCH, PAID, READ, START_LOADING, UNPAID, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
-export const createInvoice=(invoice,router)=>async(dispatch)=>{
+export const createInvoice=(invoice)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.createInvoice(invoice)
         dispatch({type:CREATE,payload:data})
-        // router.push('/')
-        console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }
 }
+
 export const fetchInvoices=()=>async(dispatch)=>{
     try {
-        dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoices()
-        dispatch({type:FETCH_ALL,payload:data})
-        dispatch({type:END_LOADING})
+        return data
     } catch (error) {
         console.log(error)
     }

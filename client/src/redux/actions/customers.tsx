@@ -5,7 +5,7 @@ export const createCustomer=(customer,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
         dispatch({type:CREATE,payload:data})
-        // router.push('/')
+        router.push('/customers')
         console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
@@ -18,6 +18,7 @@ export const fetchCustomers=()=>async(dispatch)=>{
         const {data}= await api.fetchCustomers()
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
+        return data.allClients
     } catch (error) {
         console.log(error)
     }

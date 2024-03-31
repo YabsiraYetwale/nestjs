@@ -2,20 +2,22 @@
 
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import {UserPlus,User} from "lucide-react";
 import Link from "next/link";
+import {useDispatch} from "react-redux";
+import { fetchUsers } from "@/redux/actions/auth";
 
 type Props = {};
-type Payment = {
+type Users = {
   username: string;
   email: string;
   role: string;
   path?:string;
 };
 
-const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "username",
     header: "User Name",
@@ -51,90 +53,28 @@ const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-const data: Payment[] = [
-  {
-    username: "John Doe",
-    email: "john@example.com",
-    role: "admin",
-  },
-  {
-    username: "Alice Smith",
-    email: "alice@example.com",
-    role: "admin",
-  },
-  {
-    username: "Bob Johnson",
-    email: "bob@example.com",
-    role: "user",
-  },
-  {
-    username: "Emma Brown",
-    email: "emma@example.com",
-    role: "user",
-  },
-  {
-    username: "Michael Davis",
-    email: "michael@example.com",
-    role: "user",
-  },
-  {
-    username: "Sophia Wilson",
-    email: "sophia@example.com",
-    role: "user",
-  },
-  {
-    username: "Liam Garcia",
-    email: "liam@example.com",
-    role: "user",
-  },
-  {
-    username: "Olivia Martinez",
-    email: "olivia@example.com",
-    role: "user",
-  },
-  {
-    username: "Noah Rodriguez",
-    email: "noah@example.com",
-    role: "user",
-  },
-  {
-    username: "Ava Lopez",
-    email: "ava@example.com",
-    role: "user",
-  },
-  {
-    username: "Elijah Hernandez",
-    email: "elijah@example.com",
-    role: "user",
-  },
-  {
-    username: "Mia Gonzalez",
-    email: "mia@example.com",
-    role: "user",
-  },
-  {
-    username: "James Perez",
-    email: "james@example.com",
-    role: "user",
-  },
-  {
-    username: "Charlotte Carter",
-    email: "charlotte@example.com",
-    role: "user",
-  },
-  {
-    username: "Benjamin Taylor",
-    email: "benjamin@example.com",
-    role: "user",
-  },
-];
+
 
 export default function UsersPage({}: Props) {
+  const [user, setUser] = useState<Users[] | null>(null);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(fetchUsers());
+        setUser(response);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
   return (
     <div className="flex justify-evenly">
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title="Users" />
-      <DataTable columns={columns} data={data} />
+      {user && <DataTable columns={columns} data={user} />}
     </div>
     {/* <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
     <Link href='/users/addUser'><UserPlus/></Link>

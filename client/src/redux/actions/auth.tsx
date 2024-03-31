@@ -43,3 +43,14 @@ export const fetchCurrentUser=()=>async(dispatch)=>{
         console.log(error)
     }
 }
+export const fetchUsers=()=>async(dispatch)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.fetchUsers()
+        dispatch({type:FETCH_ALL,payload:data})
+        dispatch({type:END_LOADING})
+        return data.allUsers
+    } catch (error) {
+        console.log(error)
+    }
+}

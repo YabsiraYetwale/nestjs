@@ -13,8 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
+import {useDispatch} from 'react-redux';
 import { createInvoice } from '@/redux/actions/invoices';
 
 const FormSchema = z
@@ -25,12 +25,11 @@ const FormSchema = z
     date: z.string().min(1, ' date is required'),
     due_date: z.string().min(1, 'due_dateis required'),
     name:z.string().min(1, 'namerequired'),
-    // total_amount: z.number(),
     total_amount:z.coerce.number().gte(1, 'Must be 1 and above')
   })
 const InvoiceForm = () => {
   const dispatch = useDispatch()
-  const router = useRouter()  
+  const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,7 +43,7 @@ const InvoiceForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch(createInvoice(values,router))
+    dispatch(createInvoice(values))
 
   };
   return (

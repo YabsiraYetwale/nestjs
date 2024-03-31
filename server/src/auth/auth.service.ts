@@ -50,4 +50,9 @@ export class AuthService {
     return {token};
     }   
     }
+
+    async getAllUsers(){
+      const allUsers = await this.prismaService.user.findMany()
+      return {allUsers}
+    }
 }

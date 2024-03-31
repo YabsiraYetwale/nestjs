@@ -17,7 +17,8 @@ export const signUp = (user) => API.post("/auth/register", user);
 export const signIn = (user) => API.post("/auth/login", user);
 
 // user profile
-export const fetchCurrentUser = () => API.get("/auth/status");
+export const fetchCurrentUser = () => API.get("/auth/user/current-user");
+export const fetchUsers = () => API.get("/auth");
 
 // customer
 export const createCustomer = (customer) => API.post("/clients", customer);

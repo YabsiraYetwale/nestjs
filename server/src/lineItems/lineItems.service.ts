@@ -22,7 +22,7 @@ async getOneLineItems(id:string){
 }
 
 async createLineItems(createLineItemsDto:CreateLineItemsDto){
-  const post = createLineItemsDto
+  const {...post} = createLineItemsDto
   const newLineItems = await this.prismaService.Line_Items.create({data:{...post}})
 return {...newLineItems}
 }

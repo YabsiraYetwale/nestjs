@@ -2,14 +2,16 @@
 
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
 import {CirclePlus} from "lucide-react";
 import Link from "next/link";
+import {useDispatch} from "react-redux";
+import { fetchInvoices } from "@/redux/actions/invoices";
 
 type Props = {};
-type Payment = {
+type Invoices = {
   invoice_number: string;
   name: string;
   status: string;
@@ -18,7 +20,7 @@ type Payment = {
   path?: string;
 };
 
-const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<Invoices>[] = [
   {
     accessorKey: "invoice_number",
     header: "Invoice Number"
@@ -65,120 +67,28 @@ const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-const data: Payment[] = [
-  {
-    invoice_number: "ORD001",
-    name:"alice",
-    status: "Unpaid",
-    date: "2023-01-15",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD002",
-    name:"alice",
-    status: "Read",
-    date: "2023-02-20",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD003",
-    name:"alice",
-    status: "Paid",
-    date: "2023-03-10",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD004",
-    name:"alice",
-    status: "Unpaid",
-    date: "2023-04-05",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD005",
-    name:"alice",
-    status: "Paid",
-    date: "2023-05-12",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD006",
-    name:"alice",
-    status: "Read",
-    date: "2023-06-18",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD007",
-    name:"alice",
-    status: "Paid",
-    date: "2023-07-22",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD008",
-    name:"alice",
-    status: "Unpaid",
-    date: "2023-08-30",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD009",
-    name:"alice",
-    status: "Read",
-    date: "2023-09-05",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD010",
-    name:"alice",
-    status: "Paid",
-    date: "2023-10-18",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD011",
-    name:"alice",
-    status: "Unpaid",
-    date: "2023-11-25",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD012",
-    name:"alice",
-    status: "Paid",
-    date: "2023-12-08",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD013",
-    name:"alice",
-    status: "Read",
-    date: "2024-01-15",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD014",
-    name:"alice",
-    status: "Paid",
-    date: "2024-02-20",
-    due_date: "2025-03-22",
-  },
-  {
-    invoice_number: "ORD015",
-    name:"alice",
-    status: "Unpaid",
-    date: "2024-03-30",
-    due_date: "2025-03-22",
-  },
-];
-
 export default function invoice_numbersPage({}: Props) {
-  return (
+  
+const [invoice, setInvoice] = useState<Invoices[] | null>(null);
+const dispatch = useDispatch();
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await dispatch(fetchInvoices());
+      setInvoice(response);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  fetchData();
+}, [dispatch]);
+
+return (
         <div className="flex justify-evenly">
         <div className="flex flex-col gap-5  w-full">
           <PageTitle title="Invoices" />
-          <DataTable columns={columns} data={data} />
+          {invoice && <DataTable columns={columns} data={invoice} />}
         </div>
         <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
         <Link href='/invoices/addInvoice'><CirclePlus/></Link>
@@ -186,3 +96,5 @@ export default function invoice_numbersPage({}: Props) {
         </div>
   );
 }
+
+

@@ -26,6 +26,7 @@ const Navbar = () => {
     };
     fetchData();
   }, [pathname,dispatch]);
+  
   const handleLogout = () => {
     dispatch(localStorage.clear(),router.push('/sign-in'))
     setUser(null)

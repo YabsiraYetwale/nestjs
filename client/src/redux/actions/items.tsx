@@ -5,7 +5,8 @@ export const createItem=(item,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.createItem(item)
         dispatch({type:CREATE,payload:data})
-        router.push('/')
+        // router.push('/')
+        console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
