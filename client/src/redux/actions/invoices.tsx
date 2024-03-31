@@ -29,10 +29,6 @@ export const fetchInvoice=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-// dispatch({type:START_LOADING})
-
-// dispatch({type:FETCH,payload:data})
-// dispatch({type:END_LOADING})
 
 export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
     try {
@@ -51,32 +47,40 @@ export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const markInvoiceStatusPaid=(id)=>async(dispatch)=>{
+export const markInvoiceStatusPaid=(id,router)=>async(dispatch)=>{
     try {
-        dispatch({type:START_LOADING})
+        // dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusPaid(id)
-        dispatch({type:PAID,payload:data})
-        dispatch({type:END_LOADING})
+        console.log(data.status)
+        router.push(`/invoices/details/${id}`)
+        return data.status
+        // dispatch({type:PAID,payload:data})
+        // dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }
 }
 export const markInvoiceStatusUnPaid=(id)=>async(dispatch)=>{
     try {
-        dispatch({type:START_LOADING})
+        // dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusUnPaid(id)
-        dispatch({type:UNPAID,payload:data})
-        dispatch({type:END_LOADING})
+        console.log(data.status)
+        return data.status
+        // dispatch({type:UNPAID,payload:data})
+        // dispatch({type:END_LOADING})
+
     } catch (error) {
         console.log(error)
     }
 }
 export const markInvoiceStatusRead=(id)=>async(dispatch)=>{
     try {
-        dispatch({type:START_LOADING})
+        // dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusRead(id)
-        dispatch({type:READ,payload:data})
-        dispatch({type:END_LOADING})
+        console.log(data.status)
+        return data.status
+        // dispatch({type:READ,payload:data})
+        // dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }

@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { fetchInvoice, fetchInvoices } from "@/redux/actions/invoices";
+import { fetchInvoice, fetchInvoices, markInvoiceStatusPaid, markInvoiceStatusRead, markInvoiceStatusUnPaid } from "@/redux/actions/invoices";
 
 const uesrSalesData: SalesProps[] = [
   {
@@ -44,7 +44,6 @@ export default function Detail({ params }) {
     };
     fetchData();
   }, [dispatch]);
-  console.log("iaaaaaaaad", id);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -58,6 +57,24 @@ export default function Detail({ params }) {
   const handleConfirm = () => {
     setIsDelete(false);
   };
+
+const handlePaid = async () => {
+  await dispatch(markInvoiceStatusPaid(id, router));
+  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'paid' }));
+  setIsPopUp(false)
+};
+
+const handleUnPaid = async () => {
+  await dispatch(markInvoiceStatusUnPaid(id));
+  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'unpaid' }));
+  setIsPopUp(false)
+};
+
+const handleRead = async () => {
+  await dispatch(markInvoiceStatusRead(id));
+  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'read' }));
+  setIsPopUp(false)
+};
 
   return (
     <div className="flex flex-col gap-5  w-full">
@@ -125,18 +142,18 @@ export default function Detail({ params }) {
                 </Button>
                 {isPopUp && (
                   <div className="absolute lg:top-[13rem] md:top-[15rem] top-[20rem] flex lg:flex-row flex-col gap-3">
-                    {
-                      <Button className="sm:h-[40px] h-[30px] bg-green-600 px-5 hover:bg-green-500">
+                    {invoice?.status !== "paid" &&
+                      <Button onClick={handlePaid} className="sm:h-[40px] h-[30px] bg-green-600 px-5 hover:bg-green-500">
                         Paid
                       </Button>
                     }
-                    {
-                      <Button className="sm:h-[40px] h-[30px] bg-orange-600 px-5 hover:bg-orange-500">
+                    {invoice?.status !== "read" &&
+                      <Button onClick={handleRead} className="sm:h-[40px] h-[30px] bg-orange-600 px-5 hover:bg-orange-500">
                         Read
                       </Button>
                     }
-                    {isDelete && (
-                      <Button className="sm:h-[40px] h-[30px] bg-red-600 px-5 hover:bg-red-500">
+                    {invoice?.status !== "unpaid" &&(
+                      <Button onClick={handleUnPaid} className="sm:h-[40px] h-[30px] bg-red-600 px-5 hover:bg-red-500">
                         UnPaid
                       </Button>
                     )}
