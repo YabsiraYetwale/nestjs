@@ -21,14 +21,18 @@ export const fetchInvoices=()=>async(dispatch)=>{
 }
 export const fetchInvoice=(id)=>async(dispatch)=>{
     try {
-        dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoice(id)
-        dispatch({type:FETCH,payload:data})
-        dispatch({type:END_LOADING})
+        console.log(data.invoice)
+        console.log('dadadadadad')
+        return data.invoice
     } catch (error) {
         console.log(error)
     }
 }
+// dispatch({type:START_LOADING})
+
+// dispatch({type:FETCH,payload:data})
+// dispatch({type:END_LOADING})
 
 export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
     try {

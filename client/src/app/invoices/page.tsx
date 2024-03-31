@@ -13,11 +13,11 @@ import { fetchInvoices } from "@/redux/actions/invoices";
 type Props = {};
 type Invoices = {
   invoice_number: string;
+  id: string;
   name: string;
   status: string;
   date: string;
   due_date: string;
-  path?: string;
 };
 
 const columns: ColumnDef<Invoices>[] = [
@@ -36,9 +36,9 @@ const columns: ColumnDef<Invoices>[] = [
       return (
         <div
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
-            "bg-red-200": row.getValue("status") === "Unpaid",
-            "bg-orange-200": row.getValue("status") === "Read",
-            "bg-green-200": row.getValue("status") === "Paid"
+            "bg-red-200": row.getValue("status") === "unpaid",
+            "bg-orange-200": row.getValue("status") === "read",
+            "bg-green-200": row.getValue("status") === "paid"
           })}
         >
           {row.getValue("status")}
@@ -55,12 +55,15 @@ const columns: ColumnDef<Invoices>[] = [
     header: "Due Date"
   },
   {
-    accessorKey: "path",
+    accessorKey: "id",
     header: "Manage",
-    cell: ({ row,id }) => {
+    cell: ({ row }) => {
+      const id = row.getValue("id");
       return (
+        <div>
         <div className="flex gap-2 items-center">
           <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/invoices/details/${id}`}>View</Link>
+        </div>
         </div>
       );
     }
@@ -77,6 +80,7 @@ useEffect(() => {
     try {
       const response = await dispatch(fetchInvoices());
       setInvoice(response);
+      console.log(response)
     } catch (error) {
       console.error('Error:', error);
     }

@@ -3,6 +3,7 @@ import {User}from "lucide-react";
 export type MiddleCardProps = {
   name: string;
   email: string;
+  invoicename:string;
   invoice_number: string,
   date: string,
   due_date: string,
@@ -22,6 +23,12 @@ export default function MiddleCard(props: MiddleCardProps) {
             </div>
         </div>
       </section>
+        <section>
+            <p>invoice name</p>
+            <p className="text-sm text-gray-400">
+            {props.invoicename}
+            </p>
+          </section>
         <section>
             <p>invoice number</p>
             <p className="text-sm text-gray-400">

@@ -11,10 +11,10 @@ import { fetchUsers } from "@/redux/actions/auth";
 
 type Props = {};
 type Users = {
+  id: string;
   username: string;
   email: string;
   role: string;
-  path?:string;
 };
 
 const columns: ColumnDef<Users>[] = [
@@ -41,9 +41,10 @@ const columns: ColumnDef<Users>[] = [
     header: "Role"
   },
   {
-    accessorKey: "path",
+    accessorKey: "id",
     header: "Manage",
-    cell: ({ row,id }) => {
+    cell: ({ row}) => {
+      const id = row.getValue("id");
       return (
         <div className="flex gap-2 items-center">
           <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/users/details/${id}`}>View</Link>
