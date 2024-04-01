@@ -77,9 +77,9 @@ export default function UsersPage({}: Props) {
       <PageTitle title="Users" />
       {user && <DataTable columns={columns} data={user} />}
     </div>
-    {/* <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
+    <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
     <Link href='/users/addUser'><UserPlus/></Link>
-    </div> */}
+    </div>
     </div>
   );
 }

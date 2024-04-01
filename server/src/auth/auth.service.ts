@@ -67,11 +67,11 @@ export class AuthService {
     }
     async updateUser(id:string,updateUserDto:RegisterUserDto){
       const post = updateUserDto
-      const existingUser = await this.prismaService.Users.findUnique({ where: id  });
+      const existingUser = await this.prismaService.User.findUnique({ where: id  });
       if (!existingUser) {
         throw new HttpException("User doesn't exist", 404);
       }
-      const updatedUser = await this.prismaService.Users.update({where:id,data:{...post}})
+      const updatedUser = await this.prismaService.User.update({where:id,data:{...post}})
       if (!updatedUser) {
         throw new Error("Failed to update User");
       }

@@ -65,6 +65,19 @@ export const fetchUser=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
+export const createUser=(user,router)=>async(dispatch)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.signUp(user)
+        alert(data.message)
+        dispatch({type:SIGNUP,payload:data})
+        router.push('/users')
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+        // alert('create user was not successful')
+    }
+}
 export const updateUser=(id,user,router)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})

@@ -28,9 +28,8 @@ const Navbar = () => {
   }, [pathname,dispatch]);
   
   const handleLogout = () => {
+    setIsPopUp(false)
     dispatch(localStorage.clear(),router.push('/sign-in'))
-    setUser(null)
-  
   };
 
   return (
@@ -45,7 +44,7 @@ const Navbar = () => {
         </Link>
         {user  ? (
         <div>
-          <div onClick={()=>setIsPopUp(!isPopUp)} className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1">
+          <div onClick={()=>setIsPopUp(preve=>!preve)} className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1">
           <User />
         </div>
           <p className="font-bold text-green-400">{user.username}</p>

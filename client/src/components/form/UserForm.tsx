@@ -18,7 +18,7 @@ import GoogleSignInButton from '../GoogleSignInButton';
 import { CardContent } from '../Card';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { fetchUser, updateUser } from '@/redux/actions/auth';
+import { createUser, fetchUser, updateUser } from '@/redux/actions/auth';
 import { useEffect } from 'react';
 
 const FormSchema = z
@@ -65,9 +65,9 @@ const UserForm = ({params}) => {
        if(id){
          dispatch(updateUser(id,values,router));
        }
-      //  else{
-      //    dispatch(createUser(values,router));
-      //  }
+       else{
+         dispatch(createUser(values,router));
+       }
      };
 
   return (

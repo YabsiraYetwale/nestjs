@@ -38,7 +38,7 @@ const InvoiceForm = ({params}) => {
       date: "",
       due_date: "",
       name: "",
-      total_amount: 0,
+      total_amount: null,
     },
   });
   useEffect(() => {
@@ -47,7 +47,6 @@ const InvoiceForm = ({params}) => {
     try {
       const response = await dispatch(fetchInvoice(id));
       form.reset(response);
-      console.log("res", response);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -65,7 +64,7 @@ const InvoiceForm = ({params}) => {
     }
   };
   return (
-    <div className="flex flex-col gap-5 justify-center items-center">
+    <div className="flex flex-col gap-5 justify-center sm:items-center">
       <p className="font-bold text-[30px]">{id ? 'Edit ' :'Add ' }Invoice</p>
       <Form {...form}>
         <form
@@ -80,7 +79,7 @@ const InvoiceForm = ({params}) => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="w-[54vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter client_id"
                       {...field}
                     />
@@ -96,7 +95,7 @@ const InvoiceForm = ({params}) => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="w-[54vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter property name"
                       {...field}
                     />
@@ -105,7 +104,9 @@ const InvoiceForm = ({params}) => {
                 </FormItem>
               )}
             />
-            <FormField
+          </div>
+          <div className="w-[100%] flex gap-5">
+          <FormField
               control={form.control}
               name="total_amount"
               render={({ field }) => (
@@ -113,7 +114,7 @@ const InvoiceForm = ({params}) => {
                   <FormControl>
                     <Input
                       type="number"
-                      className="w-[54vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter property total_amount"
                       {...field}
                     />
@@ -130,7 +131,7 @@ const InvoiceForm = ({params}) => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="w-[54vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter invoice_number"
                       {...field}
                     />
@@ -149,7 +150,7 @@ const InvoiceForm = ({params}) => {
                   <FormControl>
                     <Input
                       type="date"
-                      className="w-[32vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter the date"
                       {...field}
                     />
@@ -166,7 +167,7 @@ const InvoiceForm = ({params}) => {
                   <FormControl>
                     <Input
                       type="date"
-                      className="w-[32vw] flex  gap-5"
+                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
                       placeholder="Enter the due_date"
                       {...field}
                     />

@@ -47,7 +47,7 @@ const ItemsForm = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5 py-7 justify-center items-center'>
+    <div className='flex flex-col gap-5 py-7 justify-center sm:items-center'>
       {/* <p className='font-bold text-[30px]'>Add Items</p> */}
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
@@ -63,28 +63,16 @@ const ItemsForm = () => {
               </FormItem>
             )}
           />
-            <div  className='flex flex-row-reverse gap-1'>
-             <div className='flex flex-col gap-5'> 
-             <FormField
-                control={form.control}
-                name={`description`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <textarea className='border solid' placeholder='Enter description' {...field} cols='125' rows='5' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='w-[100%] flex gap-5'>
+            {/* <div  className='flex flex-row-reverse gap-1'>
+             <div className='flex flex-col gap-5'>  */}
+              <div className='w-[100%] flex sm:flex-row flex-col gap-5'>
               <FormField
                 control={control}
                 name={`unit_price`}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                   <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter unit price' {...field} />
+                   <Input className='flex  sm:w-[20vw] w-[85vw] gap-5' type='number' placeholder='Enter unit price' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,7 +84,7 @@ const ItemsForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                   <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter quantity' {...field} />
+                   <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter quantity' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,17 +96,28 @@ const ItemsForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter tax rate' {...field} />
+                      <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter tax rate' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              </div>
-              </div>
-           
+              {/* </div>
+              </div> */}
             </div>
-          <Button className='w-full mt-6' type='submit'>
+            <FormField
+                control={form.control}
+                name={`description`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <textarea className='border solid' placeholder='Enter description' {...field} cols='45'  rows='5' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+          <Button className='w-[100px] mt-6' type='submit'>
             Create item
           </Button>
         </form>
@@ -238,7 +237,7 @@ export default ItemsForm;
 //                 render={({ field }) => (
 //                   <FormItem>
 //                     <FormControl>
-//                    <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter unit price' {...field} />
+//                    <Input className='flex  gap-5' type='number' placeholder='Enter unit price' {...field} />
 //                     </FormControl>
 //                     <FormMessage />
 //                   </FormItem>
@@ -250,7 +249,7 @@ export default ItemsForm;
 //                 render={({ field }) => (
 //                   <FormItem>
 //                     <FormControl>
-//                    <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter quantity' {...field} />
+//                    <Input className='flex  gap-5' type='number' placeholder='Enter quantity' {...field} />
 //                     </FormControl>
 //                     <FormMessage />
 //                   </FormItem>
@@ -263,7 +262,7 @@ export default ItemsForm;
 //                 render={({ field }) => (
 //                   <FormItem>
 //                     <FormControl>
-//                       <Input className='w-[32.3vw] flex  gap-5' type='number' placeholder='Enter tax rate' {...field} />
+//                       <Input className='flex  gap-5' type='number' placeholder='Enter tax rate' {...field} />
 //                     </FormControl>
 //                     <FormMessage />
 //                   </FormItem>
