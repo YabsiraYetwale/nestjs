@@ -1,9 +1,9 @@
 import CustomerForm from "@/components/form/CustomerForm";
 
-const page = () => {
+const page = ({params}) => {
   return (
     <div className='w-full'>
-      <CustomerForm/>
+      <CustomerForm params={params}/>
     </div>
   );
 };

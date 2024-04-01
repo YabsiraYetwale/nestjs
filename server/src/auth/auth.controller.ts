@@ -17,14 +17,13 @@ export class AuthController {
 // @UseGuards(LocalGuard)
  loginUser(@Req() req: Request,@Body() loginUserDto:LoginUserDto){
   return this.authService.loginUser(loginUserDto)
-  // return req.user
  }
 
   @Get('/user/current-user')
   @UseGuards(JwtAuthGuard)
   getCurrentUser(@Req() req: Request) {
     console.log('Inside AuthController status method');
-    console.log(req.user);
+    // console.log(req.user);
     return req.user;
   }
 

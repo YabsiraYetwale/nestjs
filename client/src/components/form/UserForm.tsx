@@ -16,6 +16,10 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import { CardContent } from '../Card';
+import {useDispatch} from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { fetchUser, updateUser } from '@/redux/actions/auth';
+import { useEffect } from 'react';
 
 const FormSchema = z
   .object({
@@ -28,7 +32,10 @@ const FormSchema = z
     role: z.string()
   })
 
-const UserForm = () => {
+const UserForm = ({params}) => {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const id = params.id;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,14 +46,34 @@ const UserForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
-  };
+  useEffect(() => {
+    if(id){
+     const fetchData = async () => {
+       try {
+         const response = await dispatch(fetchUser(id));
+         form.reset(response);
+         console.log("res", response);
+       } catch (error) {
+         console.error("Error:", error);
+       }
+     };
+     fetchData();
+    }
+     }, [dispatch]);
+   
+     const onSubmit = (values: z.infer<typeof FormSchema>) => {
+       if(id){
+         dispatch(updateUser(id,values,router));
+       }
+      //  else{
+      //    dispatch(createUser(values,router));
+      //  }
+     };
 
   return (
   <CardContent>
       <div className='flex flex-col gap-5 justify-center items-center'>
-      <p className='font-bold text-[30px]'>Update User</p>
+      <p className='font-bold text-[30px]'>{id?'Update':'Create'} User</p>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-[40px]'>
         <div className='flex flex-col gap-5'>
@@ -104,7 +131,7 @@ const UserForm = () => {
           />
           </div>
         <Button className='w-full mt-6' type='submit'>
-          Update user
+        {id?'Update':'Create'} User
         </Button>
       </form>
     </Form>

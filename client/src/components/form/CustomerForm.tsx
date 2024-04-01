@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -18,7 +18,7 @@ import Link from 'next/link';
 import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { createCustomer } from '@/redux/actions/customers';
+import { createCustomer, fetchCustomer, updateCustomer } from '@/redux/actions/customers';
 const FormSchema = z
   .object({
     name: z.string().min(1, 'name is required').max(100),
@@ -28,9 +28,10 @@ const FormSchema = z
     phone: z.string().min(1, 'phone number is required').max(100),
   })
 
-const CustomerForm = () => {
+const CustomerForm = ({params}) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const id = params.id;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -41,15 +42,33 @@ const CustomerForm = () => {
       phone: '',
     },
   });
-const [isEdit , setIsEdit]= useState(false)
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch(createCustomer(values,router))
-
-  };
+ 
+  useEffect(() => {
+    if(id){
+     const fetchData = async () => {
+       try {
+         const response = await dispatch(fetchCustomer(id));
+         form.reset(response);
+       } catch (error) {
+         console.error("Error:", error);
+       }
+     };
+     fetchData();
+    }
+     }, [dispatch]);
+   
+     const onSubmit = (values: z.infer<typeof FormSchema>) => {
+       if(id){
+         dispatch(updateCustomer(id,values,router));
+       }
+       else{
+         dispatch(createCustomer(values,router));
+       }
+     };
 
   return (
     <div className='flex flex-col gap-5 justify-center items-center'>
-      <p className='font-bold text-[30px]'>{isEdit ? 'Update ':'Add '}Customer</p>
+      <p className='font-bold text-[30px]'>{id ? 'Update ':'Add '}Customer</p>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
           <FormField
@@ -113,7 +132,7 @@ const [isEdit , setIsEdit]= useState(false)
             )}
           />
         <Button className='w-full mt-6' type='submit'>
-          {isEdit ? 'Update ':'Add ' }Customer
+          {id ? 'Update ':'Add ' }Customer
         </Button>
       </form>
     </Form>

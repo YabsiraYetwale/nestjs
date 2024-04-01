@@ -1,9 +1,9 @@
 import UserForm from "@/components/form/UserForm";
 
-const page = () => {
+const page = ({params}) => {
   return (
     <div className='w-full'>
-      <UserForm/>
+      <UserForm params={params}/>
     </div>
   );
 };
