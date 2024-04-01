@@ -1,4 +1,4 @@
-import {IsDateString, IsNotEmpty, IsNumber, MaxLength} from 'class-validator';
+import {IsDateString,IsEmpty, IsNotEmpty, IsNumber, MaxLength} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class  CreateInvoiceDto{
     @ApiProperty()
@@ -21,6 +21,9 @@ export class  CreateInvoiceDto{
     @ApiProperty()
     @IsNotEmpty()
     client_id :string 
+    @ApiProperty()
+    @IsEmpty()
+    id :string 
 }
   
 

@@ -1,10 +1,10 @@
 import InvoiceForm from "@/components/form/InvoiceForm";
 import ItemsForm from "@/components/form/ItemsForm";
 
-const page = () => {
+const page = ({params}) => {
   return (
     <div className='w-full'>
-      <InvoiceForm/>
+      <InvoiceForm params={params}/>
       <ItemsForm/>
     </div>
   );

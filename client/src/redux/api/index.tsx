@@ -19,6 +19,9 @@ export const signIn = (user) => API.post("/auth/login", user);
 // user profile
 export const fetchCurrentUser = () => API.get("/auth/user/current-user");
 export const fetchUsers = () => API.get("/auth");
+export const fetchUser = (id) => API.get(`/auth/${id}`);
+export const updateUser = (id, user) => API.put(`/auth/${id}`, user);
+export const deleteUser = (id) => API.delete(`/auth/${id}`);
 
 // customer
 export const createCustomer = (customer) => API.post("/clients", customer);

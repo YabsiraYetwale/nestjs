@@ -15,7 +15,8 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { createInvoice } from "@/redux/actions/invoices";
+import { createInvoice, fetchInvoice, updateInvoice } from "@/redux/actions/invoices";
+import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
   client_id: z.string().min(1, "client_id  is required").max(100),
@@ -25,9 +26,10 @@ const FormSchema = z.object({
   name: z.string().min(1, "namerequired"),
   total_amount: z.coerce.number().gte(1, "Must be 1 and above"),
 });
-const InvoiceForm = () => {
+const InvoiceForm = ({params}) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const id = params.id;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,13 +41,32 @@ const InvoiceForm = () => {
       total_amount: 0,
     },
   });
+  useEffect(() => {
+ if(id){
+  const fetchData = async () => {
+    try {
+      const response = await dispatch(fetchInvoice(id));
+      form.reset(response);
+      console.log("res", response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  fetchData();
+ }
+  }, [dispatch]);
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch(createInvoice(values));
+    if(id){
+      dispatch(updateInvoice(id,values,router));
+    }
+    else{
+      dispatch(createInvoice(values,router));
+    }
   };
   return (
     <div className="flex flex-col gap-5 justify-center items-center">
-      <p className="font-bold text-[30px]">Add Invoice</p>
+      <p className="font-bold text-[30px]">{id ? 'Edit ' :'Add ' }Invoice</p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

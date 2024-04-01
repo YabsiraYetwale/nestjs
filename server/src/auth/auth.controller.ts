@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { Request } from 'express';
-import { JwtAuthGuard } from './guards/jwt.guard';
+import { JwtAdminGuard, JwtAuthGuard } from './guards/jwt.guard';
 import { LoginUserDto } from './dto/login.dto';
 
 @Controller('auth')
@@ -31,6 +31,22 @@ export class AuthController {
   @Get()
   getAllUsers(){
    return this.authService.getAllUsers()
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  getOneUser(@Param() id:string){
+   return this.authService.getOneUser(id)
+  }
+  @Put(':id')
+  @UseGuards(JwtAdminGuard)
+  updateUser(@Param() id:string, @Body() updateUserDto:RegisterUserDto){
+   return this.authService.updateUser(id,updateUserDto)
+  }
+  @Delete(':id')
+  @UseGuards(JwtAdminGuard)
+  deleteUser(@Param() id:string){
+   return this.authService.deleteUser(id)
   }
 }
 

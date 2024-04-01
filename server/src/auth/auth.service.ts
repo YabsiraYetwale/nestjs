@@ -12,8 +12,8 @@ export class AuthService {
     ) {}
   async registerUser(registerUserDto: RegisterUserDto) {
     const { username, email, password,role } = registerUserDto;
-    const existingUserEmail = await this.prismaService.user.findUnique({ where: { email } });
-    const existingUserUsername = await this.prismaService.user.findUnique({ where: { username } });
+    const existingUserEmail = await this.prismaService.User.findUnique({ where: { email } });
+    const existingUserUsername = await this.prismaService.User.findUnique({ where: { username } });
     const hashedPassword = await bcrypt.hash(password, 10)
   
     if (existingUserEmail) {
@@ -21,7 +21,7 @@ export class AuthService {
     } else if (existingUserUsername) {
       throw new HttpException('Username already exists', 409);
     } else {
-      const user = await this.prismaService.user.create({
+      const user = await this.prismaService.User.create({
         data: {
           username,
           email,
@@ -34,7 +34,7 @@ export class AuthService {
   }
   async loginUser(loginUserDto: LoginUserDto){
     const {email, password } =loginUserDto;
-    const existingUser= await this.prismaService.user.findUnique({ where: { email } });
+    const existingUser= await this.prismaService.User.findUnique({ where: { email } });
     if (!existingUser) {
        throw new HttpException({message:"User doesn't exist."}, 404);
     }
@@ -52,7 +52,43 @@ export class AuthService {
     }
 
     async getAllUsers(){
-      const allUsers = await this.prismaService.user.findMany()
+      const allUsers = await this.prismaService.User.findMany()
       return {allUsers}
     }
+
+    async getOneUser(id:string){
+      const user = await this.prismaService.User.findUnique({where:id})
+      if (!user) {
+        throw new HttpException("User doesn't exist",404)
+      }
+      else{
+        return {user}
+      }
+    }
+    async updateUser(id:string,updateUserDto:RegisterUserDto){
+      const post = updateUserDto
+      const existingUser = await this.prismaService.Users.findUnique({ where: id  });
+      if (!existingUser) {
+        throw new HttpException("User doesn't exist", 404);
+      }
+      const updatedUser = await this.prismaService.Users.update({where:id,data:{...post}})
+      if (!updatedUser) {
+        throw new Error("Failed to update User");
+      }
+    return {...updatedUser}
+    }
+    async deleteUser(id: string) {
+      const existingUser = await this.prismaService.User.findUnique({where:id});
+      if (!existingUser) {
+        throw new HttpException("User doesn't exist", 404);
+      }
+    
+      const deletedUser = await this.prismaService.User.delete({ where: id  });
+      if (!deletedUser) {
+        throw new Error("Failed to delete user");
+      } else {
+        return { message: "User deleted successfully" };
+      }
+    
+  }
 }

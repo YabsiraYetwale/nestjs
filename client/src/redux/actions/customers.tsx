@@ -29,6 +29,7 @@ export const fetchCustomer=(id)=>async(dispatch)=>{
         const {data}= await api.fetchCustomer(id)
         dispatch({type:FETCH,payload:data})
         dispatch({type:END_LOADING})
+        return data.client
     } catch (error) {
         console.log(error)
     }
@@ -39,7 +40,7 @@ export const updateCustomer=(id,customer,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.updateCustomer(id,customer)
         dispatch({type:UPDATE,payload:data})
-        router.push('/')
+        router.push(`/customers/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -50,7 +51,7 @@ export const deleteCustomer=(id,router)=>async(dispatch)=>{
         dispatch({type:START_LOADING})
         await api.deleteCustomer(id)
         dispatch({type:DELETE,payload:id})
-        router.push('/')
+        router.push('/customers')
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

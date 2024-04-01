@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { fetchInvoice, fetchInvoices, markInvoiceStatusPaid, markInvoiceStatusRead, markInvoiceStatusUnPaid } from "@/redux/actions/invoices";
+import { deleteInvoice, fetchInvoice, fetchInvoices, markInvoiceStatusPaid, markInvoiceStatusRead, markInvoiceStatusUnPaid } from "@/redux/actions/invoices";
 
 const uesrSalesData: SalesProps[] = [
   {
@@ -55,11 +55,11 @@ export default function Detail({ params }) {
     setIsPopUp(!isPopUp);
   };
   const handleConfirm = () => {
-    setIsDelete(false);
+    dispatch(deleteInvoice(id,router))
   };
 
 const handlePaid = async () => {
-  await dispatch(markInvoiceStatusPaid(id, router));
+  await dispatch(markInvoiceStatusPaid(id));
   setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'paid' }));
   setIsPopUp(false)
 };
@@ -117,13 +117,13 @@ const handleRead = async () => {
                       <div>Are Sou Sure To Delete</div>
                       <div className="flex gap-5 flex-row justify-center items-center">
                         <Button
-                          onClick={handleDelete}
+                          onClick={handleConfirm}
                           className="bg-red-600 hover:bg-red-500 w-[100px]"
                         >
                           Yes
                         </Button>
                         <Button
-                          onClick={handleConfirm}
+                          onClick={handleDelete}
                           className="bg-blue-600 hover:bg-blue-500 w-[100px]"
                         >
                           No

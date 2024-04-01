@@ -1,4 +1,4 @@
-import {END_LOADING, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING } from '../actionTypes/index'
+import {DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 
 export const signUp=(user,router)=>async(dispatch)=>{
@@ -50,6 +50,39 @@ export const fetchUsers=()=>async(dispatch)=>{
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
         return data.allUsers
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const fetchUser=(id)=>async(dispatch)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.fetchUser(id)
+        dispatch({type:FETCH,payload:data})
+        dispatch({type:END_LOADING})
+        return data.user
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const updateUser=(id,user,router)=>async(dispatch)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.updateUser(id,user)
+        dispatch({type:UPDATE,payload:data})
+        router.push(`/users/details/${id}`)
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const deleteUser=(id,router)=>async(dispatch)=>{
+    try {
+        dispatch({type:START_LOADING})
+        await api.deleteUser(id)
+        dispatch({type:DELETE,payload:id})
+        router.push('/users')
+        dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }
