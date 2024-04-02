@@ -8,11 +8,16 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteUser, fetchUser } from "@/redux/actions/auth";
 
+type UserProps = {
+  username: string;
+  role: string;
+  email: string;
+};
 export default function UserDetail({ params }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const id = params.id;
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   console.log("idscus", id);
   useEffect(() => {

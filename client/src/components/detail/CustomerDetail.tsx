@@ -8,11 +8,19 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteCustomer, fetchCustomer } from "@/redux/actions/customers";
 
-export default function CustomerDetail({  params}) {
+type CustomerProps = {
+  name: string;
+  phone: string;
+  email: string;
+  contact_person:string;
+  billing_address:string;
+};
+
+export default function CustomerDetail({params}) {
   const dispatch = useDispatch();
   const router = useRouter();
   const id = params.id;
-  const [customer, setCustomer] = useState(null);
+  const [customer, setCustomer] = useState<CustomerProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   console.log("idscus", id);
   useEffect(() => {
