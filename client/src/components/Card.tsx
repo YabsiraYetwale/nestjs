@@ -23,7 +23,7 @@ export default function Card(props: CardProps) {
       <section className="flex flex-col gap-1">
         <h2 className="text-2xl font-semibold">{props.amount}</h2>
         <p className="text-xs text-gray-500">{props.discription}</p>
-        <Link href={props.discription} className="text-xs text-blue-500">{props.path}</Link>
+        {/* <Link href={props.discription} className="text-xs text-blue-500">{props.path}</Link> */}
       </section>
     </CardContent>
   );
