@@ -1,7 +1,7 @@
 import {DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 
-export const signUp=(user,router)=>async(dispatch)=>{
+export const signUp=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
@@ -14,7 +14,7 @@ export const signUp=(user,router)=>async(dispatch)=>{
         alert('register was not successful')
     }
 }
-export const signIn=(user,router)=>async(dispatch)=>{
+export const signIn=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signIn(user)
@@ -34,7 +34,7 @@ export const signIn=(user,router)=>async(dispatch)=>{
 }
 
 
-export const fetchCurrentUser=()=>async(dispatch)=>{
+export const fetchCurrentUser=()=>async(dispatch:any)=>{
 
     try {
      const {data}= await api.fetchCurrentUser()
@@ -43,7 +43,7 @@ export const fetchCurrentUser=()=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const fetchUsers=()=>async(dispatch)=>{
+export const fetchUsers=()=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchUsers()
@@ -54,7 +54,7 @@ export const fetchUsers=()=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const fetchUser=(id)=>async(dispatch)=>{
+export const fetchUser=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchUser(id)
@@ -65,7 +65,7 @@ export const fetchUser=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const createUser=(user,router)=>async(dispatch)=>{
+export const createUser=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
@@ -78,7 +78,7 @@ export const createUser=(user,router)=>async(dispatch)=>{
         // alert('create user was not successful')
     }
 }
-export const updateUser=(id,user,router)=>async(dispatch)=>{
+export const updateUser=({id,user,router}:{id:any,user:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateUser(id,user)
@@ -89,7 +89,7 @@ export const updateUser=(id,user,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const deleteUser=(id,router)=>async(dispatch)=>{
+export const deleteUser=({id,router}:{id:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteUser(id)

@@ -1,6 +1,6 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
-export const createCustomer=(customer,router)=>async(dispatch)=>{
+export const createCustomer=({customer,router}:{customer:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
@@ -12,7 +12,7 @@ export const createCustomer=(customer,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const fetchCustomers=()=>async(dispatch)=>{
+export const fetchCustomers=()=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchCustomers()
@@ -23,7 +23,7 @@ export const fetchCustomers=()=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const fetchCustomer=(id)=>async(dispatch)=>{
+export const fetchCustomer=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchCustomer(id)
@@ -35,7 +35,7 @@ export const fetchCustomer=(id)=>async(dispatch)=>{
     }
 }
 
-export const updateCustomer=(id,customer,router)=>async(dispatch)=>{
+export const updateCustomer=({id,customer,router}:{id:any,customer:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateCustomer(id,customer)
@@ -46,7 +46,7 @@ export const updateCustomer=(id,customer,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const deleteCustomer=(id,router)=>async(dispatch)=>{
+export const deleteCustomer=({id,router}:{id:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteCustomer(id)

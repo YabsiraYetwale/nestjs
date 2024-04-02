@@ -1,6 +1,6 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_BY_SEARCH, PAID, READ, START_LOADING, UNPAID, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
-export const createInvoice=(invoice,router)=>async(dispatch)=>{
+export const createInvoice=({invoice,router}:{invoice:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.createInvoice(invoice)
@@ -12,7 +12,7 @@ export const createInvoice=(invoice,router)=>async(dispatch)=>{
     }
 }
 
-export const fetchInvoices=()=>async(dispatch)=>{
+export const fetchInvoices=()=>async(dispatch:any)=>{
     try {
         const {data}= await api.fetchInvoices()
         return data
@@ -20,7 +20,7 @@ export const fetchInvoices=()=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const fetchInvoice=(id)=>async(dispatch)=>{
+export const fetchInvoice=(id:any)=>async(dispatch:any)=>{
     try {
         const {data}= await api.fetchInvoice(id)
         return data.invoice
@@ -29,7 +29,7 @@ export const fetchInvoice=(id)=>async(dispatch)=>{
     }
 }
 
-export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
+export const fetchInvoicesBySearch=({searchQuery,router}:{searchQuery:any,router:any})=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)
@@ -46,7 +46,7 @@ export const fetchInvoicesBySearch=(searchQuery,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const markInvoiceStatusPaid=(id)=>async(dispatch)=>{
+export const markInvoiceStatusPaid=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusPaid(id)
@@ -56,7 +56,7 @@ export const markInvoiceStatusPaid=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const markInvoiceStatusUnPaid=(id)=>async(dispatch)=>{
+export const markInvoiceStatusUnPaid=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusUnPaid(id)
@@ -67,7 +67,7 @@ export const markInvoiceStatusUnPaid=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const markInvoiceStatusRead=(id)=>async(dispatch)=>{
+export const markInvoiceStatusRead=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.markInvoiceStatusRead(id)
@@ -77,7 +77,7 @@ export const markInvoiceStatusRead=(id)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const updateInvoice=(id,invoice,router)=>async(dispatch)=>{
+export const updateInvoice=({id,invoice,router}:{id:any,invoice:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateInvoice(id,invoice)
@@ -88,7 +88,7 @@ export const updateInvoice=(id,invoice,router)=>async(dispatch)=>{
         console.log(error)
     }
 }
-export const deleteInvoice=(id,router)=>async(dispatch)=>{
+export const deleteInvoice=({id,router}:{id:any,router:any})=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteInvoice(id)

@@ -1,6 +1,6 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, START_LOADING, UPDATE } from "../actionTypes/index"
 
-export const customers=(state={isLoading:true,customers:[]},action)=>{
+export const customers=(state={isLoading:true,customers:[]},action:any)=>{
     switch (action.type) {
         case START_LOADING:
             return {...state,isLoading:true}

@@ -7,7 +7,7 @@ const initialState = {
   currentUser: null,
 };
 
-export const auths = (state = initialState, action) => {
+export const auths = (state = initialState, action:any) => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
