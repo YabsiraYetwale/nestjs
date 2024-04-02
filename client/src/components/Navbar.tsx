@@ -29,7 +29,7 @@ const Navbar = () => {
   
   const handleLogout = () => {
     setIsPopUp(false)
-    dispatch(localStorage.clear(),router.push('/sign-in'))
+    dispatch<any>(localStorage.clear(),router.push('/sign-in'))
   };
 
   return (
