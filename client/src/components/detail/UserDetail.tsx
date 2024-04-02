@@ -30,7 +30,7 @@ export default function UserDetail({ params }) {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, [id,dispatch]);
   const handleDelete = () => {
     setIsDelete(!isDelete);
   };

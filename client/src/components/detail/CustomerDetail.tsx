@@ -34,7 +34,7 @@ export default function CustomerDetail({params}) {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, [id,dispatch]);
   const handleDelete = () => {
     setIsDelete(!isDelete);
   };

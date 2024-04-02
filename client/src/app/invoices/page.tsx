@@ -70,7 +70,7 @@ const columns: ColumnDef<Invoices>[] = [
   },
 ];
 
-export default function invoice_numbersPage({}: Props) {
+export default function InvoicePage({}: Props) {
   
 const [invoice, setInvoice] = useState<Invoices[] | null>(null);
 const dispatch = useDispatch();

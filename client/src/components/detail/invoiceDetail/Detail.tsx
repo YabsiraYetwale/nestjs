@@ -43,7 +43,7 @@ export default function Detail({ params }) {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, [id,dispatch]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
