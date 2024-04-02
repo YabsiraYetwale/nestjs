@@ -47,7 +47,8 @@ const Navbar = () => {
           <div onClick={()=>setIsPopUp(preve=>!preve)} className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1">
           <User />
         </div>
-          <p className="font-bold text-green-400">{user.username}</p>
+          {/* <p className="font-bold text-green-400">{user?.username}</p> */}
+          <p className="font-bold text-green-400">username</p>
         </div>
       ) :(
         <Link className={buttonVariants()} href='/sign-in'>
