@@ -18,7 +18,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch(fetchCurrentUser());
+        const response = await dispatch<any>(fetchCurrentUser());
         setUser(response);
       } catch (error) {
         console.error('Error:', error);
