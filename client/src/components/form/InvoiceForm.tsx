@@ -38,7 +38,7 @@ const InvoiceForm = ({params}:any) => {
       date: "",
       due_date: "",
       name: "",
-      total_amount: null,
+      total_amount: 0,
     },
   });
   useEffect(() => {
