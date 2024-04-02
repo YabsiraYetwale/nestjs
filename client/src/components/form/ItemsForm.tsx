@@ -32,12 +32,10 @@ const ItemsForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       invoice_id: '',
-      items: [{
-        unit_price:0,
-        tax_rate:0,
-        quantity:0,
-        description:'',
-      }], 
+      unit_price:0,
+      tax_rate:0,
+      quantity:0,
+      description:'',
     },
   });
  
