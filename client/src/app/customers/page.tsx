@@ -68,11 +68,10 @@ const columns: ColumnDef<Customers>[] = [
 export default function CustomersPage({}: Props) {
   const [customer, setCustomer] = useState<Customers[] | null>(null);
 const dispatch = useDispatch();
-
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await dispatch(fetchCustomers());
+      const response = await dispatch<any>(fetchCustomers());
       setCustomer(response);
     } catch (error) {
       console.error('Error:', error);
