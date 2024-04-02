@@ -40,7 +40,7 @@ const SignInForm = () => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     // console.log(values);
-    dispatch(signIn(values,router))
+    dispatch<any>(signIn(values,router))
 
   };
 

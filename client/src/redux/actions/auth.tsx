@@ -1,7 +1,7 @@
 import {DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 
-export const signUp=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
+export const signUp=(user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
@@ -14,7 +14,7 @@ export const signUp=({user,router}:{user:any,router:any})=>async(dispatch:any)=>
         alert('register was not successful')
     }
 }
-export const signIn=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
+export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signIn(user)
@@ -54,7 +54,7 @@ export const fetchUsers=()=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const fetchUser=(id:any)=>async(dispatch:any)=>{
+export const fetchUser=(id:String)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchUser(id)
@@ -65,7 +65,7 @@ export const fetchUser=(id:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const createUser=({user,router}:{user:any,router:any})=>async(dispatch:any)=>{
+export const createUser=(user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
@@ -78,7 +78,7 @@ export const createUser=({user,router}:{user:any,router:any})=>async(dispatch:an
         // alert('create user was not successful')
     }
 }
-export const updateUser=({id,user,router}:{id:any,user:any,router:any})=>async(dispatch:any)=>{
+export const updateUser=(id:String,user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateUser(id,user)
@@ -89,7 +89,7 @@ export const updateUser=({id,user,router}:{id:any,user:any,router:any})=>async(d
         console.log(error)
     }
 }
-export const deleteUser=({id,router}:{id:any,router:any})=>async(dispatch:any)=>{
+export const deleteUser=(id:String,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteUser(id)

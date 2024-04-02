@@ -78,7 +78,7 @@ const dispatch = useDispatch();
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await dispatch(fetchInvoices());
+      const response = await dispatch<any>(fetchInvoices());
       setInvoice(response);
       console.log(response)
     } catch (error) {

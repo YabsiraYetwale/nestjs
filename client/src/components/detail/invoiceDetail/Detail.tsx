@@ -42,7 +42,7 @@ export default function Detail({ params }: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch(fetchInvoice(id));
+        const response = await dispatch<any>(fetchInvoice(id));
         setInvoice(response);
         console.log("res", response);
       } catch (error) {
@@ -62,7 +62,7 @@ export default function Detail({ params }: any) {
     setIsPopUp(!isPopUp);
   };
   const handleConfirm = () => {
-    dispatch(deleteInvoice(id,router))
+    dispatch<any>(deleteInvoice(id,router))
   };
 
 // const handlePaid = async () => {
@@ -71,7 +71,7 @@ export default function Detail({ params }: any) {
 //   setIsPopUp(false)
 // };
 const handlePaid = async () => {
-    await dispatch(markInvoiceStatusPaid(id));
+    await dispatch<any>(markInvoiceStatusPaid(id));
     setInvoice((prevInvoice) => ({
       ...prevInvoice,
       status: 'paid',
@@ -84,7 +84,7 @@ const handlePaid = async () => {
   };
 
 const handleUnPaid = async () => {
-  await dispatch(markInvoiceStatusUnPaid(id));
+  await dispatch<any>(markInvoiceStatusUnPaid(id));
   setInvoice((prevInvoice) => ({ 
     ...prevInvoice, 
     status: 'unpaid',
@@ -97,7 +97,7 @@ const handleUnPaid = async () => {
 };
 
 const handleRead = async () => {
-  await dispatch(markInvoiceStatusRead(id));
+  await dispatch<any>(markInvoiceStatusRead(id));
   setInvoice((prevInvoice) => ({ 
     ...prevInvoice,
      status: 'read',

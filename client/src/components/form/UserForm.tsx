@@ -50,7 +50,7 @@ const UserForm = ({params}:any) => {
     if(id){
      const fetchData = async () => {
        try {
-         const response = await dispatch(fetchUser(id));
+         const response = await dispatch<any>(fetchUser(id));
          form.reset(response);
          console.log("res", response);
        } catch (error) {
@@ -63,10 +63,10 @@ const UserForm = ({params}:any) => {
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
-         dispatch(updateUser(id,values,router));
+         dispatch<any>(updateUser(id,values,router));
        }
        else{
-         dispatch(createUser(values,router));
+         dispatch<any>(createUser(values,router));
        }
      };
 

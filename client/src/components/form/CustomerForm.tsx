@@ -47,7 +47,7 @@ const CustomerForm = ({params}:any) => {
     if(id){
      const fetchData = async () => {
        try {
-         const response = await dispatch(fetchCustomer(id));
+         const response = await dispatch<any>(fetchCustomer(id));
          form.reset(response);
        } catch (error) {
          console.error("Error:", error);
@@ -59,10 +59,10 @@ const CustomerForm = ({params}:any) => {
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
-         dispatch(updateCustomer(id,values,router));
+         dispatch<any>(updateCustomer(id,values,router));
        }
        else{
-         dispatch(createCustomer(values,router));
+         dispatch<any>(createCustomer(values,router));
        }
      };
 

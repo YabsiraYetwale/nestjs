@@ -43,7 +43,7 @@ const ItemsForm = () => {
  
   const { control, handleSubmit } = form;
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch(createItem(values,router))
+    dispatch<any>(createItem(values,router))
   };
 
   return (

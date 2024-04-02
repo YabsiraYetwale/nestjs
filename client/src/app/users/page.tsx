@@ -63,7 +63,7 @@ export default function UsersPage({}: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch(fetchUsers());
+        const response = await dispatch<any>(fetchUsers());
         setUser(response);
       } catch (error) {
         console.error('Error:', error);

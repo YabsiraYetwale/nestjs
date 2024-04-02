@@ -45,7 +45,7 @@ const InvoiceForm = ({params}:any) => {
  if(id){
   const fetchData = async () => {
     try {
-      const response = await dispatch(fetchInvoice(id));
+      const response = await dispatch<any>(fetchInvoice(id));
       form.reset(response);
     } catch (error) {
       console.error("Error:", error);
@@ -57,10 +57,10 @@ const InvoiceForm = ({params}:any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if(id){
-      dispatch(updateInvoice(id,values,router));
+      dispatch<any>(updateInvoice(id,values,router));
     }
     else{
-      dispatch(createInvoice(values,router));
+      dispatch<any>(createInvoice(values,router));
     }
   };
   return (

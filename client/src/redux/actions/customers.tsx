@@ -1,6 +1,6 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
-export const createCustomer=({customer,router}:{customer:any,router:any})=>async(dispatch:any)=>{
+export const createCustomer=(customer:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
@@ -35,7 +35,7 @@ export const fetchCustomer=(id:any)=>async(dispatch:any)=>{
     }
 }
 
-export const updateCustomer=({id,customer,router}:{id:any,customer:any,router:any})=>async(dispatch:any)=>{
+export const updateCustomer=(id:String,customer:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateCustomer(id,customer)
@@ -46,7 +46,7 @@ export const updateCustomer=({id,customer,router}:{id:any,customer:any,router:an
         console.log(error)
     }
 }
-export const deleteCustomer=({id,router}:{id:any,router:any})=>async(dispatch:any)=>{
+export const deleteCustomer=(id:String,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteCustomer(id)

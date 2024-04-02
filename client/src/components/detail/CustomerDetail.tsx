@@ -26,7 +26,7 @@ export default function CustomerDetail({ params }: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch(fetchCustomer(id));
+        const response = await dispatch<any>(fetchCustomer(id));
         setCustomer(response);
         console.log("res", response);
       } catch (error) {
@@ -39,7 +39,7 @@ export default function CustomerDetail({ params }: any) {
     setIsDelete(!isDelete);
   };
   const handleConfirm = () => {
-    dispatch(deleteCustomer(id,router))
+    dispatch<any>(deleteCustomer(id,router))
   };
   return (
     <div className='flex flex-col gap-[170px]'>
