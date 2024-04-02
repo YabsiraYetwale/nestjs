@@ -21,7 +21,7 @@ const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "username",
     header: "User Name",
-    cell: ({ row }) => {
+    cell: ({ row }:any) => {
       return (
         <div className="flex gap-2 items-center">
            <div className="h-10 w-10  bg-zinc-100 py-2 border-b border-s-zinc-200 flex items-center justify-center">
@@ -43,7 +43,7 @@ const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "id",
     header: "Manage",
-    cell: ({ row}) => {
+    cell: ({ row}:any) => {
       const id = row.getValue("id");
       return (
         <div className="flex gap-2 items-center">

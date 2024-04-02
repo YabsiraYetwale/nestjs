@@ -51,7 +51,7 @@ const SignInForm = () => {
           <FormField
             control={form.control}
             name='email'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
@@ -64,7 +64,7 @@ const SignInForm = () => {
           <FormField
             control={form.control}
             name='password'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>

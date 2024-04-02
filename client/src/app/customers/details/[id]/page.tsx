@@ -1,6 +1,6 @@
 import CustomerDetail from "@/components/detail/CustomerDetail";
 
-const page = ({params}) => {
+const page = ({ params }: any) => {
   return (
     <div className='w-full'>
       <CustomerDetail params={params}/>

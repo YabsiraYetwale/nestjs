@@ -32,7 +32,7 @@ const columns: ColumnDef<Invoices>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => {
+    cell: ({ row }:any) => {
       return (
         <div
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
@@ -57,7 +57,7 @@ const columns: ColumnDef<Invoices>[] = [
   {
     accessorKey: "id",
     header: "Manage",
-    cell: ({ row }) => {
+    cell: ({ row }:any) => {
       const id = row.getValue("id");
       return (
         <div>

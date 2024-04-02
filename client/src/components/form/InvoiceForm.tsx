@@ -26,10 +26,10 @@ const FormSchema = z.object({
   name: z.string().min(1, "namerequired"),
   total_amount: z.coerce.number().gte(1, "Must be 1 and above"),
 });
-const InvoiceForm = ({params}) => {
+const InvoiceForm = ({params}:any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const id = params.id;
+  const id = params.id  as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -53,7 +53,7 @@ const InvoiceForm = ({params}) => {
   };
   fetchData();
  }
-  }, [dispatch]);
+  }, [id,dispatch]);
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if(id){
@@ -75,7 +75,7 @@ const InvoiceForm = ({params}) => {
             <FormField
               control={form.control}
               name="client_id"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input
@@ -91,7 +91,7 @@ const InvoiceForm = ({params}) => {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input
@@ -109,7 +109,7 @@ const InvoiceForm = ({params}) => {
           <FormField
               control={form.control}
               name="total_amount"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input
@@ -127,7 +127,7 @@ const InvoiceForm = ({params}) => {
             <FormField
               control={form.control}
               name="invoice_number"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input
@@ -145,7 +145,7 @@ const InvoiceForm = ({params}) => {
             <FormField
               control={form.control}
               name="date"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input
@@ -162,7 +162,7 @@ const InvoiceForm = ({params}) => {
             <FormField
               control={form.control}
               name="due_date"
-              render={({ field }) => (
+              render={({ field }:any) => (
                 <FormItem>
                   <FormControl>
                     <Input

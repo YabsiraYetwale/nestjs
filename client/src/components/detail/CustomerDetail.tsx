@@ -16,10 +16,10 @@ type CustomerProps = {
   billing_address:string;
 };
 
-export default function CustomerDetail({params}) {
+export default function CustomerDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const id = params.id;
+  const id = params.id as string;
   const [customer, setCustomer] = useState<CustomerProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   console.log("idscus", id);

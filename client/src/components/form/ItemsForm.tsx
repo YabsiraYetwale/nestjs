@@ -54,7 +54,7 @@ const ItemsForm = () => {
           <FormField
             control={control}
             name='invoice_id'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input className='w-[54vw] flex  gap-5'  placeholder='invoice_id' {...field} />
@@ -69,7 +69,7 @@ const ItemsForm = () => {
               <FormField
                 control={control}
                 name={`unit_price`}
-                render={({ field }) => (
+                render={({ field }:any) => (
                   <FormItem>
                     <FormControl>
                    <Input className='flex  sm:w-[20vw] w-[85vw] gap-5' type='number' placeholder='Enter unit price' {...field} />
@@ -81,7 +81,7 @@ const ItemsForm = () => {
               <FormField
                 control={control}
                 name={`quantity`}
-                render={({ field }) => (
+                render={({ field }:any) => (
                   <FormItem>
                     <FormControl>
                    <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter quantity' {...field} />
@@ -93,7 +93,7 @@ const ItemsForm = () => {
               <FormField
                 control={control}
                 name={`tax_rate`}
-                render={({ field }) => (
+                render={({ field }:any) => (
                   <FormItem>
                     <FormControl>
                       <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter tax rate' {...field} />
@@ -108,7 +108,7 @@ const ItemsForm = () => {
             <FormField
                 control={form.control}
                 name={`description`}
-                render={({ field }) => (
+                render={({ field }:any) => (
                   <FormItem>
                     <FormControl>
                       <textarea className='border solid' placeholder='Enter description' {...field} cols='45'  rows='5' />
@@ -198,7 +198,7 @@ export default ItemsForm;
 //           <FormField
 //             control={control}
 //             name='invoice_id'
-//             render={({ field }) => (
+//             render={({ field }:any) => (
 //               <FormItem>
 //                 <FormControl>
 //                   {/* <select {...field} className="border"> 
@@ -220,7 +220,7 @@ export default ItemsForm;
 //              <FormField
 //                 control={form.control}
 //                 name={`items.${index}.description`}
-//                 render={({ field }) => (
+//                 render={({ field }:any) => (
 //                   <FormItem>
 //                     <FormControl>
 //                       <textarea className='border solid' placeholder='Enter description' {...field} cols='125' rows='5' />
@@ -234,7 +234,7 @@ export default ItemsForm;
 //               <FormField
 //                 control={control}
 //                 name={`items.${index}.unit_price`}
-//                 render={({ field }) => (
+//                 render={({ field }:any) => (
 //                   <FormItem>
 //                     <FormControl>
 //                    <Input className='flex  gap-5' type='number' placeholder='Enter unit price' {...field} />
@@ -246,7 +246,7 @@ export default ItemsForm;
 //               <FormField
 //                 control={control}
 //                 name={`items.${index}.quantity`}
-//                 render={({ field }) => (
+//                 render={({ field }:any) => (
 //                   <FormItem>
 //                     <FormControl>
 //                    <Input className='flex  gap-5' type='number' placeholder='Enter quantity' {...field} />
@@ -259,7 +259,7 @@ export default ItemsForm;
 //               <FormField
 //                 control={control}
 //                 name={`items.${index}.tax_rate`}
-//                 render={({ field }) => (
+//                 render={({ field }:any) => (
 //                   <FormItem>
 //                     <FormControl>
 //                       <Input className='flex  gap-5' type='number' placeholder='Enter tax rate' {...field} />

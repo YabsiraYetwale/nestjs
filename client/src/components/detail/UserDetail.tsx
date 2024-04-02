@@ -13,10 +13,11 @@ type UserProps = {
   role: string;
   email: string;
 };
-export default function UserDetail({ params }) {
+export default function UserDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const id = params.id;
+  const id = params.id as string;
+
   const [user, setUser] = useState<UserProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   console.log("idscus", id);

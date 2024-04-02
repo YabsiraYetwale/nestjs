@@ -15,6 +15,13 @@ import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { deleteInvoice, fetchInvoice, fetchInvoices, markInvoiceStatusPaid, markInvoiceStatusRead, markInvoiceStatusUnPaid } from "@/redux/actions/invoices";
 
+type InvoiceProps = {
+    name: any;
+    status: any;
+    date: any;
+    due_date: any;
+    invoice_number:any;
+  };
 const uesrSalesData: SalesProps[] = [
   {
     name: "Olivia Martin",
@@ -23,11 +30,11 @@ const uesrSalesData: SalesProps[] = [
   },
 ];
 
-export default function Detail({ params }) {
+export default function Detail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const id = params.id;
-  const [invoice, setInvoice] = useState(null);
+  const id = params.id as string;
+  const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   const [isPopUp, setIsPopUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -58,21 +65,47 @@ export default function Detail({ params }) {
     dispatch(deleteInvoice(id,router))
   };
 
+// const handlePaid = async () => {
+//   await dispatch(markInvoiceStatusPaid(id));
+//   setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'paid' }));
+//   setIsPopUp(false)
+// };
 const handlePaid = async () => {
-  await dispatch(markInvoiceStatusPaid(id));
-  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'paid' }));
-  setIsPopUp(false)
-};
+    await dispatch(markInvoiceStatusPaid(id));
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      status: 'paid',
+      name: prevInvoice?.name as String,
+      date: prevInvoice?.date as String,
+      due_date: prevInvoice?.due_date as String,
+      invoice_number:prevInvoice?.invoice_number as String,
+    }));
+    setIsPopUp(false);
+  };
 
 const handleUnPaid = async () => {
   await dispatch(markInvoiceStatusUnPaid(id));
-  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'unpaid' }));
+  setInvoice((prevInvoice) => ({ 
+    ...prevInvoice, 
+    status: 'unpaid',
+    name: prevInvoice?.name as String,
+    date: prevInvoice?.date as String,
+    due_date: prevInvoice?.due_date as String,
+    invoice_number:prevInvoice?.invoice_number as String,
+}));
   setIsPopUp(false)
 };
 
 const handleRead = async () => {
   await dispatch(markInvoiceStatusRead(id));
-  setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'read' }));
+  setInvoice((prevInvoice) => ({ 
+    ...prevInvoice,
+     status: 'read',
+     name: prevInvoice?.name as String,
+    date: prevInvoice?.date as String,
+    due_date: prevInvoice?.due_date as String,
+    invoice_number:prevInvoice?.invoice_number as String, 
+    }));
   setIsPopUp(false)
 };
 
@@ -172,10 +205,12 @@ const handleRead = async () => {
               You made 265 activities this month.
             </p>
           </section> */}
+            {/* email={invoice?.client?.email}
+            name={invoice?.client?.name} */}
           {invoice && (
             <MiddleCard
-              email={invoice?.client?.email}
-              name={invoice?.client?.name}
+              email={invoice?.invoice_number}
+              name={invoice?.name}
               invoicename={invoice?.name}
               invoice_number={invoice?.invoice_number}
               date={invoice?.date}

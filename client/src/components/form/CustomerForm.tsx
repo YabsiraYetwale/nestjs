@@ -28,10 +28,10 @@ const FormSchema = z
     phone: z.string().min(1, 'phone number is required').max(100),
   })
 
-const CustomerForm = ({params}) => {
+const CustomerForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const id = params.id;
+  const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -55,7 +55,7 @@ const CustomerForm = ({params}) => {
      };
      fetchData();
     }
-     }, [dispatch]);
+     }, [id,dispatch]);
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
@@ -74,7 +74,7 @@ const CustomerForm = ({params}) => {
           <FormField
             control={form.control}
             name='name'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='Enter Name' {...field} />
@@ -86,7 +86,7 @@ const CustomerForm = ({params}) => {
           <FormField
             control={form.control}
             name='email'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='youremail@example.com' {...field} />
@@ -98,7 +98,7 @@ const CustomerForm = ({params}) => {
           <FormField
             control={form.control}
             name='billing_address'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='Enter the billing address' {...field} />
@@ -110,7 +110,7 @@ const CustomerForm = ({params}) => {
           <FormField
             control={form.control}
             name='contact_person'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='Enter contact person ' {...field} />
@@ -122,7 +122,7 @@ const CustomerForm = ({params}) => {
           <FormField
             control={form.control}
             name='phone'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='Enter phone number' {...field} />

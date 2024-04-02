@@ -32,10 +32,10 @@ const FormSchema = z
     role: z.string()
   })
 
-const UserForm = ({params}) => {
+const UserForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const id = params.id;
+  const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -59,7 +59,7 @@ const UserForm = ({params}) => {
      };
      fetchData();
     }
-     }, [dispatch]);
+     }, [id,dispatch]);
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
@@ -80,7 +80,7 @@ const UserForm = ({params}) => {
       <FormField
             control={form.control}
             name='username'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='username' {...field} />
@@ -92,7 +92,7 @@ const UserForm = ({params}) => {
           <FormField
             control={form.control}
             name='email'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='youremail@example.com' {...field} />
@@ -104,7 +104,7 @@ const UserForm = ({params}) => {
           <FormField
             control={form.control}
             name='password'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <Input placeholder='Enter your password' {...field} />
@@ -116,7 +116,7 @@ const UserForm = ({params}) => {
           <FormField
             control={form.control}
             name='role'
-            render={({ field }) => (
+            render={({ field }:any) => (
               <FormItem>
                 <FormControl>
                   <select {...field}  className='border text-center w-[200px] h-[50px]'>
