@@ -11,9 +11,9 @@ export const customers=(state={isLoading:true,customers:[]},action:any)=>{
         case FETCH:
             return {...state,...action.payload}
         case UPDATE:
-            return {...state,customers:state?.customers?.map((customer)=>customer?.id === action?.payload?.id ? action.payload : state)}
+            // return {...state,customers:state?.customers?.map((customer)=>customer?.id === action?.payload?.id ? action.payload : state)}
         case DELETE:
-            return {...state,customers:state.customers.filter((customer)=>customer.id !== action.payload)}
+            // return {...state,customers:state.customers.filter((customer)=>customer.id !== action.payload)}
         default:
             return state;
     }

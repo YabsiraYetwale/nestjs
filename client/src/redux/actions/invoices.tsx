@@ -29,7 +29,7 @@ export const fetchInvoice=(id:any)=>async(dispatch:any)=>{
     }
 }
 
-export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch)=>{
+export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)

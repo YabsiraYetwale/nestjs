@@ -15,9 +15,9 @@ export const invoices=(state={isLoading:true,invoices:[]},action:any)=>{
         case READ:
             return {...state,...action.payload}
         case UPDATE:
-            return {...state,invoices:state?.invoices?.map((invoice)=>invoice?.id === action?.payload?.id ? action.payload : state)}
+            // return {...state,invoices:state?.invoices?.map((invoice)=>invoice?.id === action?.payload?.id ? action.payload : state)}
         case DELETE:
-            return {...state,invoices:state.invoices.filter((invoice)=>invoice.id !== action.payload)}
+            // return {...state,invoices:state.invoices.filter((invoice)=>invoice.id !== action.payload)}
         default:
             return state;
     }
