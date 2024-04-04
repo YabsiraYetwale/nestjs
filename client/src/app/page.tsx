@@ -1,100 +1,100 @@
+"use client"
 import PageTitle from "@/components/PageTitle";
 import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "@/components/Card";
-// import BarChart from "@/components/BarChart";
-import SalesCard, { SalesProps } from "@/components/SalesCard";
+import RecentInvoiceActivitiesCard from "@/components/RecentActivitiesCard";
+import { useEffect, useState } from "react";
+import {useDispatch} from "react-redux";
+import { fetchInvoices } from "@/redux/actions/invoices";
+import { fetchCustomers } from "@/redux/actions/customers";
 
-const cardData: CardProps[] = [
-  {
-    label: "Total Revenue",
-    amount: "$45,231.89",
-    discription: "+20.1% from last month",
-    icon: DollarSign,
-  },
-  {
-    label: "Total Customers",
-    amount: "+2350",
-    discription: "+180.1% from last month",
-    icon: Users,
-  },
-  {
-    label: "Outstanding Invoices",
-    amount: "+12,234",
-    discription: "+19% from last month",
-    icon: CreditCard,
-  },
-  {
-    label: "Status",
-    amount: "+256 Pending",
-    discription: "invoices",
-    icon: Activity,
-    path:'view status'
-  },
-];
-
-const uesrSalesData: SalesProps[] = [
-  {
-    name: "Olivia Martin",
-    email: "olivia.martin@email.com",
-    saleAmount: "+$1,999.00"
-  },
-  {
-    name: "Jackson Lee",
-    email: "isabella.nguyen@email.com",
-    saleAmount: "+$1,999.00"
-  },
-  {
-    name: "Isabella Nguyen",
-    email: "isabella.nguyen@email.com",
-    saleAmount: "+$39.00"
-  },
-  {
-    name: "William Kim",
-    email: "will@email.com",
-    saleAmount: "+$299.00"
-  },
-  {
-    name: "Sofia Davis",
-    email: "sofia.davis@email.com",
-    saleAmount: "+$39.00"
-  }
-];
-
+export type CustomerProps = {
+  amount: any;
+  discription: string;
+  path: string;
+  icon: any,
+  label: "Total Customers",
+};
 export default function Home() {
-  return (
+
+  const [invoices, setInvoices] = useState<CardProps[] | null>(null);
+  const [customers, setCustomers] = useState<CardProps[] | null>(null);
+const dispatch = useDispatch();
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await dispatch<any>(fetchInvoices());
+      setInvoices(response);
+      console.log(response)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  fetchData();
+}, [dispatch]);
+
+useEffect(() => {
+  const fetchData = async () => {
+      const response = await dispatch<any>(fetchCustomers());
+      setCustomers(response);
+  };
+  fetchData();
+}, [dispatch]);
+const totalRevene = invoices?.filter(invoice => invoice?.status === 'paid');
+const outstandingInvoices = invoices?.filter(invoice => invoice?.status === 'unpaid');
+const readInvoices = invoices?.filter(invoice => invoice?.status === 'read');
+
+const totalOutstandingAmount = outstandingInvoices?.reduce((total, invoice) => total + parseFloat(invoice.total_amount), 0);
+const totalReveneAmount = totalRevene?.reduce((total, invoice) => total + parseFloat(invoice.total_amount), 0);
+
+return (
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title="Dashboard" />
-      <section className="grid w-full grid-cols-1 gap-4 gap-x-8 transition-all sm:grid-cols-2 xl:grid-cols-4">
-        {cardData.map((d, i) => (
+      <section className="grid w-full grid-cols-1 gap-4 gap-x-8 transition-all sm:grid-cols-2 lg:grid-cols-4">
+        {<>
+      
           <Card
-            key={i}
-            amount={d.amount}
-            discription={d.discription}
-            icon={d.icon}
-            label={d.label}
-            path={d.path}
+            amount={`$${totalReveneAmount}`}
+            icon={DollarSign}
+            label={"Total Revenue"}
           />
-        ))}
+          <Card
+            amount={customers?.length}
+            icon={Users}
+            label={"Total Customers"}
+          />
+          <Card
+            amount={`$${totalOutstandingAmount}`}
+            icon={CreditCard}
+            label={"Outstanding Invoices"}
+          />
+          <Card
+            status1={`${outstandingInvoices?.length} UnPaid`}
+            status2={`${totalRevene?.length} Paid`}
+            status3={`${readInvoices?.length} Read`}
+            icon={Activity}
+            label={"Status"}
+          />
+          
+     </>}
+     
       </section>
-      <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
-        {/* <CardContent>
-          <p className="p-4 font-semibold">Overview</p>
-
-           <BarChart />
-        </CardContent> */}
+      <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-2">
         <CardContent className="flex justify-between gap-4">
           <section>
             <p>Recent Activities</p>
             <p className="text-sm text-gray-400">
-              You made 265 activities this month.
+              Most recent activities in this month.
             </p>
           </section>
-          {uesrSalesData.map((d, i) => (
-            <SalesCard
+
+          {invoices?.map((d, i) => (
+            <RecentInvoiceActivitiesCard
               key={i}
-              email={d.email}
-              name={d.name}
-              saleAmount={d.saleAmount}
+              email={d?.client?.email}
+              name={d?.client?.name}
+              total_amount={d.total_amount}
             />
           ))}
         </CardContent>

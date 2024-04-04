@@ -1,12 +1,9 @@
 import {User}from "lucide-react";
+import { CardProps } from "./Card";
 
-export type SalesProps = {
-  name: string;
-  email: string;
-  saleAmount: string;
-};
 
-export default function SalesCard(props: SalesProps) {
+
+export default function RecentInvoiceActivitiesCard(props: CardProps) {
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">
       <section className="flex justify-between gap-3 ">
@@ -20,7 +17,7 @@ export default function SalesCard(props: SalesProps) {
             </div>
         </div>
       </section>
-        <p>{props.saleAmount}</p>
+        <p>${props.total_amount}</p>
     </div>
   );
 }

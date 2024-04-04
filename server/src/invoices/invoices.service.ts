@@ -20,7 +20,7 @@ export class InvoicesService {
       whereCondition = {
         OR: [
           {
-            name: {
+            date: {
               contains: searchQuery,
             },
           },
@@ -41,13 +41,14 @@ export class InvoicesService {
       where: whereCondition,
       take: resPerPage,
       skip: skip,
-      include: { line_items: true },
+      include: { line_items: true,client: true },
     });
 
     if (!searchQuery) {
       return invoices;
     }
     return invoices.length > 0 ? invoices : 'No matching invoices found.';
+   
   }
   async getOneInvoice(id: string) {
     const invoice = await this.prismaService.Invoices.findUnique({

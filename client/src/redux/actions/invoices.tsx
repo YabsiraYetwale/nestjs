@@ -33,15 +33,15 @@ export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)
-        // const title= data.Invoices.map(Invoice=>(Invoice.title))
-        // if(title?.length){ 
-        //    dispatch({type:FETCH_BY_SEARCH,payload:data})
-        //    router.push(`/invoices/search?searchQuery=${searchQuery}`) 
-        // }
-        // else{
-        //     router.push(`/invoices/search/no_result`) 
-        // }
-       dispatch({type:END_LOADING})
+        if(searchQuery){
+            router.push(`/invoices?searchQuery=${searchQuery}`)
+            return data
+        }
+        else{
+            router.push('/invoices')
+            return data
+        }
+    //    dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }

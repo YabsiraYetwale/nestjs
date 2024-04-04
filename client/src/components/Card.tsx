@@ -4,11 +4,19 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export type CardProps = {
-  label: string;
-  icon: LucideIcon;
-  amount: string;
+  label?: string;
+  icon?: LucideIcon;
+  amount?: any;
+  total_amount?: any;
   discription?: string;
   path?: string;
+  status?: string;
+  status1?: string;
+  status2?: string;
+  status3?: string;
+  client?: any;
+  email?: string;
+  name?: string;
 };
 
 export default function Card(props: CardProps) {
@@ -22,6 +30,11 @@ export default function Card(props: CardProps) {
       </section>
       <section className="flex flex-col gap-1">
         <h2 className="text-2xl font-semibold">{props.amount}</h2>
+        <div className="flex justify-around">
+        <h2 className="font-semibold text-red-500">{props.status1}</h2>
+        <h2 className="font-semibold text-green-500">{props.status2}</h2>
+        <h2 className="font-semibold text-orange-500">{props.status3}</h2>
+        </div>
         <p className="text-xs text-gray-500">{props.discription}</p>
         {/* <Link href={props.discription} className="text-xs text-blue-500">{props.path}</Link> */}
       </section>

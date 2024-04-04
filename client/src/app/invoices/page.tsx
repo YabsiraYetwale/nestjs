@@ -7,8 +7,9 @@ import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
 import {Search} from "lucide-react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import {useDispatch} from "react-redux";
-import { fetchInvoices } from "@/redux/actions/invoices";
+import { fetchInvoices, fetchInvoicesBySearch } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -75,12 +76,14 @@ const columns: ColumnDef<Invoices>[] = [
 export default function InvoicePage({}: Props) {
   
 const [invoice, setInvoice] = useState<Invoices[] | null>(null);
+const [search, setSearch] = useState("");
 const dispatch = useDispatch();
+const router = useRouter();
 
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await dispatch<any>(fetchInvoices());
+      const response = await   dispatch<any>(fetchInvoicesBySearch(search,router));
       setInvoice(response);
       console.log(response)
     } catch (error) {
@@ -89,14 +92,32 @@ useEffect(() => {
   };
   fetchData();
 }, [dispatch]);
-
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const response = await dispatch<any>(fetchInvoices());
+//       setInvoice(response);
+//       console.log(response)
+//     } catch (error) {
+//       console.error('Error:', error);
+//     }
+//   };
+//   fetchData();
+// }, [dispatch]);
+const handleSubmit =async(e)=>{
+  e.preventDefault()
+  const response =await dispatch<any>(fetchInvoicesBySearch(search,router));
+  console.log('search',search)
+  console.log('searchIvoice',response)
+}
 return (
         <div className="flex justify-evenly">
         <div className="flex flex-col gap-5  w-full">
           <div className="flex gap-[9rem]">
           <PageTitle title="Invoices" />
-         <form className="flex gap-1 relative top-1">
-         <Input placeholder="search invoices" className="border w-[20rem] h-[35px]"/>
+         <form onSubmit={handleSubmit} className="flex gap-1 relative top-1">
+         <Input  value={search}
+              onChange={(e) => setSearch(e.target.value)} placeholder="search invoices" className="border w-[20rem] h-[35px]"/>
          < Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border"><Search/></ Button>
          </form>
           </div>
