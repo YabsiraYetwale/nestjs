@@ -8,6 +8,7 @@ import {UserPlus,User} from "lucide-react";
 import Link from "next/link";
 import {useDispatch} from "react-redux";
 import { fetchUsers } from "@/redux/actions/auth";
+import { Button } from "@/components/ui/button";
 
 type Props = {};
 type Users = {
@@ -77,9 +78,11 @@ export default function UsersPage({}: Props) {
       <PageTitle title="Users" />
       {user && <DataTable columns={columns} data={user} />}
     </div>
-    <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
-    <Link href='/users/addUser'><UserPlus/></Link>
-    </div>
+    <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
+         <Link href='/users/addUser'>
+            Add New
+        </Link>
+        </Button>
     </div>
   );
 }

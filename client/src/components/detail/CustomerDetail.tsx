@@ -42,7 +42,7 @@ export default function CustomerDetail({ params }: any) {
     dispatch<any>(deleteCustomer(id,router))
   };
   return (
-    <div className='flex flex-col gap-[170px]'>
+    <div className='flex flex-col gap-[120px]'>
       <section className="flex gap-5">
         <div className=" h-20 w-20 rounded-full flex justify-center items-center bg-gray-100 p-1">
           <User />

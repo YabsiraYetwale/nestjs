@@ -3,7 +3,6 @@ import {User}from "lucide-react";
 export type MiddleCardProps = {
   name: string;
   email: string;
-  invoicename:string;
   invoice_number: string,
   date: string,
   due_date: string,
@@ -12,7 +11,9 @@ export type MiddleCardProps = {
 export default function MiddleCard(props: MiddleCardProps) {
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">
-      <section className="flex justify-between gap-3 ">
+      <section >
+      <p>customer</p>
+        <div className="flex justify-between gap-3 ">
         <div className=" h-12 w-12 rounded-full flex justify-center items-center bg-gray-100 p-1">
           <User/>
         </div>
@@ -22,13 +23,8 @@ export default function MiddleCard(props: MiddleCardProps) {
                 {props.email}
             </div>
         </div>
+        </div>
       </section>
-        <section>
-            <p>invoice name</p>
-            <p className="text-sm text-gray-400">
-            {props.invoicename}
-            </p>
-          </section>
         <section>
             <p>invoice number</p>
             <p className="text-sm text-gray-400">

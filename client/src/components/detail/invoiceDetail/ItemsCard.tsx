@@ -1,26 +1,39 @@
-import {User}from "lucide-react";
 
-export type ItemsProps = {
-  name: string;
-  email: string;
-  saleAmount: string;
+export type ItemProps = { 
+  description:string;
+  quantity:number;
+  unit_price:number;
+  tax_rate:number;
 };
 
-export default function ItemsCard(props: ItemsProps) {
+export default function ItemsCard(props: ItemProps) {
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">
-      <section className="flex justify-between gap-3 ">
-        <div className=" h-12 w-12 rounded-full flex justify-center items-center bg-gray-100 p-1">
-          <User/>
-        </div>
-        <div className="text-sm">
-            <p>{props.name}</p>
-            <div className="text-ellipsis overflow-hidden whitespace-nowrap w-[120px]  sm:w-auto  text-gray-400">
-                {props.email}
-            </div>
-        </div>
-      </section>
-        <p>{props.saleAmount}</p>
+        <section>
+            <p className="text-sm text-gray-400">
+            {props.description}
+            </p>
+          </section>
+        <section>
+            <p className="text-sm text-gray-400">
+            {props.quantity}
+            </p>
+          </section>
+        <section>
+            <p className="text-sm text-gray-400">
+            {props.unit_price}
+            </p>
+          </section>
+        <section>
+            <p className="text-sm text-gray-400">
+            {props.tax_rate}%
+            </p>
+          </section>
+         <section>
+            <p className="text-sm text-gray-400">
+            {props.unit_price*props.quantity}
+            </p>
+          </section>
     </div>
   );
 }

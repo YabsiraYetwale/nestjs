@@ -75,7 +75,9 @@ export class AuthService {
       if (!updatedUser) {
         throw new Error("Failed to update User");
       }
-    return {...updatedUser}
+      const {password,...user}=updateUserDto;
+      const token=this.jwtService.sign({...user});
+    return {token};
     }
     async deleteUser(id: string) {
       const existingUser = await this.prismaService.User.findUnique({where:id});

@@ -8,8 +8,11 @@ import { fetchCurrentUser } from '@/redux/actions/auth';
 import { CardContent } from './Card';
 import { useRouter,usePathname } from 'next/navigation';
 
+type userProps= {
+  username:string
+}
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<userProps | null>(null);
   const [isPopUp, setIsPopUp] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -38,17 +41,16 @@ const Navbar = () => {
         <Link href='/' className='flex gap-2 items-center text-blue-500 '>
           <span className='sm:flex hidden items-center'>
           <p className='text-[30px] text-green-500'>Invoice</p>
-          <p className='text-[20px]'>System</p>
+          <p className='text-[20px]'>Systm</p>
           </span>
           <HandMetal />
         </Link>
         {user  ? (
-        <div>
+        <div className="flex flex-col items-center justify-center"> 
           <div onClick={()=>setIsPopUp(preve=>!preve)} className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1">
           <User />
         </div>
-          {/* <p className="font-bold text-green-400">{user?.username}</p> */}
-          <p className="font-bold text-green-400">username</p>
+          <p className="font-bold text-green-400">{user?.username}</p>
         </div>
       ) :(
         <Link className={buttonVariants()} href='/sign-in'>

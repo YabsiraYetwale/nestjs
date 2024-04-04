@@ -1,16 +1,6 @@
 import axios from "axios";
 const API = axios.create({ baseURL:"http://localhost:3001/api"});
 
-// API.interceptors.request.use((req) => {
-//   if (localStorage.getItem("InvoiceAuth")) {
-//     const token = JSON.parse(localStorage.getItem("InvoiceAuth")).data.token;
-//     req.headers = {
-//       ...req.headers,
-//       Authorization: `Bearer ${token}`,
-//     };
-//   }
-//   return req;
-// });
 API.interceptors.request.use((req:any) => {
   const authData = localStorage.getItem("InvoiceAuth");
   if (authData && typeof authData === "string") {

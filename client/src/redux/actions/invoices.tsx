@@ -5,7 +5,7 @@ export const createInvoice=(invoice:any,router:any)=>async(dispatch:any)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.createInvoice(invoice)
         dispatch({type:CREATE,payload:data})
-        router.push('/invoices')
+        // router.push('/invoices')
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

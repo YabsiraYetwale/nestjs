@@ -13,28 +13,31 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { deleteInvoice, fetchInvoice, fetchInvoices, markInvoiceStatusPaid, markInvoiceStatusRead, markInvoiceStatusUnPaid } from "@/redux/actions/invoices";
+import {
+  deleteInvoice,
+  fetchInvoice,
+  fetchInvoices,
+  markInvoiceStatusPaid,
+  markInvoiceStatusRead,
+  markInvoiceStatusUnPaid,
+} from "@/redux/actions/invoices";
 
 type InvoiceProps = {
-    name: any;
-    status: any;
-    date: any;
-    due_date: any;
-    invoice_number:any;
-  };
-const uesrSalesData: SalesProps[] = [
-  {
-    name: "Olivia Martin",
-    email: "olivia.martin@email.com",
-    saleAmount: "+$1,999.00",
-  },
-];
+  status: any;
+  date?: any;
+  due_date?: any;
+  invoice_number?: any;
+  total_amount?: any;
+  client?: any;
+  line_items?: any;
+};
 
 export default function Detail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
   const id = params.id as string;
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
+  const [isAction, setIsAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isPopUp, setIsPopUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +53,7 @@ export default function Detail({ params }: any) {
       }
     };
     fetchData();
-  }, [id,dispatch]);
+  }, [id, dispatch]);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -62,56 +65,55 @@ export default function Detail({ params }: any) {
     setIsPopUp(!isPopUp);
   };
   const handleConfirm = () => {
-    dispatch<any>(deleteInvoice(id,router))
+    dispatch<any>(deleteInvoice(id, router));
   };
-
-// const handlePaid = async () => {
-//   await dispatch(markInvoiceStatusPaid(id));
-//   setInvoice((prevInvoice) => ({ ...prevInvoice, status: 'paid' }));
-//   setIsPopUp(false)
-// };
-const handlePaid = async () => {
+  const handlePaid = async () => {
     await dispatch<any>(markInvoiceStatusPaid(id));
     setInvoice((prevInvoice) => ({
       ...prevInvoice,
-      status: 'paid',
-      name: prevInvoice?.name as String,
-      date: prevInvoice?.date as String,
-      due_date: prevInvoice?.due_date as String,
-      invoice_number:prevInvoice?.invoice_number as String,
+      status: "paid",
     }));
     setIsPopUp(false);
   };
 
-const handleUnPaid = async () => {
-  await dispatch<any>(markInvoiceStatusUnPaid(id));
-  setInvoice((prevInvoice) => ({ 
-    ...prevInvoice, 
-    status: 'unpaid',
-    name: prevInvoice?.name as String,
-    date: prevInvoice?.date as String,
-    due_date: prevInvoice?.due_date as String,
-    invoice_number:prevInvoice?.invoice_number as String,
-}));
-  setIsPopUp(false)
-};
-
-const handleRead = async () => {
-  await dispatch<any>(markInvoiceStatusRead(id));
-  setInvoice((prevInvoice) => ({ 
-    ...prevInvoice,
-     status: 'read',
-     name: prevInvoice?.name as String,
-    date: prevInvoice?.date as String,
-    due_date: prevInvoice?.due_date as String,
-    invoice_number:prevInvoice?.invoice_number as String, 
+  const handleUnPaid = async () => {
+    await dispatch<any>(markInvoiceStatusUnPaid(id));
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      status: "unpaid",
     }));
-  setIsPopUp(false)
-};
+    setIsPopUp(false);
+  };
+
+  const handleRead = async () => {
+    await dispatch<any>(markInvoiceStatusRead(id));
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      status: "read",
+    }));
+    setIsPopUp(false);
+  };
 
   return (
     <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Invoice Details" />
+      <div className="flex gap-5">
+        <PageTitle title="Invoice Details" />
+        <div className="flex gap-4">
+          <Button
+            onClick={()=>setIsAction(!isAction)}
+            className="sm:h-[40px] h-[30px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
+          >
+            Actions
+          </Button>
+        {isAction &&
+        <div className="flex gap-4">
+          <Button className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Download Pdf</Button>
+          <Button className=" bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Print</Button>
+          <Button className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Email</Button>
+          </div>}
+        </div>
+      </div>
+        
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
           <section className="flex items-center gap-4">
@@ -174,19 +176,28 @@ const handleRead = async () => {
                   Mark as
                 </Button>
                 {isPopUp && (
-                  <div className="absolute lg:top-[13rem] md:top-[15rem] top-[20rem] flex lg:flex-row flex-col gap-3">
-                    {invoice?.status !== "paid" &&
-                      <Button onClick={handlePaid} className="sm:h-[40px] h-[30px] bg-green-600 px-5 hover:bg-green-500">
+                  <div className="absolute lg:top-[14rem] md:top-[15rem] top-[20rem] flex lg:flex-row flex-col gap-3">
+                    {invoice?.status !== "paid" && (
+                      <Button
+                        onClick={handlePaid}
+                        className="sm:h-[40px] h-[30px] bg-green-600 px-5 hover:bg-green-500"
+                      >
                         Paid
                       </Button>
-                    }
-                    {invoice?.status !== "read" &&
-                      <Button onClick={handleRead} className="sm:h-[40px] h-[30px] bg-orange-600 px-5 hover:bg-orange-500">
+                    )}
+                    {invoice?.status !== "read" && (
+                      <Button
+                        onClick={handleRead}
+                        className="sm:h-[40px] h-[30px] bg-orange-600 px-5 hover:bg-orange-500"
+                      >
                         Read
                       </Button>
-                    }
-                    {invoice?.status !== "unpaid" &&(
-                      <Button onClick={handleUnPaid} className="sm:h-[40px] h-[30px] bg-red-600 px-5 hover:bg-red-500">
+                    )}
+                    {invoice?.status !== "unpaid" && (
+                      <Button
+                        onClick={handleUnPaid}
+                        className="sm:h-[40px] h-[30px] bg-red-600 px-5 hover:bg-red-500"
+                      >
                         UnPaid
                       </Button>
                     )}
@@ -199,19 +210,10 @@ const handleRead = async () => {
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
         <CardContent className="flex justify-between gap-4">
-          {/* <section>
-            <p>Recent Activities</p>
-            <p className="text-sm text-gray-400">
-              You made 265 activities this month.
-            </p>
-          </section> */}
-            {/* email={invoice?.client?.email}
-            name={invoice?.client?.name} */}
           {invoice && (
             <MiddleCard
-              email={invoice?.invoice_number}
-              name={invoice?.name}
-              invoicename={invoice?.name}
+              email={invoice?.client?.email}
+              name={invoice?.client?.name}
               invoice_number={invoice?.invoice_number}
               date={invoice?.date}
               due_date={invoice?.due_date}
@@ -221,24 +223,48 @@ const handleRead = async () => {
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
         <CardContent className="flex justify-between gap-4">
-          <section>
-            <p>Recent Activities</p>
-            <p className="text-sm text-gray-400">
-              You made 265 activities this month.
-            </p>
-          </section>
-          {uesrSalesData.map((d, i) => (
-            <ItemsCard
-              key={i}
-              email={d.email}
-              name={d.name}
-              saleAmount={d.saleAmount}
-            />
-          ))}
-          <Button className="w-[200px] bg-pink-400 hover:bg-rose-400">
-            Download Pdf
-          </Button>
+          {invoice?.line_items && (
+            <div className="flex flex-col-reverse justify-center">
+              {invoice?.line_items?.map((i: any) => (
+                <ItemsCard
+                  key={i}
+                  description={i?.description}
+                  unit_price={i?.unit_price}
+                  quantity={i?.quantity}
+                  tax_rate={i?.tax_rate}
+                />
+              ))}
+              <div className="  flex flex-wrap justify-between gap-3 ">
+                <section>
+                  <p>Item</p>
+                </section>
+                <section>
+                  <p>Quantity</p>
+                </section>
+                <section>
+                  <p>Unit Price</p>
+                </section>
+                <section>
+                  <p>Tax Rate</p>
+                </section>
+                <section>
+                  <p>Amount</p>
+                </section>
+              </div>
+            </div>
+          )}
         </CardContent>
+        {invoice?.line_items && (
+          <div className="flex justify-end">
+            <section className="flex flex-col justify-end ">
+              <hr className="w-[270px] h-[30px]" />
+              <div className="flex items-center gap-[7rem]">
+                <p>Total Amount</p>
+                <p className="text-sm text-gray-400">{invoice?.total_amount}</p>
+              </div>
+            </section>
+          </div>
+        )}
       </section>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '../ui/form';
 import * as z from 'zod';
@@ -45,17 +46,18 @@ const ItemsForm = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5 py-7 justify-center sm:items-center'>
-      {/* <p className='font-bold text-[30px]'>Add Items</p> */}
+    <div className='flex flex-col gap-5 py-7 justify-center sm:items-center text-gray-600'>
+      <p className='font-bold text-[30px]'>Add Items</p>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
+        <form onSubmit={handleSubmit(onSubmit)} className='w-[60%] flex flex-col gap-5'>
           <FormField
             control={control}
             name='invoice_id'
             render={({ field }:any) => (
-              <FormItem>
+              <FormItem className="flex flex-col gap-[10px]  items-center relative left-[-220px] ">
+              <FormLabel>Invoice Number</FormLabel>
                 <FormControl>
-                  <Input className='w-[54vw] flex  gap-5'  placeholder='invoice_id' {...field} />
+                  <Input className='w-[150px] flex  gap-5'  placeholder='invoice number' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -63,12 +65,26 @@ const ItemsForm = () => {
           />
             {/* <div  className='flex flex-row-reverse gap-1'>
              <div className='flex flex-col gap-5'>  */}
+                 <FormField
+                control={form.control}
+                name={`description`}
+                render={({ field }:any) => (
+                  <FormItem className="flex flex-col gap-[10px]  items-center">
+              <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <textarea className='border solid w-full h-[90px]' placeholder='Enter item name or  description' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className='w-[100%] flex sm:flex-row flex-col gap-5'>
               <FormField
                 control={control}
                 name={`unit_price`}
                 render={({ field }:any) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col gap-[10px]  items-center">
+                  <FormLabel>Unit Price</FormLabel>
                     <FormControl>
                    <Input className='flex  sm:w-[20vw] w-[85vw] gap-5' type='number' placeholder='Enter unit price' {...field} />
                     </FormControl>
@@ -80,7 +96,8 @@ const ItemsForm = () => {
                 control={control}
                 name={`quantity`}
                 render={({ field }:any) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col gap-[10px]  items-center">
+                  <FormLabel>Quantity</FormLabel>
                     <FormControl>
                    <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter quantity' {...field} />
                     </FormControl>
@@ -92,7 +109,8 @@ const ItemsForm = () => {
                 control={control}
                 name={`tax_rate`}
                 render={({ field }:any) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col gap-[10px]  items-center">
+                  <FormLabel>Tax Rate</FormLabel>
                     <FormControl>
                       <Input className='flex sm:w-[20vw] w-[85vw]  gap-5' type='number' placeholder='Enter tax rate' {...field} />
                     </FormControl>
@@ -103,18 +121,6 @@ const ItemsForm = () => {
               {/* </div>
               </div> */}
             </div>
-            <FormField
-                control={form.control}
-                name={`description`}
-                render={({ field }:any) => (
-                  <FormItem>
-                    <FormControl>
-                      <textarea className='border solid' placeholder='Enter description' {...field} cols='45'  rows='5' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
           <Button className='w-[100px] mt-6' type='submit'>
             Create item
           </Button>

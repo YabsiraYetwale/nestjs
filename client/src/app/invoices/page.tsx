@@ -5,10 +5,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
-import {CirclePlus} from "lucide-react";
+import {Search} from "lucide-react";
 import Link from "next/link";
 import {useDispatch} from "react-redux";
 import { fetchInvoices } from "@/redux/actions/invoices";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Props = {};
 type Invoices = {
@@ -91,12 +93,20 @@ useEffect(() => {
 return (
         <div className="flex justify-evenly">
         <div className="flex flex-col gap-5  w-full">
+          <div className="flex gap-[9rem]">
           <PageTitle title="Invoices" />
+         <form className="flex gap-1 relative top-1">
+         <Input placeholder="search invoices" className="border w-[20rem] h-[35px]"/>
+         < Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border"><Search/></ Button>
+         </form>
+          </div>
           {invoice && <DataTable columns={columns} data={invoice} />}
         </div>
-        <div className="flex justify-center items-center sm:relative absolute right-[10px] sm:top-[-10px] sm:w-[70px] w-[50px] sm:h-[65px] h-[50px] rounded-full bg-red-200">
-        <Link href='/invoices/addInvoice'><CirclePlus/></Link>
-        </div>
+        <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
+         <Link href='/invoices/addInvoice'>
+            Add New
+        </Link>
+        </Button>
         </div>
   );
 }

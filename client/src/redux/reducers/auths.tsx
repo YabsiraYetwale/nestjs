@@ -19,10 +19,7 @@ export const auths = (state = initialState, action:any) => {
       return { ...state, auths: action.payload };
     case LOGIN:
       const { token, user } = action.payload;
-
-      // Store the authentication token and user data in localStorage
       localStorage.setItem("InvoiceAuth", JSON.stringify({ token, user }));
-
       return { ...state, auths: [...state.auths, user] };
     case LOGOUT:
       localStorage.clear();
