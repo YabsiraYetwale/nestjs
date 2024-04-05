@@ -1,4 +1,5 @@
 import UserDetail from '@/components/detail/UserDetail';
+import ProtectedRoute from '@/components/protectedRoute/ProtectedRoute';
 
 const page = ({ params }: any) => {
   return (
