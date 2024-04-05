@@ -1,20 +1,20 @@
-"use client";
-
+"use client"
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
-import {Search} from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import {useDispatch} from "react-redux";
-import { fetchInvoices, fetchInvoicesBySearch } from "@/redux/actions/invoices";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { fetchInvoicesBySearch } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type Props = {};
-type Invoices = {
+
+type Invoice = {
   invoice_number: string;
   id: string;
   name: string;
@@ -23,14 +23,21 @@ type Invoices = {
   due_date: string;
 };
 
-const columns: ColumnDef<Invoices>[] = [
+type Client = {
+  id: string;
+  name: string;
+};
+
+type InvoiceWithClient = Invoice & { client: Client };
+
+const columns: ColumnDef<InvoiceWithClient>[] = [
   {
     accessorKey: "invoice_number",
-    header: "Invoice Number"
+    header: "Invoice Number",
   },
   {
-    accessorKey: "name",
-    header: "Customer Name"
+    accessorKey: "client.name",
+    header: "Customer Name",
   },
   {
     accessorKey: "status",
@@ -41,21 +48,21 @@ const columns: ColumnDef<Invoices>[] = [
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
             "bg-red-200": row.getValue("status") === "unpaid",
             "bg-orange-200": row.getValue("status") === "read",
-            "bg-green-200": row.getValue("status") === "paid"
+            "bg-green-200": row.getValue("status") === "paid",
           })}
         >
           {row.getValue("status")}
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "date",
-    header: "Date"
+    header: "Date",
   },
   {
     accessorKey: "due_date",
-    header: "Due Date"
+    header: "Due Date",
   },
   {
     accessorKey: "id",
@@ -64,72 +71,72 @@ const columns: ColumnDef<Invoices>[] = [
       const id = row.getValue("id");
       return (
         <div>
-        <div className="flex gap-2 items-center">
-          <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/invoices/details/${id}`}>View</Link>
-        </div>
+          <div className="flex gap-2 items-center">
+            <Link
+              className="bg-blue-400 px-5 py-2 text-white rounded-[10px]"
+              href={`/invoices/details/${id}`}
+            >
+              View
+            </Link>
+          </div>
         </div>
       );
-    }
+    },
   },
 ];
 
 export default function InvoicePage({}: Props) {
-  
-const [invoice, setInvoice] = useState<Invoices[] | null>(null);
-const [search, setSearch] = useState("");
-const dispatch = useDispatch();
-const router = useRouter();
+  const [invoices, setInvoices] = useState<InvoiceWithClient[] | null>(null);
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await   dispatch<any>(fetchInvoicesBySearch(search,router));
-      setInvoice(response);
-      console.log(response)
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch<any>(
+          fetchInvoicesBySearch(search, router)
+        );
+        setInvoices(response);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await dispatch<any>(
+      fetchInvoicesBySearch(search, router)
+    );
+    setInvoices(response);
   };
-  fetchData();
-}, [dispatch]);
-// useEffect(() => {
-//   const fetchData = async () => {
-//     try {
-//       const response = await dispatch<any>(fetchInvoices());
-//       setInvoice(response);
-//       console.log(response)
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   };
-//   fetchData();
-// }, [dispatch]);
-const handleSubmit =async(e)=>{
-  e.preventDefault()
-  const response =await dispatch<any>(fetchInvoicesBySearch(search,router));
-  console.log('search',search)
-  console.log('searchIvoice',response)
-}
-return (
-        <div className="flex justify-evenly">
-        <div className="flex flex-col gap-5  w-full">
-          <div className="flex gap-[9rem]">
-          <PageTitle title="Invoices" />
-         <form onSubmit={handleSubmit} className="flex gap-1 relative top-1">
-         <Input  value={search}
-              onChange={(e) => setSearch(e.target.value)} placeholder="search invoices" className="border w-[20rem] h-[35px]"/>
-         < Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border"><Search/></ Button>
-         </form>
+
+  return (
+    <div className="flex justify-evenly">
+      <div className="flex flex-col gap-5  w-full">
+        <div className="flex sm:flex-row flex-col-reverse lg:gap-[25rem] gap-5 ">
+          <div className="flex sm:gap-[9rem] gap-[15rem]">
+            <PageTitle title="Invoices" />
+            <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
+              <Link href="/invoices/addInvoice">Add New</Link>
+            </Button>
           </div>
-          {invoice && <DataTable columns={columns} data={invoice} />}
+          <form onSubmit={handleSubmit} className="flex gap-1 relative top-1">
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search invoices"
+              className="border lg:w-[20rem] w-[15rem]  h-[35px]"
+            />
+            <Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border">
+              <Search />
+            </Button>
+          </form>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
-         <Link href='/invoices/addInvoice'>
-            Add New
-        </Link>
-        </Button>
-        </div>
+        {invoices && <DataTable columns={columns} data={invoices} />}
+      </div>
+    </div>
   );
 }
-
-

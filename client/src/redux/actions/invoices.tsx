@@ -11,7 +11,6 @@ export const createInvoice=(invoice:any,router:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-
 export const fetchInvoices=()=>async(dispatch:any)=>{
     try {
         const {data}= await api.fetchInvoices()
@@ -33,15 +32,18 @@ export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)
-        if(searchQuery){
+        
+        if(searchQuery || data.map((id:string)=>id)){
             router.push(`/invoices?searchQuery=${searchQuery}`)
-            return data
         }
-        else{
-            router.push('/invoices')
-            return data
+        if(!searchQuery){
+            router.push(`/invoices`)
         }
-    //    dispatch({type:END_LOADING})
+       else if(data==="No matching invoices found."){
+            router.push('/invoices/no-result')
+        }
+       dispatch({type:END_LOADING})
+       return data
     } catch (error) {
         console.log(error)
     }
