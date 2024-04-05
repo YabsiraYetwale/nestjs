@@ -7,7 +7,7 @@ const page = ({params}:any) => {
     <div className='w-full'>
       <CustomerForm params={params}/>
     </div>
-    <ProtectedRoute/>
+    </ProtectedRoute>
   );
 };
 

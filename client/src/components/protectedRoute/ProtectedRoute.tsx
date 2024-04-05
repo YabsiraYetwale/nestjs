@@ -9,7 +9,7 @@ function Redirect () {
     }, [router]);
   return (<div>Redirecting</div>);};
 
-  export default function ProtectedRoute({ children}:{children:any}){
+  export default function ProtectedRoute({ children}:any){
   const user = localStorage.getItem("InvoiceAuth");
   return user  ? children : <Redirect />;
 
