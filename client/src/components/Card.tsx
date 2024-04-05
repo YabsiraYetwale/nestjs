@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export type CardProps = {
   label?: string;
-  icon?: LucideIcon;
+  icon?:React.ComponentType<React.SVGProps<SVGSVGElement>>;
   amount?: any;
   total_amount?: any;
   discription?: string;
