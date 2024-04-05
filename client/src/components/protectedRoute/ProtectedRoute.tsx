@@ -2,15 +2,16 @@
 import {useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const Redirect = () => {
+function Redirect () {
   const router = useRouter();
     useEffect(() => {
       router.push("/sign-in");
     }, [router]);
   return (<div>Redirecting</div>);};
 
-const ProtectedRoute = ({ children}:{children:any}) => {
+  export default function ProtectedRoute({ children}:{children:any}){
   const user = localStorage.getItem("InvoiceAuth");
   return user  ? children : <Redirect />;
+
 };
-export default ProtectedRoute;
+
