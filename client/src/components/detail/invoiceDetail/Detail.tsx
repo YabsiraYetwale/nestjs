@@ -2,7 +2,6 @@
 import PageTitle from "@/components/PageTitle";
 import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "@/components/Card";
-import { SalesProps } from "@/components/SalesCard";
 import ItemsCard from "@/components/detail/invoiceDetail/ItemsCard";
 import MiddleCard, {
   MiddleCardProps,
