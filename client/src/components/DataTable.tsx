@@ -108,4 +108,4 @@ export function DataTable<TData, TValue>({
   );
 }
 
-export { ColumnDef };
+export type { ColumnDef };
