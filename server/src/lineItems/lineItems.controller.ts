@@ -17,10 +17,10 @@ export class LineItemsController {
    return this.lineItemsService.getOneLineItems(id)
   }
  @Post()
-//  @UseGuards(JwtAdminGuard)
- createLineItems(@Body() lineItemsDto:CreateLineItemsDto){
-  return this.lineItemsService.createLineItems(lineItemsDto)
- }
+// @UseGuards(JwtAdminGuard)
+createLineItems(@Body() lineItemsDto: CreateLineItemsDto) {
+  return this.lineItemsService.createLineItems(lineItemsDto);
+}
  @Put(':id')
 //  @UseGuards(JwtAdminGuard)
  updateLineItems(@Param() id:string, @Body() updateLineItemsDto:UpdateLineItemsDto){
@@ -31,4 +31,5 @@ export class LineItemsController {
  deleteLineItems(@Param() id:string){
   return this.lineItemsService.deleteLineItems(id)
  }
+
 }

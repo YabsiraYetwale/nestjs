@@ -21,11 +21,11 @@ async getOneLineItems(id:string){
   }
 }
 
-async createLineItems(createLineItemsDto:CreateLineItemsDto){
-  const {...post} = createLineItemsDto
-  const newLineItems = await this.prismaService.Line_Items.create({data:{...post}})
-return {...newLineItems}
-}
+// async createLineItems(createLineItemsDto:CreateLineItemsDto){
+//   const {...post} = createLineItemsDto
+//   const newLineItems = await this.prismaService.Line_Items.create({data:{...post}})
+// return {...newLineItems}
+// }
 
 async updateLineItems(id:string,updateLineItemsDto:UpdateLineItemsDto){
   const post = updateLineItemsDto
@@ -54,4 +54,28 @@ async deleteLineItems(id: string) {
   
 }
   
+// 
+async createLineItems(createLineItemsDto: CreateLineItemsDto) {
+  const { lineItems } = createLineItemsDto;
+  const newLineItems = await Promise.all(
+    lineItems.map(async (item) => {
+      const { description, quantity, unit_price, tax_rate, invoice_id } = item;
+      return this.prismaService.Line_Items.create({
+        data: {
+          description,
+          quantity,
+          unit_price,
+          tax_rate,
+          invoice_id,
+        },
+      });
+    })
+  );
+
+  return newLineItems;
 }
+
+
+
+}
+

@@ -8,48 +8,41 @@ import { UpdateInvoiceDto } from './dto/update-Invoice.dto';
 @Injectable()
 export class InvoicesService {
   constructor(private prismaService: PrismaService) {}
-
+  
   async getAllInvoices(searchQuery: string, query: Query) {
-    const resPerPage = 8;
-    const currentPage = Number(query.page) || 1;
-    const skip = (currentPage - 1) * resPerPage;
-
-    let whereCondition = {};
-
-    if (searchQuery) {
-      whereCondition = {
-        OR: [
-          {
-            date: {
-              contains: searchQuery,
-            },
+  let whereCondition = {};
+  if (searchQuery) {
+    whereCondition = {
+      OR: [
+        {
+          date: {
+            contains: searchQuery,
           },
-          {
-            status: {
-              contains: searchQuery,
-            },
+        },
+        {
+          status: {
+            contains: searchQuery,
           },
-          {
-            invoice_number: {
-              contains: searchQuery,
-            },
+        },
+        {
+          invoice_number: {
+            contains: searchQuery,
           },
-        ],
-      };
-    }
-    const invoices = await this.prismaService.invoices.findMany({
-      where: whereCondition,
-      take: resPerPage,
-      skip: skip,
-      include: { line_items: true,client: true },
-    });
-
-    if (!searchQuery) {
-      return invoices;
-    }
-    return invoices.length > 0 ? invoices : 'No matching invoices found.';
-   
+        },
+      ],
+    };
   }
+  const invoices = await this.prismaService.invoices.findMany({
+    where: whereCondition,
+    include: { line_items: true,client: true },
+  });
+
+  if (!searchQuery) {
+    return invoices;
+  }
+  return invoices.length > 0 ? invoices : 'No matching invoices found.';
+ 
+}
   async getOneInvoice(id: string) {
     const invoice = await this.prismaService.Invoices.findUnique({
       where: id,
@@ -62,39 +55,74 @@ export class InvoicesService {
     }
   } 
   async createInvoice(createInvoiceDto: CreateInvoiceDto) {
-    const {invoice_number,...post} = createInvoiceDto;
-    const existingInvoice_number = await this.prismaService.Invoices.findUnique({ where: { invoice_number } });  
-    if (existingInvoice_number) {
+    const { invoice_number, line_items, ...post } = createInvoiceDto;
+  
+    const existingInvoiceNumber = await this.prismaService.Invoices.findUnique({
+      where: { invoice_number },
+    });
+    if (existingInvoiceNumber) {
       throw new HttpException('Invoice_number should be unique', 409);
     }
+  
     const newInvoice = await this.prismaService.Invoices.create({
-      data: { invoice_number,...post},
+      data: {
+        invoice_number,
+        ...post,
+        line_items: {
+          create: line_items.map((item) => ({
+            description: item.description,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            tax_rate: item.tax_rate,
+          })),
+        },
+      },
+      include: {
+        line_items: true,
+      },
     });
-
-    return { ...newInvoice };
+  
+    return newInvoice;
   }
-
+ 
   async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-    const {invoice_number,...post} = updateInvoiceDto;
+    const { invoice_number, line_items, ...post } = updateInvoiceDto;
     const existingInvoice_number = await this.prismaService.Invoices.findUnique({ where: { invoice_number } });  
     if (existingInvoice_number) {
       throw new HttpException('Invoice_number should be unique', 409);
     }
     const existingInvoice = await this.prismaService.Invoices.findUnique({
       where: id,
+      include: { line_items: true },
     });
     if (!existingInvoice) {
       throw new HttpException("Invoice doesn't exist", 404);
     }
+      await this.prismaService.Line_Items.deleteMany({
+      where: { invoice_id: existingInvoice.invoice_number },
+    });
+  
     const updatedInvoice = await this.prismaService.Invoices.update({
       where: id,
-      data: { invoice_number,...post },
+      data: { 
+        invoice_number,
+        ...post,
+        line_items: {
+          create: line_items.map((item) => ({
+            description: item.description,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            tax_rate: item.tax_rate,
+          })),
+        },
+      },
     });
     if (!updatedInvoice) {
       throw new Error('Failed to update Invoice');
     }
     return { ...updatedInvoice };
   }
+  
   async deleteInvoice(id: string) {
     const existingInvoice = await this.prismaService.Invoices.findUnique({
       where: id,

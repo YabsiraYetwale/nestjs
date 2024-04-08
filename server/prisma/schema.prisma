@@ -42,7 +42,7 @@ model Line_Items {
   quantity        Int
   unit_price      Decimal  @db.Decimal(10, 2)
   tax_rate        Decimal  @db.Decimal(5, 2)
-  invoice_id      String
-  invoice         Invoices    @relation("invoiceLineItems", fields: [invoice_id], references: [invoice_number],onDelete:Cascade )
+  invoice_id      String?
+  invoice         Invoices ?   @relation("invoiceLineItems", fields: [invoice_id], references: [invoice_number],onDelete:Cascade )
 }
 
