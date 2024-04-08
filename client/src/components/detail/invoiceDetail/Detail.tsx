@@ -20,6 +20,7 @@ import {
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
+import ItemsPage from "@/app/items/page";
 
 type InvoiceProps = {
   status: any;
@@ -221,38 +222,9 @@ export default function Detail({ params }: any) {
         </CardContent>
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
-        <CardContent className="flex justify-between gap-4">
-          {invoice?.line_items && (
-            <div className="flex flex-col-reverse justify-center">
-              {invoice?.line_items?.map((i: any) => (
-                <ItemsCard
-                  key={i}
-                  description={i?.description}
-                  unit_price={i?.unit_price}
-                  quantity={i?.quantity}
-                  tax_rate={i?.tax_rate}
-                />
-              ))}
-              <div className="  flex flex-wrap justify-between gap-3 ">
-                <section>
-                  <p>Item</p>
-                </section>
-                <section>
-                  <p>Quantity</p>
-                </section>
-                <section>
-                  <p>Unit Price</p>
-                </section>
-                <section>
-                  <p>Tax Rate</p>
-                </section>
-                <section>
-                  <p>Amount</p>
-                </section>
-              </div>
-            </div>
-          )}
-        </CardContent>
+      
+      <ItemsPage params={params}/>
+
         {invoice?.line_items && (
           <div className="flex justify-end">
             <section className="flex flex-col justify-end ">
