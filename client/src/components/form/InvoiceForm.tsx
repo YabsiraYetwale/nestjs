@@ -86,7 +86,13 @@ const InvoiceForm = ({ params }: any) => {
     form.setValue("line_items", line_items);
   };
   const addLineItem = () => {
-    form.setValue("line_items", [...form.getValues().line_items, {}]);
+    const lineItem = {
+      description: "",
+      quantity: 0,
+      unit_price: 0,
+      tax_rate: 0,
+    };
+    form.setValue("line_items", [...form.getValues().line_items, lineItem]);
   };
   return (
     <div className="flex flex-col gap-5   sm:items-center text-gray-600">
