@@ -57,10 +57,10 @@ export default function CustomerDetail({ params }: any) {
           </div>
           <section className="flex flex-col gap-5 relative sm:left-0 left-[-4.5rem]">
           <div className="flex gap-5">
-          <div onClick={()=>setIsOverView(true)} className={`${isOverView && "underline"} font-bold text-[20px] ${isOverView? "text-gray-600":"text-gray-400"} hover:text-gray-400 cursor-pointer`}>
+          <div onClick={()=>setIsOverView(true)} className={`${isOverView && "underline"} font-bold text-[20px] ${isOverView? "text-gray-600":"text-gray-400"}  cursor-pointer`}>
              OverView
             </div>
-          <div onClick={()=>setIsOverView(false)} className={`${!isOverView && "underline"} font-bold text-[20px] ${!isOverView? "text-gray-600":"text-gray-400"} hover:text-gray-400 cursor-pointer`}>
+          <div onClick={()=>setIsOverView(false)} className={`${!isOverView && "underline"} font-bold text-[20px] ${!isOverView? "text-gray-600":"text-gray-400"}  cursor-pointer`}>
              Invoices
             </div>
           </div>

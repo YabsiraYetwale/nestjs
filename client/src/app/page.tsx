@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {useDispatch} from "react-redux";
 import { fetchInvoices } from "@/redux/actions/invoices";
 import { fetchCustomers } from "@/redux/actions/customers";
+import Link from "next/link";
 
 export type CustomerProps = {
   amount: any;
@@ -80,7 +81,7 @@ return (
      </>}
      
       </section>
-      <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-2">
+      <section className="grid  lg:grid-cols-2 grid-cols-1 gap-4 gap-4 transition-all">
         <CardContent className="flex justify-between gap-4">
           <section>
             <p>Recent Activities</p>
@@ -89,7 +90,7 @@ return (
             </p>
           </section>
 
-          {invoices?.map((d, i) => (
+          {invoices?.slice(0,3)?.map((d, i) => (
             <RecentInvoiceActivitiesCard
               key={i}
               email={d?.client?.email}
@@ -97,6 +98,16 @@ return (
               total_amount={d.total_amount}
             />
           ))}
+        </CardContent>
+        <CardContent className="flex flex-col justify-between">
+          <section className="flex flex-col gap-5">
+            <h2 className="font-bold">Quick access</h2>
+            <div className="flex flex-col gap-3 text-blue-600">
+            <Link href="/invoices/addInvoice" className="hover:underline">create new invoices</Link>
+            <Link href="/customers" className="hover:underline">manage customers</Link>
+            <Link href="/invoices" className="hover:underline">view invoice status</Link>
+            </div>
+          </section>
         </CardContent>
       </section>
     </div>
