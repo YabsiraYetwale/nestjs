@@ -15,12 +15,10 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import {
   deleteInvoice,
   fetchInvoice,
-  fetchInvoices,
   markInvoiceStatusPaid,
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
-import ItemsPage from "@/app/items/page";
 
 type InvoiceProps = {
   status: any;
@@ -223,7 +221,7 @@ export default function Detail({ params }: any) {
       </section>
       <section className="grid grid-cols-1  gap-4 transition-all lg:grid-cols-1">
       
-      <ItemsPage params={params}/>
+      <ItemsCard params={params}/>
 
         {invoice?.line_items && (
           <div className="flex justify-end">
