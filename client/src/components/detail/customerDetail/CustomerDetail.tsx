@@ -2,11 +2,12 @@
 import { User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CardContent } from "../Card";
-import { Button } from "../ui/button";
+import { CardContent } from "../../Card";
+import { Button } from "../../ui/button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteCustomer, fetchCustomer } from "@/redux/actions/customers";
+import InvoiceCard from "./invoicesCard";
 
 type CustomerProps = {
   name: string;
@@ -22,13 +23,13 @@ export default function CustomerDetail({ params }: any) {
   const id = params.id as string;
   const [customer, setCustomer] = useState<CustomerProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
-  console.log("idscus", id);
+  const [isOverView, setIsOverView] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch<any>(fetchCustomer(id));
         setCustomer(response);
-        console.log("res", response);
+        console.log("resop", response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -47,7 +48,7 @@ export default function CustomerDetail({ params }: any) {
         <div className=" h-20 w-20 rounded-full flex justify-center items-center bg-gray-100 p-1">
           <User />
         </div>
-        <section className="flex flex-col gap-5 py-[20px]">
+        <section className="flex flex-col gap-[5rem] py-[20px]">
           <div className="flex flex-col">
             <div className="font-bold text-[20px] text-gray-600">
              {customer?.name}
@@ -55,6 +56,17 @@ export default function CustomerDetail({ params }: any) {
             <p className="text-sm text-gray-400">Customer in Invoice system.</p>
           </div>
           <section className="flex flex-col gap-5 relative sm:left-0 left-[-4.5rem]">
+          <div className="flex gap-5">
+          <div onClick={()=>setIsOverView(true)} className={`${isOverView && "underline"} font-bold text-[20px] ${isOverView? "text-gray-600":"text-gray-400"} hover:text-gray-400 cursor-pointer`}>
+             OverView
+            </div>
+          <div onClick={()=>setIsOverView(false)} className={`${!isOverView && "underline"} font-bold text-[20px] ${!isOverView? "text-gray-600":"text-gray-400"} hover:text-gray-400 cursor-pointer`}>
+             Invoices
+            </div>
+          </div>
+          <>
+            {isOverView &&
+            <>
             <div className="grid grid-cols-2  md:gap-[300px] gap-5 sm:gap-5  lg:gap-[400px]">
               <div className="flex flex-col gap-2 ">
                 <div className="font-bold text-gray-400">Phone Number</div>
@@ -77,6 +89,12 @@ export default function CustomerDetail({ params }: any) {
                 </p>
               </div>
             </div>
+            </>}
+            {!isOverView &&
+            <>
+            <InvoiceCard params={params}/>
+            </>}
+            </>
           </section>
         </section>
       </section>
