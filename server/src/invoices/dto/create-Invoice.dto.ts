@@ -23,7 +23,6 @@ export class CreateInvoiceDto {
     due_date: Date;
   
     @ApiProperty()
-    @IsNumber()
     total_amount: number;
   
     @ApiProperty()

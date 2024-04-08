@@ -35,7 +35,6 @@ const FormSchema = z.object({
   date: z.string().min(1, " date is required"),
   due_date: z.string().min(1, "due_dateis required"),
   status: z.string().min(1, "status required"),
-  total_amount: z.coerce.number().gte(1, "Must be 1 and above"),
   line_items: z.array(LineItemSchema),
 });
 const InvoiceForm = ({ params }: any) => {
@@ -50,7 +49,6 @@ const InvoiceForm = ({ params }: any) => {
       date: "",
       due_date: "",
       status: "",
-      total_amount: 0,
       line_items: [],
     },
   });
@@ -190,24 +188,6 @@ const InvoiceForm = ({ params }: any) => {
                       type="date"
                       className="flex  gap-5"
                       placeholder="Enter the due date"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="total_amount"
-              render={({ field }: any) => (
-                <FormItem className="flex flex-col gap-[10px]  items-center">
-                  <FormLabel>Total Amount</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
-                      placeholder="Enter invoice total amount"
                       {...field}
                     />
                   </FormControl>

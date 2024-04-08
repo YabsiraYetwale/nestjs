@@ -55,7 +55,7 @@ export class InvoicesService {
     }
   } 
   async createInvoice(createInvoiceDto: CreateInvoiceDto) {
-    const { invoice_number, line_items, ...post } = createInvoiceDto;
+    const { invoice_number,total_amount,line_items, ...post } = createInvoiceDto;
   
     const existingInvoiceNumber = await this.prismaService.Invoices.findUnique({
       where: { invoice_number },
@@ -64,9 +64,13 @@ export class InvoicesService {
       throw new HttpException('Invoice_number should be unique', 409);
     }
   
+    const totalAmount = line_items.reduce((total, item) => {
+      return total + item.quantity * item.unit_price;
+    }, 0);
     const newInvoice = await this.prismaService.Invoices.create({
       data: {
         invoice_number,
+        total_amount:totalAmount,
         ...post,
         line_items: {
           create: line_items.map((item) => ({
@@ -86,7 +90,7 @@ export class InvoicesService {
   }
  
   async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-    const { invoice_number, line_items, ...post } = updateInvoiceDto;
+    const { invoice_number,total_amount, line_items, ...post } = updateInvoiceDto;
     const existingInvoice_number = await this.prismaService.Invoices.findUnique({ where: { invoice_number } });  
     if (existingInvoice_number) {
       throw new HttpException('Invoice_number should be unique', 409);
@@ -101,11 +105,14 @@ export class InvoicesService {
       await this.prismaService.Line_Items.deleteMany({
       where: { invoice_id: existingInvoice.invoice_number },
     });
-  
+    const totalAmount = line_items.reduce((total, item) => {
+      return total + item.quantity * item.unit_price;
+    }, 0);
     const updatedInvoice = await this.prismaService.Invoices.update({
       where: id,
       data: { 
         invoice_number,
+        total_amount:totalAmount,
         ...post,
         line_items: {
           create: line_items.map((item) => ({

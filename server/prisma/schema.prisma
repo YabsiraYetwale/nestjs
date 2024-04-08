@@ -29,7 +29,7 @@ model Invoices {
   invoice_number  String @unique
   date            String  
   due_date        String 
-  total_amount    Decimal  @db.Decimal(10, 2)
+  total_amount    Decimal?  @db.Decimal(10, 2)
   status          String?
   client_id       String    
   client          Clients     @relation("clientInvoices", fields: [client_id], references: [email],onDelete: Cascade)
