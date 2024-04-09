@@ -1,11 +1,8 @@
 "use client";
 import PageTitle from "@/components/PageTitle";
-import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
-import Card, { CardContent, CardProps } from "@/components/Card";
+import { CardContent} from "@/components/Card";
 import ItemsCard from "@/components/detail/invoiceDetail/ItemsCard";
-import MiddleCard, {
-  MiddleCardProps,
-} from "@/components/detail/invoiceDetail/MiddleCard";
+import MiddleCard from "@/components/detail/invoiceDetail/MiddleCard";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -19,6 +16,7 @@ import {
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
+import Template from "./Template";
 
 type InvoiceProps = {
   status: any;
@@ -35,7 +33,6 @@ export default function Detail({ params }: any) {
   const router = useRouter();
   const id = params.id as string;
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
-  const [isAction, setIsAction] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isPopUp, setIsPopUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -94,24 +91,8 @@ export default function Detail({ params }: any) {
 
   return (
     <div className="flex flex-col gap-5  w-full">
-      <div className="flex gap-5">
-        <PageTitle title="Invoice Details" />
-        <div className="flex gap-4">
-          <Button
-            onClick={()=>setIsAction(!isAction)}
-            className="sm:h-[40px] h-[30px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
-          >
-            Actions
-          </Button>
-        {isAction &&
-        <div className="flex gap-4">
-          <Button className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Download Pdf</Button>
-          <Button className=" bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Print</Button>
-          <Button className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">Email</Button>
-          </div>}
-        </div>
-      </div>
-        
+        <PageTitle title="Invoice Details" /> 
+        <Template params={params}/>       
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
           <section className="flex items-center gap-4">

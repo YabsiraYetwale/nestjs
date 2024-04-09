@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
-import { DataTable, ColumnDef } from "@/components/DataTable";
 import React from "react";
 import PageTitle from "@/components/PageTitle";
+import { ColumnDef,ItemDataTable } from "@/components/ItemDataTable";
 
 type Props = {
   params: any;
@@ -76,7 +76,7 @@ const ItemsPage = ({ params }: Props) => {
     <div className="flex justify-evenly">
       <div className="flex flex-col gap-5 w-full">
         <PageTitle title="Items" />
-        {items && <DataTable columns={columns} data={items.line_items} />}
+        {items && <ItemDataTable columns={columns} data={items.line_items} />}
       </div>
     </div>
   );
