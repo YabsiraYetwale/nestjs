@@ -1,5 +1,5 @@
 "use client";
-import { User } from "lucide-react";
+import { ArrowUp,User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CardContent } from "../../Card";
@@ -43,6 +43,7 @@ export default function CustomerDetail({ params }: any) {
     dispatch<any>(deleteCustomer(id,router))
   };
   return (
+    <>
     <div className='flex flex-col gap-[120px]'>
       <section className="flex gap-5">
         <div className=" h-20 w-20 rounded-full flex justify-center items-center bg-gray-100 p-1">
@@ -135,5 +136,9 @@ export default function CustomerDetail({ params }: any) {
         </Button>
       </CardContent>
     </div>
+       <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+       <p><ArrowUp /></p> 
+   </Button>
+   </>
   );
 }

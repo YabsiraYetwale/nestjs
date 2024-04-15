@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Search,ArrowUp } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -114,6 +114,7 @@ export default function InvoicePage({}: Props) {
   };
 
   return (
+    <>
     <div className="flex justify-evenly">
       <div className="flex flex-col gap-5  w-full">
         <div className="flex md:flex-row flex-col-reverse lg:gap-[20rem] gap-5 ">
@@ -138,5 +139,9 @@ export default function InvoicePage({}: Props) {
         {invoices && <DataTable columns={columns} data={invoices} />}
       </div>
     </div>
+    <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+    <p><ArrowUp /> </p>
+      </Button>
+    </>
   );
 }

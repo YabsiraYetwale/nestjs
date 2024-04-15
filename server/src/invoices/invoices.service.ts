@@ -51,7 +51,7 @@ export class InvoicesService {
       include: { line_items: true, client: true },
     });
     if (!invoice) {
-      throw new HttpException("Invoice doesn't exist", 404);
+      throw new HttpException("Invoice doesn't exist", 404)
     } else {
       return { invoice };
     }

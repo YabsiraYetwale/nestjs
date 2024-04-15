@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown,ArrowUp } from "lucide-react";
 import {
   deleteInvoice,
   fetchInvoice,
@@ -90,8 +90,10 @@ export default function Detail({ params }: any) {
   };
 
   return (
+    <>
+    <div id="top"/>
     <div className="flex flex-col gap-5  w-full">
-      <div id="top"/>
+      
         <PageTitle title="Invoice Details" /> 
         <Template params={params}/>       
       <section className="grid grid-cols-1  gap-4 transition-all">
@@ -217,9 +219,10 @@ export default function Detail({ params }: any) {
           </div>
         )}
       </section>
-      <Button className="bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500">
-              <Link href="#top">Edit</Link>
+      <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+          <p><ArrowUp /></p> 
       </Button>
     </div>
+    </>
   );
 }

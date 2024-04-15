@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import Link from "next/link";
-import {Trash2,UserPlus,User} from "lucide-react";
+import {ArrowUp,User} from "lucide-react";
 import {useDispatch} from "react-redux";
 import { fetchCustomers } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,7 @@ useEffect(() => {
   fetchData();
 }, [dispatch]);
   return (
+    <>
     <div className="flex justify-evenly">
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title="Customers" />
@@ -92,5 +93,9 @@ useEffect(() => {
         </Link>
         </Button>
     </div>
+    <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+          <p><ArrowUp /></p> 
+      </Button>
+    </>
   );
 }
