@@ -94,7 +94,7 @@ const SignUpForm = () => {
             )}
           />
         </div>
-        <Button className='w-full mt-6' type='submit'>
+        <Button className='w-full mt-6 bg-blue-600 hover:bg-blue-500' type='submit'>
           Sign up
         </Button>
       </form>
@@ -103,7 +103,7 @@ const SignUpForm = () => {
       </div>
       <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
       <p className='text-center text-sm text-gray-600 mt-2'>
-        If you don&apos;t have an account, please&nbsp;
+        If you have an account, please&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-in'>
           Sign in
         </Link>

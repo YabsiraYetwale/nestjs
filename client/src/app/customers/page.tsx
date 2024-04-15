@@ -10,7 +10,7 @@ import {useDispatch} from "react-redux";
 import { fetchCustomers } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
 type Props = {};
-type Customers = {
+export type Customers = {
   id: string;
   name: string;
   email: string;
@@ -57,7 +57,7 @@ const columns: ColumnDef<Customers>[] = [
       const id = row.getValue("id");
       return (
         <div className="flex gap-2 items-center">
-          <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/customers/details/${id}`}>View</Link>
+          <Link className="bg-blue-600 px-5 py-2 text-white rounded-[10px]" href={`/customers/details/${id}`}>View</Link>
         </div>
       );
     }

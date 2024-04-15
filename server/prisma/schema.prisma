@@ -6,43 +6,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User{
-  id String @id @default(uuid())
-  username String @unique
-  email String @unique
+
+model User {
+  id       String  @id @default(uuid())
+  username String  @unique
+  email    String  @unique
   password String
-  role     String?   @default("user") 
+  role     String? @default("user")
 }
 
 model Clients {
-  id              String      @id @default(uuid())
-  name            String
-  billing_address String
-  contact_person  String
-  email           String @unique
-  phone           String
-  invoices     Invoices[]  @relation("clientInvoices")
+  id               String     @id @default(uuid())
+  name             String
+  billing_address  String
+  shipping_address String
+  shipping_city    String
+  shipping_state   String
+  shipping_zip     String
+  shipping_country String
+  contact_person   String
+  email            String     @unique
+  phone            String
+  invoices         Invoices[] @relation("clientInvoices")
 }
 
 model Invoices {
-  id              String      @id @default(uuid())
-  invoice_number  String @unique
-  date            String  
-  due_date        String 
-  total_amount    Decimal?  @db.Decimal(10, 2)
-  status          String?
-  client_id       String    
-  client          Clients     @relation("clientInvoices", fields: [client_id], references: [email],onDelete: Cascade)
-  line_items      Line_Items[] @relation("invoiceLineItems")
+  id             String       @id @default(uuid())
+  invoice_number String       @unique
+  date           String
+  due_date       String
+  total_amount   Decimal?     @db.Decimal(10, 2)
+  status         String?
+  client_id      String?
+  client         Clients?     @relation("clientInvoices", fields: [client_id], references: [email], onDelete: Cascade)
+  line_items     Line_Items[] @relation("invoiceLineItems")
 }
 
 model Line_Items {
-  id              String      @id @default(uuid())
-  description     String
-  quantity        Int
-  unit_price      Decimal  @db.Decimal(10, 2)
-  tax_rate        Decimal  @db.Decimal(5, 2)
-  invoice_id      String?
-  invoice         Invoices ?   @relation("invoiceLineItems", fields: [invoice_id], references: [invoice_number],onDelete:Cascade )
+  id          String    @id @default(uuid())
+  description String
+  quantity    Int
+  unit_price  Decimal   @db.Decimal(10, 2)
+  tax_rate    Decimal   @db.Decimal(5, 2)
+  invoice_id  String?
+  invoice     Invoices? @relation("invoiceLineItems", fields: [invoice_id], references: [id], onDelete: Cascade)
 }
-

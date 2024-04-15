@@ -13,7 +13,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import {
@@ -22,20 +21,37 @@ import {
   updateInvoice,
 } from "@/redux/actions/invoices";
 import { useEffect, useState } from "react";
+import { fetchCustomers } from "@/redux/actions/customers";
+import { Customers } from "@/app/customers/page";
+import Link from "next/link";
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
   unit_price: z.coerce.number().gte(1, "Unit Price must be 1 and above"),
   tax_rate: z.coerce.number().gte(0, "Tax Rate must be 0 and above"),
 });
+const client = z.object({
+  name: z.string(),
+  email: z.string(),
+  billing_address: z.string(),
+  contact_person: z.string(),
+  phone: z.string(),
+  shipping_address:z.string(),
+  shipping_city   :z.string(),
+  shipping_state  :z.string(),
+  shipping_zip    :z.string(),
+  shipping_country:z.string(),
+});
 
 const FormSchema = z.object({
-  client_id: z.string().min(1, "client_id  is required").max(100),
+  client_id: z.string(),
+  client,
   invoice_number: z.string().min(1, "invoice_number  is required"),
   date: z.string().min(1, " date is required"),
   due_date: z.string().min(1, "due_dateis required"),
   status: z.string().min(1, "status required"),
   line_items: z.array(LineItemSchema),
+
 });
 const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
@@ -45,6 +61,7 @@ const InvoiceForm = ({ params }: any) => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       client_id: "",
+      client:{},
       invoice_number: "",
       date: "",
       due_date: "",
@@ -65,6 +82,19 @@ const InvoiceForm = ({ params }: any) => {
       fetchData();
     }
   }, [id, dispatch]);
+
+  const [customer, setCustomer] = useState<Customers[] | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch<any>(fetchCustomers());
+        setCustomer(response);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     console.log("valuessaa",values)
@@ -98,8 +128,159 @@ const InvoiceForm = ({ params }: any) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-[60%] flex flex-col gap-5"
+          className="w-[100%] flex flex-col gap-5"
         >
+          <div  className="w-[100%] flex flex-col gap-5">
+          <div className='flex gap-5 flex-wrap'>
+          <div className='w-[100%] flex flex-col gap-5'>
+          <div className='flex gap-5 items-center flex-wrap'>
+            <p className='font-bold text-[20px] text-gray-600'>Customer Information</p>
+            <div className='flex items-center justify-center'>  
+              <p className="text-blue-600 font-bold">OR Existing Customer</p> 
+              <FormField
+              control={form.control}
+              name="client_id"
+              render={({ field }: any) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormControl>
+                    <select
+                      className="flex  gap-5 border"
+                      {...field}
+                    >
+                      <option>{customer?.map((i)=>i?.email)}</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            </div>
+            </div>
+          <FormField
+            control={form.control}
+            name='client.name'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter Name' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.email'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='youremail@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.billing_address'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter the billing address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.contact_person'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter contact person ' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.phone'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter phone number' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+          <div className='w-[100%] flex flex-col gap-5'>
+          <p className='font-bold text-[20px] text-gray-600'>Shipping Information</p>
+        <FormField
+            control={form.control}
+            name='client.shipping_address'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping_address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_city'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping city' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_state'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping state' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_zip'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping zipcode' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_country'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping country' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        </div>
           <div className="w-[100%] flex gap-5">
             <FormField
               control={form.control}
@@ -112,27 +293,10 @@ const InvoiceForm = ({ params }: any) => {
                       {...field}
                       className="border text-center w-[150px] h-[40px]"
                     >
-                      <option>paid</option>
                       <option>unpaid</option>
+                      <option>paid</option>
                       <option>read</option>
                     </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="client_id"
-              render={({ field }: any) => (
-                <FormItem className="flex flex-col gap-[10px]  items-center">
-                  <FormLabel>Client Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
-                      placeholder="Enter client email"
-                      {...field}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -263,9 +427,15 @@ const InvoiceForm = ({ params }: any) => {
               </div>
             ))}
           </div>
-          <Button className="w-[100px]" type="submit">
-            Save
-          </Button>
+          </div>
+          <div className='flex gap-5 mt-6'>
+        <Button className='bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 ' type='submit'>
+          Save
+        </Button>
+        <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
+                <Link href={`/invoices`}>Cancel</Link>
+              </Button>
+        </div>
         </form>
       </Form>
     </div>

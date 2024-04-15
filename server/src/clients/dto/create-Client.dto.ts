@@ -1,5 +1,6 @@
-import { IsEmail, IsNotEmpty, MaxLength} from 'class-validator';
+import { IsEmail, IsNotEmpty, MaxLength, ValidateNested} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 export class  CreateClientDto{
     @ApiProperty()
     @IsNotEmpty()
@@ -20,4 +21,26 @@ export class  CreateClientDto{
     @IsNotEmpty()
     @MaxLength(20, { message: 'Phone must be a maximum of 20 characters' })
     phone:string 
+    @ApiProperty()
+    @IsNotEmpty()
+    shipping_address:string
+    @ApiProperty()
+    @IsNotEmpty()
+    shipping_city:string 
+    @ApiProperty()  
+    @IsNotEmpty()
+    shipping_state:string 
+    @ApiProperty()  
+    @IsNotEmpty()
+    shipping_zip:string
+    @ApiProperty() 
+    @IsNotEmpty()   
+    shipping_country:string
+  }
+
+  export class CreateClientsDto {
+    @ApiProperty({ type: [CreateClientDto] })
+    @ValidateNested({ each: true })
+    @Type(() => CreateClientDto)
+    client: CreateClientDto;
   }

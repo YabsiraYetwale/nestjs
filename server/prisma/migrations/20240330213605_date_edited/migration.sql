@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Invoices" ALTER COLUMN "date" SET DATA TYPE TEXT,
-ALTER COLUMN "due_date" SET DATA TYPE TEXT;

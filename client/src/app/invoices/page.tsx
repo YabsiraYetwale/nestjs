@@ -46,9 +46,9 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
       return (
         <div
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
-            "bg-red-200": row.getValue("status") === "unpaid",
-            "bg-orange-200": row.getValue("status") === "read",
-            "bg-green-200": row.getValue("status") === "paid",
+            "text-red-600": row.getValue("status") === "unpaid",
+            "text-orange-600": row.getValue("status") === "read",
+            "text-green-600": row.getValue("status") === "paid",
           })}
         >
           {row.getValue("status")}
@@ -73,7 +73,7 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
         <div>
           <div className="flex gap-2 items-center">
             <Link
-              className="bg-blue-400 px-5 py-2 text-white rounded-[10px]"
+              className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
               href={`/invoices/details/${id}`}
             >
               View

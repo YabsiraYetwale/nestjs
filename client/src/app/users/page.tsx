@@ -48,7 +48,7 @@ const columns: ColumnDef<Users>[] = [
       const id = row.getValue("id");
       return (
         <div className="flex gap-2 items-center">
-          <Link className="bg-blue-400 px-5 py-2 text-white rounded-[10px]" href={`/users/details/${id}`}>View</Link>
+          <Link className="bg-blue-600 px-5 py-2 text-white rounded-[10px]" href={`/users/details/${id}`}>View</Link>
         </div>
       );
     }

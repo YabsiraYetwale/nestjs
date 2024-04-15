@@ -1,13 +1,15 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, BadRequestException } from '@nestjs/common';
 import { Query } from 'express-serve-static-core';
 import { PrismaService } from 'prisma/prisma.service';
+import { ClientsService } from 'src/clients/clients.service';
 import { CreateInvoiceDto } from './dto/create-Invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-Invoice.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 @Injectable()
 export class InvoicesService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService,private clientsService: ClientsService) {}
   
   async getAllInvoices(searchQuery: string, query: Query) {
   let whereCondition = {};
@@ -54,8 +56,9 @@ export class InvoicesService {
       return { invoice };
     }
   } 
+ 
   async createInvoice(createInvoiceDto: CreateInvoiceDto) {
-    const { invoice_number,total_amount,line_items, ...post } = createInvoiceDto;
+    const { invoice_number,total_amount,line_items,client, ...post } = createInvoiceDto;
   
     const existingInvoiceNumber = await this.prismaService.Invoices.findUnique({
       where: { invoice_number },
@@ -71,6 +74,20 @@ export class InvoicesService {
       data: {
         invoice_number,
         total_amount:totalAmount,
+        client:{
+          create:{
+            name:client.name,          
+            billing_address:client.billing_address,
+            shipping_address:client.shipping_address,
+            shipping_city:client.shipping_city ,      
+            shipping_state:client.shipping_state ,     
+            shipping_zip:client.shipping_zip   , 
+            shipping_country:client.shipping_country,
+            contact_person:client.contact_person,
+            email:client.email,     
+            phone:client.phone,        
+          }
+        },
         ...post,
         line_items: {
           create: line_items.map((item) => ({
@@ -88,7 +105,7 @@ export class InvoicesService {
   
     return newInvoice;
   }
- 
+
   async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
     const { invoice_number,total_amount, line_items, ...post } = updateInvoiceDto;
     const existingInvoice_number = await this.prismaService.Invoices.findUnique({ where: { invoice_number } });  

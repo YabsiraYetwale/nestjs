@@ -63,9 +63,10 @@ const Navbar = () => {
             <p className="font-bold text-green-400">{user?.username}</p>
           </div>
         ) : (
-          <Link className={buttonVariants()} href="/sign-in">
+          <Button className="bg-blue-600 hover:bg-blue-500"><Link href="/sign-in">
             Sign in
           </Link>
+          </Button>
         )}
       </div>
       {isPopUp && user && (

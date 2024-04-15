@@ -1,24 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '../ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { createCustomer, fetchCustomer, updateCustomer } from '@/redux/actions/customers';
+import Link from 'next/link';
 const FormSchema = z
   .object({
     name: z.string().min(1, 'name is required').max(100),
@@ -26,6 +24,12 @@ const FormSchema = z
     billing_address: z.string().min(1, 'billing_address is required'),
     contact_person: z.string().min(1, 'contact_person is required').max(100),
     phone: z.string().min(1, 'phone number is required').max(100),
+
+    shipping_address:z.string().min(1, 'shipping_address is required').max(20),
+    shipping_city   :z.string().min(1, 'shipping_city is required').max(20),
+    shipping_state  :z.string().min(1, 'shipping_state is required').max(20),
+    shipping_zip    :z.string().min(1, 'shipping_zipcode is required').max(20),
+    shipping_country:z.string().min(1, 'shipping_country is required').max(20),
   })
 
 const CustomerForm = ({params}:any) => {
@@ -40,6 +44,11 @@ const CustomerForm = ({params}:any) => {
       billing_address: '',
       contact_person: '',
       phone: '',
+      shipping_address:'',
+      shipping_city   :'',
+      shipping_state  :'',
+      shipping_zip    :'',
+      shipping_country:'',
     },
   });
  
@@ -70,7 +79,10 @@ const CustomerForm = ({params}:any) => {
     <div className='flex flex-col gap-5 justify-center items-center'>
       <p className='font-bold text-[30px]'>{id ? 'Update ':'Add '}Customer</p>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-[80%] flex flex-col gap-5'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='w-[100%] flex flex-col gap-5'>
+        <div className='flex gap-5'>
+          <div className='w-[100%] flex flex-col gap-5'>
+          <p className='font-bold text-[20px] text-gray-600'>Customer Information</p>
           <FormField
             control={form.control}
             name='name'
@@ -131,9 +143,79 @@ const CustomerForm = ({params}:any) => {
               </FormItem>
             )}
           />
-        <Button className='w-full mt-6' type='submit'>
+          </div>
+          <div className='w-[100%] flex flex-col gap-5'>
+          <p className='font-bold text-[20px] text-gray-600'>Shipping Information</p>
+        <FormField
+            control={form.control}
+            name='shipping_address'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping_address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='shipping_city'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping city' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='shipping_state'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping state' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='shipping_zip'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping zipcode' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='shipping_country'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='Enter shipping country' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        </div>
+        <div className='flex gap-5 mt-6'>
+        <Button className='bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500 ' type='submit'>
           {id ? 'Update ':'Add ' }Customer
         </Button>
+        <Button className="bg-red-600 sm:h-[40px] h-[30px] hover:bg-red-500">
+                <Link href={`/customers`}>Cancel</Link>
+              </Button>
+        </div>
       </form>
     </Form>
     </div>

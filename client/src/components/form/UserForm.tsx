@@ -13,13 +13,12 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
 import { CardContent } from '../Card';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { createUser, fetchUser, updateUser } from '@/redux/actions/auth';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const FormSchema = z
   .object({
@@ -130,9 +129,14 @@ const UserForm = ({params}:any) => {
             )}
           />
           </div>
-        <Button className='w-full mt-6' type='submit'>
+        <div className='flex gap-5 mt-6'>
+        <Button className='bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 ' type='submit'>
         {id?'Update':'Create'} User
         </Button>
+        <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
+                <Link href={`/users`}>Cancel</Link>
+              </Button>
+        </div>
       </form>
     </Form>
     </div>
