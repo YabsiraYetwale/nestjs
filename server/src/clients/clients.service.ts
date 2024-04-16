@@ -1,7 +1,7 @@
 import { Injectable,HttpException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateClientDto } from './dto/create-Client.dto';
-// import { UpdateClientDto } from './dto/update-client.dto';
+import { UpdateClientDto } from './dto/update-Client.dto';
 
 @Injectable()
 export class ClientsService {
@@ -29,7 +29,7 @@ async createClient(createClientDto:CreateClientDto){
   const newClient = await this.prismaService.Clients.create({data:{...post}})
 return {...newClient}
 }
-async updateClient(id:string,updateClientDto:CreateClientDto){
+async updateClient(id:string,updateClientDto: UpdateClientDto){
   const post = updateClientDto
   const existingClient = await this.prismaService.Clients.findUnique({ where: id  });
   if (!existingClient) {
