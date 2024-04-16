@@ -111,9 +111,9 @@ const InvoiceForm = ({ params }: any) => {
   const addLineItem = () => {
     const lineItem = {
       description: "",
-      quantity: "",
-      unit_price: "",
-      tax_rate: "",
+      quantity: null,
+      unit_price: null,
+      tax_rate: null,
     };
     form.setValue("line_items", [...form.getValues().line_items, lineItem]);
   };
