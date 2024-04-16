@@ -1,22 +1,16 @@
 
-import {ArrayNotEmpty, IsDateString,IsNotEmpty, IsNumber, IsOptional, MaxLength, ValidateNested} from 'class-validator';
+import {ArrayNotEmpty, IsDateString,IsEmpty,IsNotEmpty, IsNumber, IsOptional, MaxLength, ValidateNested} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateLineItemDto } from '../../lineItems/dto/create-Line-Items.dto';
 import { Type } from 'class-transformer';
 import { CreateClientDto } from 'src/clients/dto/create-Client.dto';
 export class CreateInvoiceDto {
     @ApiProperty()
-    @IsNotEmpty()
-    @MaxLength(20, { message: 'invoice_number must be a maximum of 20 characters' })
+    @IsEmpty()
     invoice_number: string;
     @ApiProperty()
     @IsOptional()
     status: string;
-  
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsDateString()
-    date: Date;
   
     @IsNotEmpty()
     @IsDateString()
@@ -26,6 +20,7 @@ export class CreateInvoiceDto {
     total_amount: number;
     
     @ApiProperty()
+    @IsOptional()
     client_id: string;
   
     @ApiProperty({ type: [CreateLineItemDto] })

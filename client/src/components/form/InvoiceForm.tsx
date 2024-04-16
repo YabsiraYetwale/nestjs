@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { fetchCustomers } from "@/redux/actions/customers";
 import { Customers } from "@/app/customers/page";
 import Link from "next/link";
+import { CardContent } from "../Card";
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
@@ -44,12 +45,10 @@ const client = z.object({
 });
 
 const FormSchema = z.object({
-  client_id: z.string(),
+  // client_id: z.string(),
   client,
-  invoice_number: z.string().min(1, "invoice_number  is required"),
-  date: z.string().min(1, " date is required"),
-  due_date: z.string().min(1, "due_dateis required"),
-  status: z.string().min(1, "status required"),
+  due_date: z.string().min(1, "due_date is required"),
+  status: z.string(),
   line_items: z.array(LineItemSchema),
 
 });
@@ -60,12 +59,10 @@ const InvoiceForm = ({ params }: any) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      client_id: "",
+      // client_id: "",
       client:{},
-      invoice_number: "",
-      date: "",
       due_date: "",
-      status: "",
+      // status: "",
       line_items: [],
     },
   });
@@ -97,8 +94,6 @@ const InvoiceForm = ({ params }: any) => {
   }, [dispatch]);
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log("valuessaa",values)
-
     if (id) {
       dispatch<any>(updateInvoice(id, values, router));
       router.push(`/invoices/details/${id}`);
@@ -116,173 +111,42 @@ const InvoiceForm = ({ params }: any) => {
   const addLineItem = () => {
     const lineItem = {
       description: "",
-      quantity: 0,
-      unit_price: 0,
-      tax_rate: 0,
+      quantity: "",
+      unit_price: "",
+      tax_rate: "",
     };
     form.setValue("line_items", [...form.getValues().line_items, lineItem]);
   };
   return (
-    <div className="flex flex-col gap-5   sm:items-center text-gray-600">
-      <p className="font-bold text-[30px]">{id ? "Edit " : "Add "}Invoice</p>
+    <div className="flex flex-col gap-5 text-gray-600">
+      <p className="font-bold md:text-[30px] text-[20px]">{id ? "Edit " : "Create New "}Invoice</p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-[100%] flex flex-col gap-5"
         >
-          <div  className="w-[100%] flex flex-col gap-5">
           <div className='flex gap-5 flex-wrap'>
-          <div className='w-[100%] flex flex-col gap-5'>
-          <div className='flex gap-5 items-center flex-wrap'>
-            <p className='font-bold text-[20px] text-gray-600'>Customer Information</p>
-            <div className='flex items-center justify-center'>  
-              <p className="text-blue-600 font-bold">OR Existing Customer</p> 
-              <FormField
+            <div className='relative  lg:right-[-49rem] md:right-[-40rem] '>
+          <div className="w-[100%] flex gap-5">
+            <FormField
               control={form.control}
-              name="client_id"
+              name="due_date"
               render={({ field }: any) => (
-                <FormItem className="flex flex-col items-center">
+                <FormItem className="w-[80%] flex flex-col gap-[10px]  items-center">
+                  <FormLabel>Due Date</FormLabel>
                   <FormControl>
-                    <select
-                      className="flex  gap-5 border"
+                    <Input
+                      type="date"
+                      className="flex  gap-5"
+                      placeholder="Enter the due date"
                       {...field}
-                    >
-                      <option>{customer?.map((i)=>i?.email)}</option>
-                    </select>
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            </div>
-            </div>
-          <FormField
-            control={form.control}
-            name='client.name'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter Name' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='client.email'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='youremail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='client.billing_address'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter the billing address' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='client.contact_person'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter contact person ' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='client.phone'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter phone number' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          </div>
-          <div className='w-[100%] flex flex-col gap-5'>
-          <p className='font-bold text-[20px] text-gray-600'>Shipping Information</p>
-        <FormField
-            control={form.control}
-            name='client.shipping_address'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter shipping_address' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-             <FormField
-            control={form.control}
-            name='client.shipping_city'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter shipping city' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-             <FormField
-            control={form.control}
-            name='client.shipping_state'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter shipping state' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-             <FormField
-            control={form.control}
-            name='client.shipping_zip'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter shipping zipcode' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-             <FormField
-            control={form.control}
-            name='client.shipping_country'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder='Enter shipping country' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        </div>
-          <div className="w-[100%] flex gap-5">
-            <FormField
+              <FormField
               control={form.control}
               name="status"
               render={({ field }: any) => (
@@ -303,72 +167,192 @@ const InvoiceForm = ({ params }: any) => {
               )}
             />
           </div>
-          <div className="w-[100%] flex gap-5">
-            <FormField
+            </div>
+          <div className='w-[100%] flex flex-col gap-5'>
+          <div className='flex md:flex-row flex-col gap-5'>
+          <CardContent className='w-[100%] flex flex-col gap-5'>
+          <div className='flex md:flex-row flex-col gap-5 items-center bg-zinc-100 py-2 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]'>
+          <p className='font-bold text-[20px] text-gray-600'>
+            Customer Information
+          </p>
+          {/* <div className='flex'>  
+              <p className="text-blue-600 font-bold">OR Existing Customer</p> 
+              <FormField
               control={form.control}
-              name="date"
+              name="client_id"
               render={({ field }: any) => (
-                <FormItem className="flex flex-col gap-[10px]  items-center">
-                  <FormLabel>Date</FormLabel>
+                <FormItem className="flex flex-col items-center">
                   <FormControl>
-                    <Input
-                      type="date"
-                      className="flex  gap-5"
-                      placeholder="Enter the date"
+                    <select
+                      className="flex  gap-5 border"
                       {...field}
-                    />
+                    >
+                      <option>{customer?.map((i)=>i?.email)}</option>
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="invoice_number"
-              render={({ field }: any) => (
-                <FormItem className="flex flex-col gap-[10px]  items-center">
-                  <FormLabel>Invoice Number</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="sm:w-[32vw] w-[40vw] flex  gap-5"
-                      placeholder="Enter invoice number"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            </div> */}
+            </div>
+          <div className='flex gap-5'>
+          <FormField
+            control={form.control}
+            name='client.name'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter Name' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.email'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='youremail@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
-          <div className="w-[100%] flex gap-5">
-            <FormField
-              control={form.control}
-              name="due_date"
-              render={({ field }: any) => (
-                <FormItem className="flex flex-col gap-[10px]  items-center">
-                  <FormLabel>Due Date</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      className="flex  gap-5"
-                      placeholder="Enter the due date"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className='flex gap-5'>
+          <FormField
+            control={form.control}
+            name='client.contact_person'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter contact person ' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='client.phone'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter phone number' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
-          <div className="w-[100%] flex gap-5 flex-col">
+            <FormField
+            control={form.control}
+            name='client.billing_address'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <textarea className='w-[100%] p-5 h-[100px] border' placeholder='Enter the billing address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </CardContent>
+          <CardContent className='w-[100%] flex flex-col gap-5'>
+          <p className='font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]'>Shipping Information</p>
+          <div className='flex gap-5'>
+          <FormField
+            control={form.control}
+            name='client.name'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter Name' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        <FormField
+            control={form.control}
+            name='client.shipping_address'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter shipping_address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+          <div className='flex gap-5'>
+          <FormField
+            control={form.control}
+            name='client.shipping_city'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter shipping city' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_state'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter shipping state' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+          <div className='flex gap-5'>
+          <FormField
+            control={form.control}
+            name='client.shipping_zip'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter shipping zipcode' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name='client.shipping_country'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <Input className='md:w-[18vw] w-[100%]' placeholder='Enter shipping country' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+        </CardContent>
+        </div>
+       </div>
+        <div className="w-[100%] flex gap-5 flex-col">
           <Button className="w-[150px] bg-green-600 hover:bg-green-400" onClick={addLineItem}>Add Line Item</Button>
             {form.watch("line_items")?.map((lineItem: any, index: number) => (
               <div
                 key={index}
-                className="flex gap-[10px] items-center"
+                className="flex gap-[10px] md:items-center"
               >
                 <FormLabel>{index + 1}</FormLabel>
-                <div className="flex gap-5">
+                <div className="flex md:flex-row flex-col gap-5">
                   <FormField
                     control={form.control}
                     name={`line_items.${index}.description`}
@@ -419,7 +403,7 @@ const InvoiceForm = ({ params }: any) => {
                   />
                   <Button
                     onClick={() => removeLineItem(index)}
-                    className="text-red-500"
+                    className="bg-red-500 hover:bg-red-400"
                   >
                     remove
                   </Button>

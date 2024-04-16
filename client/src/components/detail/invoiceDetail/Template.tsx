@@ -1,12 +1,12 @@
 "use client";
 import { ReactToPrint } from "react-to-print";
-import { CardContent } from "@/components/Card";
 import ItemsCard from "@/components/detail/invoiceDetail/ItemsCard";
-import MiddleCard from "@/components/detail/invoiceDetail/MiddleCard";
 import { useEffect, useState , useRef } from "react";
+import { ArrowUp,HandMetal  } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
+import { CardContent } from "@/components/Card";
 
 type InvoiceProps = {
   status: any;
@@ -20,7 +20,6 @@ type InvoiceProps = {
 
 export default function Template({ params }: any) {
   const [loader, setLoader] = useState(false);
-  const [isAction, setIsAction] = useState(false);
   const componentRef = useRef(null);
  const dispatch = useDispatch();
   const id = params.id as string;
@@ -38,16 +37,9 @@ export default function Template({ params }: any) {
   }, [id, dispatch]);
 
   return (
+    <>
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Button
-          onClick={() => setIsAction(!isAction)}
-          className="sm:h-[40px] h-[30px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
-        >
-          Actions
-        </Button>
-
-        {isAction && (
           <div className="flex gap-4">
             <ReactToPrint
               trigger={() => {
@@ -66,16 +58,18 @@ export default function Template({ params }: any) {
               Email
             </Button>
           </div>
-        )}
       </div>
       <div>
+        <CardContent>
         <div
           ref={componentRef}
-          className={isAction ? "actual-receipt" : "actual-receipt hidden" }
+          className="actual-receipt"
         >
-          <div className="flex flex-col gap-5 w-full">
+          <div className="flex flex-col gap-10 w-full">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 items-center text-blue-500 ">
           <h1 className="3xl font-semibold">
-            <div
+          <div
               className="flex p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md"
             >
               <span className="text-green-500 dark:text-green-400  ">
@@ -83,43 +77,52 @@ export default function Template({ params }: any) {
               </span>
               <span className="text-blue-500 dark:text-yellow-400">Systm</span>
             </div>
-          </h1>
-              <CardContent className="w-[200px]">
-                <section className="flex items-center gap-4">
-                  <p className="transform-rotate(270deg)">Status</p>
-                  <p
-                    className={`${
-                      invoice?.status === "paid" && "text-green-400"
-                    } ${invoice?.status === "unpaid" && "text-red-400"} ${
-                      invoice?.status === "read" && "text-orange-400"
-                    }`}
-                  >
-                    {invoice?.status}
-                  </p>
-                </section>
-              </CardContent>
-            <section className="grid grid-cols-1 gap-4 transition-all lg:grid-cols-1">
-              <CardContent className="flex justify-between gap-4">
-                {invoice && (
-                  <MiddleCard
-                    email={invoice?.client?.email}
-                    name={invoice?.client?.name}
-                    invoice_number={invoice?.invoice_number}
-                    date={invoice?.date}
-                    due_date={invoice?.due_date}
-                  />
-                )}
-              </CardContent>
-            </section>
+            </h1>
+            <HandMetal />
+            </div>
+            <div className="flex flex-col gap-3">
+            <span className="bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
+                Invoice
+            </span>
+            <div className="flex flex-col">
+            <span><strong>Billing Date: </strong><span className="font-light">{invoice?.due_date}</span> </span>
+            <span><strong>Due Date: </strong><span className="font-light">{invoice?.due_date}</span></span>
+            </div>
+            </div>
+          </div>
+          <div className="flex justify-around gap-5">
+            <div className="flex flex-col gap-3">
+              <strong>Our Information<hr/></strong>
+              <span> InvoiceSystm</span>
+              <span>{invoice?.client?.billing_address}</span>
+              <span>Company No: 69940000</span>
+              <span>Company Vat: 69000007</span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <strong>Billing To<hr/></strong>
+              <span>{invoice?.client?.name}</span>
+              <span>{invoice?.client?.billing_address}</span>
+              <span>{invoice?.client?.email}</span>
+              <span>{invoice?.client?.phone}</span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <strong>Shipping To<hr/></strong>
+              <span>{invoice?.client?.name}</span>
+              <span>{invoice?.client?.shipping_address}</span>
+              <span>{invoice?.client?.shipping_state}</span>
+              <span>{invoice?.client?.shipping_zip}</span>
+            </div>
+            <div>
+            </div>
+          </div>
             <section className="grid grid-cols-1 gap-4 transition-all lg:grid-cols-1">
               <ItemsCard params={params} />
-
               {invoice?.line_items && (
                 <div className="flex justify-end">
                   <section className="flex flex-col justify-end ">
                     <hr className="w-[270px] h-[30px]" />
                     <div className="flex items-center gap-[7rem]">
-                      <p>Total Amount</p>
+                      <p>Total Amount($)</p>
                       <p className="text-sm text-gray-400">
                         {invoice?.total_amount}
                       </p>
@@ -128,10 +131,18 @@ export default function Template({ params }: any) {
                 </div>
               )}
             </section>
+            <CardContent className="w-[100px] border roar flex items-center  p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
+              {invoice?.status}
+              </CardContent>
           </div>
         </div>
+        </CardContent>
       </div>
     </div>
+      <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+      <p><ArrowUp /></p> 
+  </Button>
+  </>
   );
 }
 

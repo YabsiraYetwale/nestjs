@@ -16,7 +16,6 @@ import {
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
-import Template from "./Template";
 
 type InvoiceProps = {
   status: any;
@@ -94,8 +93,12 @@ export default function Detail({ params }: any) {
     <div id="top"/>
     <div className="flex flex-col gap-5  w-full">
       
-        <PageTitle title="Invoice Details" /> 
-        <Template params={params}/>       
+        <PageTitle title="Invoice Details" />
+        <Button
+          className="sm:h-[40px] h-[30px] w-[100px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
+        >
+           <Link href={`/invoices/template/${id}`}>Actions</Link>
+        </Button> 
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
           <section className="flex items-center gap-4">
@@ -212,7 +215,7 @@ export default function Detail({ params }: any) {
             <section className="flex flex-col justify-end ">
               <hr className="w-[270px] h-[30px]" />
               <div className="flex items-center gap-[7rem]">
-                <p>Total Amount</p>
+                <p>Total Amount($)</p>
                 <p className="text-sm text-gray-400">{invoice?.total_amount}</p>
               </div>
             </section>

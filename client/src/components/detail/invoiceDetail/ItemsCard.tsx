@@ -35,15 +35,15 @@ const columns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: "unit_price",
-    header: "Unit Price",
+    header: "Unit Price($)",
   },
   {
     accessorKey: "tax_rate",
-    header: "Tax Rate",
+    header: "Tax Rate(%)",
   },
   {
     accessorKey: "amount",
-    header: "Amount",
+    header: "Amount($)",
     cell: ({ row }: any) => {
       return (
         <div className="flex gap-2 items-center">
@@ -75,7 +75,7 @@ const ItemsPage = ({ params }: Props) => {
   return (
     <div className="flex justify-evenly">
       <div className="flex flex-col gap-5 w-full">
-        <PageTitle title="Items" />
+        {/* <PageTitle title="Items" /> */}
         {items && <ItemDataTable columns={columns} data={items.line_items} />}
       </div>
     </div>

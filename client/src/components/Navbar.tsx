@@ -41,7 +41,7 @@ const Navbar = () => {
         <Link href="/" className="flex gap-2 items-center text-blue-500 ">
           <h1 className="3xl font-semibold">
             <div
-              className="flex 
+              className="sm:flex hidden
      p-2 bg-opacity-20 text-lg lg:text-2xl font-bold justify-center drop-shadow-md"
             >
               <span className="text-green-500 dark:text-green-400  ">
@@ -60,7 +60,7 @@ const Navbar = () => {
             >
               <User />
             </div>
-            <p className="font-bold text-green-400">{user?.username}</p>
+            <p className="sm:flex hidden font-bold text-green-400">{user?.username}</p>
           </div>
         ) : (
           <Button className="bg-blue-600 hover:bg-blue-500"><Link href="/sign-in">
