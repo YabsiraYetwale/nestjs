@@ -30,10 +30,10 @@ CREATE TABLE "Clients" (
 CREATE TABLE "Invoices" (
     "id" TEXT NOT NULL,
     "invoice_number" TEXT NOT NULL,
-    "date" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "due_date" TEXT NOT NULL,
     "total_amount" DECIMAL(10,2),
-    "status" TEXT,
+    "status" TEXT DEFAULT 'unpaid',
     "client_id" TEXT,
 
     CONSTRAINT "Invoices_pkey" PRIMARY KEY ("id")
