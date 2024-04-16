@@ -120,7 +120,7 @@ export class InvoicesService {
         total_amount:totalAmount,
         ...post,
         client:{
-          create:{
+          update:{
             name:client.name,          
             billing_address:client.billing_address,
             shipping_address:client.shipping_address,
