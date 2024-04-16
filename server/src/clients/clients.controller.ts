@@ -2,7 +2,7 @@ import { Controller, Get,Post,Put,Delete ,Param,Body, UseGuards} from '@nestjs/c
 import { JwtAdminGuard, JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-Client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+// import { UpdateClientDto } from './dto/update-client.dto';
 
 @Controller('clients')
 export class ClientsController {
@@ -23,7 +23,7 @@ export class ClientsController {
  }
  @Put(':id')
  @UseGuards(JwtAdminGuard)
- updateClient(@Param() id:string, @Body() updateClientDto:UpdateClientDto){
+ updateClient(@Param() id:string, @Body() updateClientDto:CreateClientDto){
   return this.clientsService.updateClient(id,updateClientDto)
  }
  @Delete(':id')
