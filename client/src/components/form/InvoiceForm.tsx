@@ -25,12 +25,27 @@ import { fetchCustomers } from "@/redux/actions/customers";
 import { Customers } from "@/app/customers/page";
 import Link from "next/link";
 import { CardContent } from "../Card";
+// const LineItemSchema = z.object({
+//   description: z.string().min(1, "Description is required"),
+//   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
+//   unit_price: z.coerce.number().gte(1, "Unit Price must be 1 and above"),
+//   tax_rate: z.coerce.number().gte(0, "Tax Rate must be 0 and above"),
+// });
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
-  quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
-  unit_price: z.coerce.number().gte(1, "Unit Price must be 1 and above"),
-  tax_rate: z.coerce.number().gte(0, "Tax Rate must be 0 and above"),
+  quantity: z.number().nullable().gte(1, "Quantity must be 1 and above"),
+  unit_price: z.number().nullable().gte(1, "Unit Price must be 1 and above"),
+  tax_rate: z.number().nullable().gte(0, "Tax Rate must be 0 and above"),
 });
+
+const addLineItem = () => {
+  const lineItem = {
+    description: "",
+    quantity: null,
+    unit_price: null,
+    tax_rate: null,
+  };
+};
 const client = z.object({
   name: z.string(),
   email: z.string(),
