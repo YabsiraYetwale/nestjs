@@ -45,7 +45,7 @@ useEffect(() => {
     <CardContent className="bg-gray-300 flex flex-col justify-center items-center">
         <div className="cursor-pointer w-[500px] flex flex-col justify-between gap-4">
           {invoices?.slice(0,3)?.map((d, i) => (
-        <div className="cursor-pointer px-5 py-1 hover:bg-white">
+        <div key={i} className="cursor-pointer px-5 py-1 hover:bg-white">
             <RecentInvoiceActivitiesCard
               key={i}
               email={d?.client?.email}
