@@ -15,6 +15,7 @@ type CustomerProps = {
   email: string;
   contact_person:string;
   billing_address:string;
+  invoices:any;
 };
 
 export default function CustomerDetail({ params }: any) {
@@ -36,9 +37,11 @@ export default function CustomerDetail({ params }: any) {
     };
     fetchData();
   }, [id,dispatch]);
+
   const handleDelete = () => {
     setIsDelete(!isDelete);
   };
+
   const handleConfirm = () => {
     dispatch<any>(deleteCustomer(id,router))
   };
@@ -90,7 +93,8 @@ export default function CustomerDetail({ params }: any) {
                 </p>
               </div>
             </div>
-            </>}
+            </>
+            }
             {!isOverView &&
             <>
             <InvoiceCard params={params}/>

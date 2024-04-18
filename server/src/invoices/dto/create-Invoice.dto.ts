@@ -8,10 +8,20 @@ export class CreateInvoiceDto {
     @ApiProperty()
     @IsEmpty()
     invoice_number: string;
+
+    @ApiProperty()
+    @IsEmpty()
+    isRead : boolean;
+    
     @ApiProperty()
     @IsOptional()
     status: string;
-  
+     
+    @ApiProperty()
+    @IsEmpty()
+    date: Date;
+    
+    @ApiProperty()
     @IsNotEmpty()
     @IsDateString()
     due_date: Date;

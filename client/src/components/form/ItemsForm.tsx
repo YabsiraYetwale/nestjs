@@ -62,8 +62,6 @@ const ItemsForm = () => {
               </FormItem>
             )}
           />
-            {/* <div  className='flex flex-row-reverse gap-1'>
-             <div className='flex flex-col gap-5'>  */}
                  <FormField
                 control={form.control}
                 name={`description`}
@@ -117,8 +115,6 @@ const ItemsForm = () => {
                   </FormItem>
                 )}
               />
-              {/* </div>
-              </div> */}
             </div>
           <Button className='w-[100px] mt-6' type='submit'>
             Create item

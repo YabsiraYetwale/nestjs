@@ -1,12 +1,12 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchInvoice } from "@/redux/actions/invoices";
 import { DataTable, ColumnDef } from "@/components/DataTable";
 import React from "react";
 import PageTitle from "@/components/PageTitle";
 import { fetchCustomer } from "@/redux/actions/customers";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Props = {
   params: any;
@@ -18,6 +18,7 @@ type Customer = {
 };
 
 type Invoice = {
+  id:any;
   status: any;
   date?: any;
   due_date?: any;
@@ -54,6 +55,25 @@ const columns: ColumnDef<Invoice>[] = [
     accessorKey: "due_date",
     header: "Due Date",
   },
+  {
+    accessorKey: "id",
+    header: "Details",
+    cell: ({ row }:any) => {
+      const id = row.getValue("id");
+      return (
+        <div>
+          <div className="flex gap-2 items-center">
+            <Link
+              className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
+              href={`/invoices/details/${id}`}
+            >
+              View
+            </Link>
+          </div>
+        </div>
+      );
+    },
+  },
 ];
 
 const InvoiceCard = ({ params }: Props) => {
@@ -78,7 +98,7 @@ const InvoiceCard = ({ params }: Props) => {
     <div className="flex justify-evenly">
       <div className="flex flex-col gap-5 w-full">
         <PageTitle title="Invoices" />
-        {invoice && <DataTable columns={columns} data={invoice.invoices} />}
+              {invoice && <DataTable columns={columns} data={invoice.invoices} />}
       </div>
     </div>
   );

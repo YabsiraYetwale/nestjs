@@ -5,6 +5,7 @@ import { PrismaModule } from 'prisma/prisma.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { InvoicesStatusModule } from './invoices/status/invoices-Status.module';
 import { LineItemsModule } from './lineItems/lineItems.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LineItemsModule } from './lineItems/lineItems.module';
     InvoicesStatusModule,
     LineItemsModule,
     PrismaModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

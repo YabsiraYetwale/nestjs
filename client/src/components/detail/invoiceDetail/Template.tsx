@@ -85,6 +85,7 @@ export default function Template({ params }: any) {
                 Invoice
             </span>
             <div className="flex flex-col">
+            <span><strong>Invoice Number: </strong><span className="font-light">{invoice?.invoice_number}</span> </span>
             <span><strong>Billing Date: </strong><span className="font-light">{invoice?.due_date}</span> </span>
             <span><strong>Due Date: </strong><span className="font-light">{invoice?.due_date}</span></span>
             </div>
@@ -92,7 +93,7 @@ export default function Template({ params }: any) {
           </div>
           <div className="flex justify-around gap-5">
             <div className="flex flex-col gap-3">
-              <strong>Our Information<hr/></strong>
+              <strong>Company Information<hr/></strong>
               <span> InvoiceSystm</span>
               <span>{invoice?.client?.billing_address}</span>
               <span>Company No: 69940000</span>

@@ -32,11 +32,12 @@ model Clients {
 
 model Invoices {
   id             String       @id @default(uuid())
-  invoice_number String       @unique @default(cuid())
+  invoice_number String       @unique 
   date           DateTime     @default(now())
   due_date       String
   total_amount   Decimal?     @db.Decimal(10, 2)
   status         String?      @default("unpaid")
+  isRead         Boolean?      @default(false)
   client_id      String?
   client         Clients?     @relation("clientInvoices", fields: [client_id], references: [email], onDelete: Cascade)
   line_items     Line_Items[] @relation("invoiceLineItems")

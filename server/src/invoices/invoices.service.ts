@@ -1,12 +1,10 @@
-import { Injectable, HttpException, BadRequestException } from '@nestjs/common';
+import { Injectable, HttpException} from '@nestjs/common';
 import { Query } from 'express-serve-static-core';
 import { PrismaService } from 'prisma/prisma.service';
 import { ClientsService } from 'src/clients/clients.service';
 import { CreateInvoiceDto } from './dto/create-Invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-Invoice.dto';
-import { NotFoundException } from '@nestjs/common';
 
-@Injectable()
 @Injectable()
 export class InvoicesService {
   constructor(private prismaService: PrismaService,private clientsService: ClientsService) {}
@@ -26,11 +24,16 @@ export class InvoicesService {
             contains: searchQuery,
           },
         },
-        // {
-        //   invoice_number: {
-        //     contains: searchQuery,
-        //   },
-        // },
+        {
+          invoice_number: {
+            contains: searchQuery,
+          },
+        },
+        {
+          client_id: {
+            contains: searchQuery,
+          },
+        },
       ],
     };
   }
@@ -56,50 +59,61 @@ export class InvoicesService {
       return { invoice };
     }
   } 
- 
-  async createInvoice(createInvoiceDto: CreateInvoiceDto) {
-    const {total_amount,line_items,client, ...post } = createInvoiceDto;
-  
-  
-    const totalAmount = line_items.reduce((total, item) => {
-      return total + item.quantity * item.unit_price;
-    }, 0);
-    const newInvoice = await this.prismaService.Invoices.create({
-      data: {
-        total_amount:totalAmount,
-        client:{
-          create:{
-            name:client.name,          
-            billing_address:client.billing_address,
-            shipping_address:client.shipping_address,
-            shipping_city:client.shipping_city ,      
-            shipping_state:client.shipping_state ,     
-            shipping_zip:client.shipping_zip   , 
-            shipping_country:client.shipping_country,
-            contact_person:client.contact_person,
-            email:client.email,     
-            phone:client.phone,        
-          }
-        },
-        ...post,
-        line_items: {
-          create: line_items.map((item) => ({
-            description: item.description,
-            quantity: item.quantity,
-            unit_price: item.unit_price,
-            tax_rate: item.tax_rate,
-          })),
-        },
-      },
-      include: {
-        line_items: true,
-      },
-    });
-  
-    return newInvoice;
+
+async createInvoice(createInvoiceDto: CreateInvoiceDto) {
+  const { total_amount, line_items, client, ...post } = createInvoiceDto;
+
+  const totalAmount = line_items.reduce((total, item) => {
+    return total + item.quantity * item.unit_price;
+  }, 0);
+
+  const lastInvoice = await this.prismaService.Invoices.findFirst({
+    orderBy: { invoice_number: 'desc' },
+  });
+
+  let invoiceNumber = 'INV-001';
+  if (lastInvoice && lastInvoice.invoice_number) {
+    const lastNumber = parseInt(lastInvoice.invoice_number.split('-')[1]);
+    invoiceNumber = `INV-${(lastNumber + 1).toString().padStart(3, '0')}`;
   }
+
+  const newInvoice = await this.prismaService.Invoices.create({
+    data: {
+      invoice_number: invoiceNumber,
+      total_amount: totalAmount,
+      client: {
+        create: {
+          name: client.name,
+          billing_address: client.billing_address,
+          shipping_address: client.shipping_address,
+          shipping_city: client.shipping_city,
+          shipping_state: client.shipping_state,
+          shipping_zip: client.shipping_zip,
+          shipping_country: client.shipping_country,
+          contact_person: client.contact_person,
+          email: client.email,
+          phone: client.phone,
+        },
+      },
+      ...post,
+      line_items: {
+        create: line_items.map((item) => ({
+          description: item.description,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          tax_rate: item.tax_rate,
+        })),
+      },
+    },
+    include: {
+      line_items: true,
+    },
+  });
+
+  return newInvoice;
+}
   
-  async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
+async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
     const {total_amount,client, line_items, ...post } = updateInvoiceDto;
     const existingInvoice = await this.prismaService.Invoices.findUnique({
       where: id,

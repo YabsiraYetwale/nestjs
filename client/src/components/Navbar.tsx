@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
-import { HandMetal, User } from "lucide-react";
+import { Button} from "./ui/button";
+import { HandMetal, User} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCurrentUser } from "@/redux/actions/auth";
 import { CardContent } from "./Card";
+import { Notification } from "./Notification";
 import { useRouter, usePathname } from "next/navigation";
 
 type userProps = {
@@ -17,6 +18,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +40,7 @@ const Navbar = () => {
   };
 
   return (
+    <div>
     <div className=" bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-20 top-0">
       <div className="container flex items-center justify-between">
         <Link href="/" className="flex gap-2 items-center text-blue-500 ">
@@ -53,14 +58,19 @@ const Navbar = () => {
           <HandMetal />
         </Link>
         {user ? (
+          <div className="flex items-center justify-center gap-5">
+         
           <div className="flex flex-col items-center justify-center">
             <div
+            className="flex gap-5"
               onClick={() => setIsPopUp((preve) => !preve)}
-              className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1"
             >
-              <User />
+             <div className="cursor-pointer h-[35px] w-[35px] text-white rounded-full flex justify-center items-center bg-gray-400 p-1">
+             <User />
+              </div>
             </div>
             <p className="sm:flex hidden font-bold text-green-400">{user?.username}</p>
+          </div>
           </div>
         ) : (
           <Button className="bg-blue-600 hover:bg-blue-500"><Link href="/sign-in">
@@ -79,6 +89,10 @@ const Navbar = () => {
           </Button>
         </CardContent>
       )}
+    </div>
+    <div className="absolute z-20 left-[30rem] top-[140px]">
+    <Notification/>
+    </div>
     </div>
   );
 };

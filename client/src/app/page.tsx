@@ -27,7 +27,6 @@ useEffect(() => {
     try {
       const response = await dispatch<any>(fetchInvoices());
       setInvoices(response);
-      console.log(response)
     } catch (error) {
       console.error('Error:', error);
     }
