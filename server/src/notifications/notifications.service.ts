@@ -7,7 +7,7 @@ export class NotificationsService {
     private prismaService: PrismaService,
   ) {}
 async getAllNotifications(){
-  const allNotifications = await this.prismaService.invoices.findMany()
+  const allNotifications = await this.prismaService.invoices.findMany({ include: { line_items: true,client: true },})
   return {allNotifications}
 }
 
