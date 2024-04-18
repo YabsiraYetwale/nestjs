@@ -34,6 +34,7 @@ CREATE TABLE "Invoices" (
     "due_date" TEXT NOT NULL,
     "total_amount" DECIMAL(10,2),
     "status" TEXT DEFAULT 'unpaid',
+    "isRead" BOOLEAN DEFAULT false,
     "client_id" TEXT,
 
     CONSTRAINT "Invoices_pkey" PRIMARY KEY ("id")
