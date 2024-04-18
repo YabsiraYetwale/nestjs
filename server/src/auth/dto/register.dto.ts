@@ -1,8 +1,10 @@
-import {IsEmail,IsNotEmpty,IsOptional,IsString, MaxLength} from 'class-validator'
+import {IsEmail,IsEmpty,IsNotEmpty,IsOptional,IsString, MaxLength} from 'class-validator'
 export class RegisterUserDto{
     @IsNotEmpty()
     @IsString()
     username:string
+    @IsEmpty()
+    id:string
     @IsEmail() 
     @IsNotEmpty()
     @MaxLength(100, { message: 'Email must be a maximum of 100 characters' })

@@ -5,13 +5,14 @@ import { LocalGuard } from './guards/local.guard';
 import { Request } from 'express';
 import { JwtAdminGuard, JwtAuthGuard } from './guards/jwt.guard';
 import { LoginUserDto } from './dto/login.dto';
+import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('register')
- registerUser(@Body() registerUserdto:RegisterUserDto){
-  return this.authService.registerUser(registerUserdto)
+ registerUser(@Body() createCompanyDto: CreateCompanyDto){
+  return this.authService.registerUser(createCompanyDto)
  }
 @Post('login')
 // @UseGuards(LocalGuard)

@@ -4,34 +4,67 @@ import { LoginUserDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService,
     private prismaService: PrismaService,
     ) {}
-  async registerUser(registerUserDto: RegisterUserDto) {
-    const { username, email, password,role } = registerUserDto;
-    const existingUserEmail = await this.prismaService.User.findUnique({ where: { email } });
-    const existingUserUsername = await this.prismaService.User.findUnique({ where: { username } });
-    const hashedPassword = await bcrypt.hash(password, 10)
-  
-    if (existingUserEmail) {
-      throw new HttpException('Email already exists', 409);
-    } else if (existingUserUsername) {
-      throw new HttpException('Username already exists', 409);
-    } else {
-      const user = await this.prismaService.User.create({
-        data: {
-          username,
-          email,
-          password: hashedPassword,
-          role
-        },
-      });
-      return { message: 'User registered successfully'};
+    async registerUser(registerCompanyDto: CreateCompanyDto) {
+      const {users,name,company_number,vat_reg_number,tel1,tel2,...post} = registerCompanyDto;
+         const existingUserEmail = await this.prismaService.User.findUnique({ where: { email:users.email } });
+      const existingUserUsername = await this.prismaService.User.findUnique({ where: { username:users.username } });
+      const existingCompanyName = await this.prismaService.Company.findUnique({ where: { name } });
+      const existingCompanyNumber = await this.prismaService.Company.findUnique({ where: { company_number } });
+      const existingCompanyVatRegNo = await this.prismaService.Company.findUnique({ where: { vat_reg_number } });
+      const existingCompanyTel1 = await this.prismaService.Company.findUnique({ where: { tel1 } });
+      const existingCompanyTel2 = await this.prismaService.Company.findUnique({ where: { tel2 } });
+      
+      const hashedPassword = await bcrypt.hash(users.password, 10)
+      
+      if (existingUserEmail) {
+        throw new HttpException('Email already exists', 409);
+      } else if (existingUserUsername) {
+        throw new HttpException('Username already exists', 409);
+      } 
+      else if (existingCompanyName) {
+        throw new HttpException('CompanyName already exists', 409);
+      } else if (existingCompanyNumber) {
+        throw new HttpException('CompanyNumber already exists', 409);
+      } 
+       else if (existingCompanyVatRegNo) {
+        throw new HttpException('CompanyVatRegNo already exists', 409);
+      } 
+       else if (existingCompanyTel1) {
+        throw new HttpException('CompanyTel1 already exists', 409);
+      } 
+      else if (existingCompanyTel2) {
+        throw new HttpException('CompanyTel2 already exists', 409);
+      } 
+      else {
+        const user = await this.prismaService.Company.create({
+          data: {
+            users: {
+              create: {
+                username: users.username,
+                password:hashedPassword,
+                email: users.email,
+                role: users.role,
+              },
+            },
+            name,
+            company_number,
+            vat_reg_number,
+            tel1,
+            tel2,
+            ...post
+          },
+        });
+        return { message: 'User registered successfully'};
+      }
     }
-  }
+
   async loginUser(loginUserDto: LoginUserDto){
     const {email, password } =loginUserDto;
     const existingUser= await this.prismaService.User.findUnique({ where: { email } });
@@ -77,7 +110,7 @@ export class AuthService {
       }
       const {password,...user}=updateUserDto;
       const token=this.jwtService.sign({...user});
-    return {token};
+    return {token,message:"User updated successfully!" };
     }
     async deleteUser(id: string) {
       const existingUser = await this.prismaService.User.findUnique({where:id});

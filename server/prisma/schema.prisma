@@ -8,11 +8,25 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  username String  @unique
-  email    String  @unique
-  password String
-  role     String? @default("user")
+  id         String   @id @default(uuid())
+  username   String   @unique
+  email      String   @unique
+  password   String
+  role       String?  @default("user")
+  company_id String?
+  company    Company? @relation("usercompany", fields: [company_id], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id             String @id @default(uuid())
+  name           String @unique
+  company_number String @unique
+  vat_reg_number String @unique
+  tel1           String @unique
+  tel2           String @unique
+  subcity        String
+  kebele         String
+  users          User[] @relation("usercompany")
 }
 
 model Clients {
@@ -32,12 +46,12 @@ model Clients {
 
 model Invoices {
   id             String       @id @default(uuid())
-  invoice_number String       @unique 
+  invoice_number String       @unique
   date           DateTime     @default(now())
   due_date       String
   total_amount   Decimal?     @db.Decimal(10, 2)
   status         String?      @default("unpaid")
-  isRead         Boolean?      @default(false)
+  isRead         Boolean?     @default(false)
   client_id      String?
   client         Clients?     @relation("clientInvoices", fields: [client_id], references: [email], onDelete: Cascade)
   line_items     Line_Items[] @relation("invoiceLineItems")
