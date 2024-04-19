@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Company" ADD COLUMN     "company_logo" TEXT,
+ALTER COLUMN "tel1" DROP NOT NULL,
+ALTER COLUMN "tel2" DROP NOT NULL;

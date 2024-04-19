@@ -18,15 +18,16 @@ model User {
 }
 
 model Company {
-  id             String @id @default(uuid())
-  name           String @unique
-  company_number String @unique
-  vat_reg_number String @unique
-  tel1           String @unique
-  tel2           String @unique
+  id             String  @id @default(uuid())
+  company_logo   String?
+  name           String  @unique
+  company_number String  @unique
+  vat_reg_number String  @unique
+  tel1           String?  @unique
+  tel2           String?  @unique
   subcity        String
   kebele         String
-  users          User[] @relation("usercompany")
+  users          User[]  @relation("usercompany")
 }
 
 model Clients {

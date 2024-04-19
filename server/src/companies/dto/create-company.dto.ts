@@ -1,8 +1,11 @@
-import {IsNotEmpty,ValidateNested} from 'class-validator';
+import {IsNotEmpty,IsOptional,ValidateNested} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { RegisterUserDto } from 'src/auth/dto/register.dto';
 export class CreateCompanyDto {
+  @ApiProperty()
+  @IsOptional()
+  company_logo: string;
   @ApiProperty()
   @IsNotEmpty()
   name: string;
@@ -10,10 +13,10 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   company_number: string;
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   vat_reg_number: string;
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   tel1: string;
   @ApiProperty()
   @IsNotEmpty()
