@@ -1,4 +1,5 @@
 import { Injectable,HttpException } from '@nestjs/common';
+import { Query } from 'express-serve-static-core';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateClientDto } from './dto/create-Client.dto';
 import { UpdateClientDto } from './dto/update-Client.dto';
@@ -8,10 +9,89 @@ export class ClientsService {
   constructor(
     private prismaService: PrismaService,
   ) {}
-async getAllClients(){
-  const allClients = await this.prismaService.Clients.findMany({include:{invoices:true}})
-  return {allClients}
+async getAllClients(searchQuery: string, query: Query) {
+  let whereCondition = {};
+  if (searchQuery) {
+    const caseInsensitiveSearchQuery = searchQuery.toLowerCase();
+    whereCondition = {
+      OR: [
+        {
+          name: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          billing_address: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          contact_person: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          phone: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          shipping_address: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          shipping_city: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          shipping_zip: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          shipping_state: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          shipping_country: {
+            contains: caseInsensitiveSearchQuery,
+            mode: "insensitive",
+          },
+        },
+      ],
+    };
+  }
+
+  const clients = await this.prismaService.Clients.findMany({
+    where: whereCondition,
+    include: { invoices: true },
+  });
+
+  if (!searchQuery) {
+    return clients;
+  }
+
+  return clients.length > 0 ? clients : 'No matching clients found.';
 }
+
+
 async getOneClient(id:string){
   const client = await this.prismaService.Clients.findUnique({
     where:id,include:{invoices:true}

@@ -9,44 +9,47 @@ import { UpdateInvoiceDto } from './dto/update-Invoice.dto';
 export class InvoicesService {
   constructor(private prismaService: PrismaService,private clientsService: ClientsService) {}
   
-  async getAllInvoices(searchQuery: string, query: Query) {
+async getAllInvoices(searchQuery: string, query: Query) {
   let whereCondition = {};
   if (searchQuery) {
+    const lowercaseQuery = searchQuery.toLowerCase();
+
     whereCondition = {
       OR: [
         {
           due_date: {
-            contains: searchQuery,
+            contains: lowercaseQuery,
           },
         },
         {
           status: {
-            contains: searchQuery,
+            contains: lowercaseQuery,
           },
         },
         {
           invoice_number: {
-            contains: searchQuery,
+            contains: lowercaseQuery,
           },
         },
         {
           client_id: {
-            contains: searchQuery,
+            contains: lowercaseQuery,
           },
         },
       ],
     };
   }
+
   const invoices = await this.prismaService.invoices.findMany({
     where: whereCondition,
-    include: { line_items: true,client: true },
+    include: { line_items: true, client: true },
   });
 
   if (!searchQuery) {
     return invoices;
   }
+
   return invoices.length > 0 ? invoices : 'No matching invoices found.';
- 
 }
   async getOneInvoice(id: string) {
     const invoice = await this.prismaService.Invoices.findUnique({
@@ -158,7 +161,7 @@ async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
       },
     });
     if (!updatedInvoice) {
-      throw new Error('Failed to update Invoice');
+      throw new Error('Failed to update Invoice!!!');
     }
     return { ...updatedInvoice };
   }
