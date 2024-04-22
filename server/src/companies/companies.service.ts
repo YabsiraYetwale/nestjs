@@ -11,12 +11,12 @@ export class CompaniesService {
     ) {}
     
   async getAllCompanies(){
-    const allCompanies = await this.prismaService.Company.findMany({include: {users: true }})
+    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true }})
     return {allCompanies}
   }
 
   async getOneCompany(id:string){
-    const company = await this.prismaService.Company.findUnique({ where:id,include: {users: true }})
+    const company = await this.prismaService.Company.findUnique({ where:id,include: {users: true ,documents:true}})
     if (!company) {
       throw new HttpException("Company doesn't exist",404)
     }
@@ -26,13 +26,18 @@ export class CompaniesService {
   }
 
   async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto) {
-    const { users, ...post } = updateCompanyDto;
+    const { users,documents, ...post } = updateCompanyDto;
     const hashedPassword = await bcrypt.hash(users.password, 10);
   
-    const existingCompany = await this.prismaService.Company.findUnique({ where: id  });
+    const existingCompany = await this.prismaService.Company.findUnique({ where: id ,
+      include: { documents: true },
+     });
     if (!existingCompany) {
       throw new HttpException("Company doesn't exist", 404);
     }
+    await this.prismaService.Document.deleteMany({
+      where: { company_id: existingCompany.id },
+    });
   
     const updatedCompany = await this.prismaService.Company.update({
       where: id ,
@@ -47,6 +52,12 @@ export class CompaniesService {
               role: users.role,
             },
           },
+        },
+        documents: {
+          create: documents.map((document) => ({
+            file_name: document.file_name,
+            file_path: document.file_path,
+          })),
         },
       },
     });

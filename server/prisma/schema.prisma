@@ -18,16 +18,34 @@ model User {
 }
 
 model Company {
-  id             String  @id @default(uuid())
-  company_logo   String?
-  name           String  @unique
-  company_number String  @unique
-  vat_reg_number String  @unique
-  tel1           String?  @unique
-  tel2           String?  @unique
-  subcity        String
-  kebele         String
-  users          User[]  @relation("usercompany")
+  id                   String     @id @default(uuid())
+  company_logo         String?
+  name                 String     @unique
+  general_manager_name String
+  company_number       String     @unique
+  vat_reg_number       String     @unique
+  house_no             String     @unique
+  po_box               String     @unique
+  fax                  String     @unique
+  email                String     @unique
+  tel1                 String?    @unique
+  tel2                 String?    @unique
+  country              String
+  region               String
+  city                 String
+  subcity              String
+  woreda               String
+  kebele               String
+  users                User[]     @relation("usercompany")
+  documents            Document[] @relation("documentcompany")
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  file_name  String
+  file_path  String
+  company_id String?
+  company    Company? @relation("documentcompany", fields: [company_id], references: [id])
 }
 
 model Clients {

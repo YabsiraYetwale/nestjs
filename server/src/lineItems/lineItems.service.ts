@@ -54,7 +54,6 @@ async deleteLineItems(id: string) {
   
 }
   
-// 
 async createLineItems(createLineItemsDto: CreateLineItemsDto) {
   const { lineItems } = createLineItemsDto;
   const newLineItems = await Promise.all(
