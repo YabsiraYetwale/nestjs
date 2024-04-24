@@ -66,7 +66,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
 async createInvoice(createInvoiceDto: CreateInvoiceDto) {
   const { total_amount, line_items, client, ...post } = createInvoiceDto;
 
-  const totalAmount = line_items.reduce((total, item) => {
+  const totalAmount = line_items?.reduce((total, item) => {
     return total + item.quantity * item.unit_price;
   }, 0);
 
@@ -100,7 +100,7 @@ async createInvoice(createInvoiceDto: CreateInvoiceDto) {
       },
       ...post,
       line_items: {
-        create: line_items.map((item) => ({
+        create: line_items?.map((item) => ({
           description: item.description,
           quantity: item.quantity,
           unit_price: item.unit_price,
@@ -128,7 +128,7 @@ async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
       await this.prismaService.Line_Items.deleteMany({
       where: { invoice_id: existingInvoice.id },
     });
-    const totalAmount = line_items.reduce((total, item) => {
+    const totalAmount = line_items?.reduce((total, item) => {
       return total + item.quantity * item.unit_price;
     }, 0);
     const updatedInvoice = await this.prismaService.Invoices.update({
@@ -151,7 +151,7 @@ async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
           }
         },
         line_items: {
-          create: line_items.map((item) => ({
+          create: line_items?.map((item) => ({
             description: item.description,
             quantity: item.quantity,
             unit_price: item.unit_price,

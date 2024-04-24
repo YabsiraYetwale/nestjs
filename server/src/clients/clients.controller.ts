@@ -30,7 +30,7 @@ async getAllClients(  @Query('searchQuery') searchQuery: string,@Query() query: 
   return this.clientsService.updateClient(id,updateClientDto)
  }
  @Delete(':id')
- @UseGuards(JwtAdminGuard)
+//  @UseGuards(JwtAdminGuard)
  deleteClient(@Param() id:string){
   return this.clientsService.deleteClient(id)
  }

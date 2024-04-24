@@ -16,23 +16,23 @@ async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query:
   return this.invoicesService.getAllInvoices(searchQuery,query);
 }
  @Get(':id')
- @UseGuards(JwtAuthGuard)
+//  @UseGuards(JwtAuthGuard)
  getOneInvoice(@Param() id:string){
   return this.invoicesService.getOneInvoice(id)
  }
  @Post()
- @UseGuards(JwtAdminGuard)
+//  @UseGuards(JwtAdminGuard)
  createInvoice(@Body() createInvoiceDto:CreateInvoiceDto){
   return this.invoicesService.createInvoice(createInvoiceDto)
  }
 
  @Put(':id')
- @UseGuards(JwtAdminGuard)
+//  @UseGuards(JwtAdminGuard)
  updateInvoice(@Param() id:string, @Body() updateInvoiceDto:UpdateInvoiceDto){
   return this.invoicesService.updateInvoice(id,updateInvoiceDto)
  }
  @Delete(':id')
- @UseGuards(JwtAdminGuard)
+//  @UseGuards(JwtAdminGuard)
  deleteInvoice(@Param() id:string){
   return this.invoicesService.deleteInvoice(id)
  }

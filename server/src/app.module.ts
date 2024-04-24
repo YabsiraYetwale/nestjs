@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ClientsModule } from './clients/clients.module';
 import { PrismaModule } from 'prisma/prisma.module';
@@ -7,9 +8,11 @@ import { InvoicesStatusModule } from './invoices/status/invoices-Status.module';
 import { LineItemsModule } from './lineItems/lineItems.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CompaniesModule } from './companies/companies.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({isGlobal:true}),
     AuthModule,
     ClientsModule,
     InvoicesModule,
@@ -18,6 +21,8 @@ import { CompaniesModule } from './companies/companies.module';
     PrismaModule,
     NotificationsModule,
     CompaniesModule,
+    MailerModule
   ],
 })
 export class AppModule {}
+
