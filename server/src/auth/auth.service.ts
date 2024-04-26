@@ -140,6 +140,20 @@ export class AuthService {
     }
   }
 
+  
+  async getCurrentUser(userId: string) {
+    const user = await this.prismaService.User.findUnique({
+      where: { id: userId },
+      include: { company: true },
+    });
+
+    if (!user) {
+      throw new HttpException("User doesn't exist", 404);
+    }
+
+    return user;
+  }
+
   async getAllUsers() {
     const allUsers = await this.prismaService.User.findMany();
     return { allUsers };
@@ -148,7 +162,7 @@ export class AuthService {
   async getOneUser(id: string) {
     const user = await this.prismaService.User.findUnique({ where: id });
     if (!user) {
-      throw new HttpException("User doesn't exist", 404);
+      throw new HttpException("User doesn't exist", 404)
     } else {
       return { user };
     }

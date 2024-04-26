@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= templateVersion.invoice_number %> V1</title>
+
+</head>
+  <body>
+    <div class="flex flex-col gap-4  invoice-wrapper min-h-screen bg-gray-200 py-5">
+      <div>
+        <div>
+        <div
+          class="actual-receipt invoice max-w-[850px] mx-auto bg-white p-16 border border-gray-300 rounded-md min-h-[920px]"
+        >
+          <div class="flex flex-col gap-10 w-full">
+          <div class="flex items-center justify-between">
+            <div class="flex gap-2 items-center text-blue-500 ">
+          <h1 class="3xl font-semibold">
+          <div
+              class="flex p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md"
+            >
+              <span class="text-green-500 dark:text-green-400  ">
+                Invoice
+              </span>
+              <span class="text-blue-500 dark:text-yellow-400">Systm</span>
+            </div>
+            </h1>
+            <HandMetal />
+            </div>
+            <div class="flex flex-col gap-3">
+            <span class="bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
+                Invoice
+            </span>
+            <div class="flex flex-col">
+            <span><strong>Invoice Number: </strong><span class="font-light"><%= templateVersion?.invoice_number %></span> </span>
+            <span><strong>Billing Date: </strong><span class="font-light"><%=templateVersion?.due_date%></span> </span>
+            <span><strong>Due Date: </strong><span class="font-light"><%=templateVersion?.due_date%></span></span>
+            </div>
+            </div>
+          </div>
+          <div class="flex justify-around gap-5">
+            <div class="flex flex-col gap-3">
+              <strong>Company Information<hr/></strong>
+              <span> <%=templateVersion?.company?.name%></span>
+              <span><%=templateVersion?.company?.kebele%></span>
+              <span>Company No: <%=templateVersion?.company?.company_number%></span>
+              <span>Company Vat: <%=templateVersion?.company?.vat_reg_number%></span>
+            </div>
+            <div class="flex flex-col gap-3">
+              <strong>Billing To<hr/></strong>
+              <span><%=templateVersion?.client?.name%></span>
+              <span><%=templateVersion?.client?.billing_address%></span>
+              <span><%=templateVersion?.client?.email%></span>
+              <span><%=templateVersion?.client?.phone%></span>
+            </div>
+            <div class="flex flex-col gap-3">
+              <strong>Shipping To<hr/></strong>
+              <span><%=templateVersion?.client?.name%></span>
+              <span><%=templateVersion?.client?.shipping_address%></span>
+              <span><%=templateVersion?.client?.shipping_state%></span>
+              <span><%=templateVersion?.client?.shipping_zip%></span>
+            </div>
+            <div>
+            </div>
+          </div>
+            <section class="grid grid-cols-1 gap-4 transition-all lg:grid-cols-1">
+              <table class="table-fixed w-full">
+                <thead>
+                  <tr>
+                    <th class="bg-gray-300 border border-black px-4 py-2">Description</th>
+                    <th class="bg-gray-300 border border-black px-4 py-2">Quantity</th>
+                    <th class="bg-gray-300 border border-black px-4 py-2">Unit Price($)</th>
+                    <th class="bg-gray-300 border border-black px-4 py-2">Tax Rate(%)</th>
+                    <th class="bg-gray-300 border border-black px-4 py-2">Amount($)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% templateVersion.line_items.forEach(function(item) { %>
+                    <tr>
+                      <td class="border border-black px-4 py-2"><%= item.description %></td>
+                      <td class="border border-black px-4 py-2"><%= item.quantity %></td>
+                      <td class="border border-black px-4 py-2"><%= item.unit_price %></td>
+                      <td class="border border-black px-4 py-2"><%= item.tax_rate %></td>
+                      <td class="border border-black px-4 py-2"><%= item.quantity * item.unit_price %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+                <div class="flex justify-end">
+                  <section class="flex flex-col justify-end ">
+                    <hr class="w-[270px] h-[30px]" />
+                    <div class="flex items-center gap-[7rem]">
+                      <p>Total Amount($)</p>
+                      <p class="text-sm text-gray-400">
+                        <%=templateVersion?.total_amount%>
+                      </p>
+                    </div>
+                  </section>
+                </div>
+            </section>
+            <div class="w-[110px] border relative top-[-80px] transform rotate-[-40deg] uppercase flex items-center  p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
+              <%=templateVersion?.status%>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+      <button  class="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
+  </button>
+  </body> 
+</html>

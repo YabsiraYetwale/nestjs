@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= templateVersion.invoice_number %> V2</title>
+</head>
+<body>
+     <div class="p-10 bg-gray-200 rounded shadow-lg w-full">
+   <div  class='  py-8 md:py-8 px-4 md:px-16'>
+      <div class="container mx-auto p-10 max-w-[900px]">
+
+      <div class="p-10 bg-white rounded shadow-lg w-full">
+      <div class="flex justify-between items-center pb-10 border-b">
+        <img src="/logo.png" alt="Company Logo" class="w-24 h-24" />
+        <div class="text-right">
+          <h3 class="text-blue-600 font-semibold text-2xl">Invoice</h3>
+        </div>
+      </div>
+      <div class="flex justify-between items-start py-10 border-b text-black">
+        <div>
+          <h4 class="text-blue-600 font-semibold text-xl">Company Information</h4>
+          <p>Sender Name</p>
+          <p>Sender Street</p>
+          <p>Sender City, Sender State, Sender Zip</p>
+        </div>
+        <div>
+          <h4 class="text-blue-600 font-semibold text-xl">Receiver</h4>
+          <p>Receiver Name</p>
+          <p>Receiver Street</p>
+          <p>Receiver City, Receiver State, Receiver Zip</p>
+        </div>
+        <div>
+          <h4 class="text-blue-600 font-semibold text-xl">Receiver</h4>
+          <p>Receiver Name</p>
+          <p>Receiver Street</p>
+          <p>Receiver City, Receiver State, Receiver Zip</p>
+        </div>
+      </div>
+      <div class="invoice-body">
+    <table class="w-full border-collapse text-black">
+        <thead>
+            <tr>
+                <th class="p-2 border text-left">Service</th>
+                <th class="p-2 border text-left">Description</th>
+                <th class="p-2 border text-left">Rate</th>
+                <th class="p-2 border text-left">QTY</th>
+                <th class="p-2 border text-left">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="p-2 border">Service 1</td>
+                <td class="p-2 border">Description of Service 1</td>
+                <td class="p-2 border">Rate of Service 1</td>
+                <td class="p-2 border">Quantity of Service 1</td>
+                <td class="p-2 border">Amount for Service 1</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-right mt-4 text-black">
+        <p>Subtotal: $Subtotal</p>
+        <p>VAT 10%: $VAT</p>
+        <p>Total: $Total</p>
+        <p>Paid To Date: $PaidToDate</p>
+        <p>Balance Due: $BalanceDue</p>
+    </div>
+</div>
+<div class="mt-10">
+    <p>Thank you for choosing Novotech! If you have any questions or comments regarding our services, feel free to contact us.</p>
+    <p>Terms: Payment is required 10 days after service has been completed. A late fee of £10 per day will be added to the invoice once the initial 10 days have passed and no invoice will be sent out.</p>
+</div>
+    </div>
+    </div>
+</body>
+</html>

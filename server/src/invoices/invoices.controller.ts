@@ -1,4 +1,4 @@
-import { Controller, Get,Post,Put,Delete ,Param,Body,Query, UseGuards} from '@nestjs/common';
+import { Controller, Get,Post,Put,Delete ,Param,Body,Query, UseGuards,Request} from '@nestjs/common';
 import { JwtAdminGuard, JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoiceDto} from './dto/create-Invoice.dto';
@@ -18,21 +18,23 @@ async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query:
  @Get(':id')
 //  @UseGuards(JwtAuthGuard)
  getOneInvoice(@Param() id:string){
-  return this.invoicesService.getOneInvoice(id)
+  return this.invoicesService.getOneInvoice(id);
  }
+
  @Post()
-//  @UseGuards(JwtAdminGuard)
- createInvoice(@Body() createInvoiceDto:CreateInvoiceDto){
-  return this.invoicesService.createInvoice(createInvoiceDto)
+ @UseGuards(JwtAuthGuard)
+ createInvoice(@Body() createInvoiceDto: CreateInvoiceDto, @Request() request) {
+   const validatedUser = request.user; 
+   return this.invoicesService.createInvoice(createInvoiceDto, validatedUser);
  }
 
  @Put(':id')
-//  @UseGuards(JwtAdminGuard)
+ @UseGuards(JwtAdminGuard)
  updateInvoice(@Param() id:string, @Body() updateInvoiceDto:UpdateInvoiceDto){
   return this.invoicesService.updateInvoice(id,updateInvoiceDto)
  }
  @Delete(':id')
-//  @UseGuards(JwtAdminGuard)
+ @UseGuards(JwtAdminGuard)
  deleteInvoice(@Param() id:string){
   return this.invoicesService.deleteInvoice(id)
  }

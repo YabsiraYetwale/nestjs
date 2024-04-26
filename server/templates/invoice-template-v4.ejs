@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= templateVersion.invoice_number %> V4</title>
+</head>
+<body>
+      <div class="container mx-auto my-8 bg-white shadow-lg rounded-lg p-10 max-w-[806px]">
+        <div class="header flex justify-between">
+          <div class="company-logo">
+            <img class="logo w-20" src="https://via.placeholder.com/150" alt="Company Logo" />
+          </div>
+          <div class="from-container text-right pt-2 bg-origin-padding">
+            <p>
+             <%=templateVersion?.company?.name%><br />
+             <%=templateVersion?.company?.country%><br />
+             <%=templateVersion?.company?.city%>,<%=templateVersion?.company?.subcity%> <br />
+             <%=templateVersion?.company?.woreda%><br />
+             <%=templateVersion?.company?.kebele%><br />
+             <%=templateVersion?.company?.house_no%><br />
+             <%=templateVersion?.company?.company_number%>
+            </p>
+          </div>
+        </div>
+  
+        <div class="to-info flex justify-between">
+          <div class="to-container">
+            <p>
+              Billed To:<br />
+              <%=templateVersion?.client?.name%><br />
+              <%=templateVersion?.client?.shipping_country%><br />
+              <%=templateVersion?.client?.billing_address%><br />
+              <%=templateVersion?.client?.shipping_address%><br />
+              <%=templateVersion?.client?.shipping_city%>,<%=templateVersion?.client?.shipping_state%><br />
+              <%=templateVersion?.client?.shipping_zip%><br />
+              <%=templateVersion?.client?.contact_person%><br />
+              1-888-777-9998 <%=templateVersion?.client?.phone%>
+            </p>
+          </div>
+          <div class="info-container flex flex-wrap-reverse  justify-betweenmb-4 mt-3 ">
+            <div id="date-issued" class="mb-4 p-3">
+              <p>
+                <strong>Date issued</strong><br />
+               <%= templateVersion?.date ? templateVersion.date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-') : '' %>
+              </p>
+            </div>
+            <div id="invoice-number" class="mb-4 p-3">
+              <p>
+                <strong>invoice number</strong> <br />
+                <%=templateVersion?.invoice_number%>
+              </p>
+            </div>
+            <div id="amount due" class="mb-4 p-3">
+              <!-- <p>
+                <strong>Amount Due</strong> <br />
+                $1,699.48
+              </p> -->
+            </div>
+            <div id="due-date" class="mb-4 p-3">
+              <p>
+                <strong>Due Date</strong><br />
+                <%=templateVersion?.due_date%>
+
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <table class="w-full border-collapse mt-8">
+          <thead>
+            <tr>
+              <th class="bg-gray-200 px-4 py-2 text-left">Item</th>
+              <th class="bg-gray-200 px-4 py-2 text-left">Description</th>
+              <th class="bg-gray-200 px-4 py-2 text-left">Quantity</th>
+              <th class="bg-gray-200 px-4 py-2 text-left">Unit Price</th>
+              <th class="bg-gray-200 px-4 py-2 text-left">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let index = 1; %>
+            <% templateVersion.line_items.forEach(function(item) { %>
+              <tr>
+                <td class="border-b px-4 py-2"><%= index %></td>
+                <td class="border-b px-4 py-2"><%= item.description %></td>
+                <td class="border-b px-4 py-2"><%= item.quantity %></td>
+                <td class="border-b px-4 py-2"><%= item.unit_price %></td>
+                <td class="border-b px-4 py-2"><%= item.quantity * item.unit_price %></td>
+              </tr>
+              <% index++; %>
+            <% }); %>
+          </tbody>
+        </table>
+  
+        <div class="total-section text-right mt-4">
+          Subtotal: $<%=templateVersion?.total_amount%><br />
+          VAT 10%: $1,185.09<br />
+          Total: $13,035.99<br />
+          <!-- Paid To Date: $8,366.50<br />
+          Balance Due: $4,669.49 -->
+        </div>
+  
+        <div class="invoice-btns flex justify-center mt-6">
+       <button type="button" class="invoice-btn bg-gray-200 hover:bg-gray-300 rounded px-4 py-2 mr-4" onClick={printInvoice}>
+            <FontAwesomeIcon icon={faPrint} class="mr-2" />
+            Print
+          </button>
+          <button type="button" class="invoice-btn bg-gray-200 hover:bg-gray-300 rounded px-4 py-2">
+            <FontAwesomeIcon icon={faDownload} class="mr-2" />
+            Download
+          </button>
+        </div>
+      </div>
+</body>
+</html>

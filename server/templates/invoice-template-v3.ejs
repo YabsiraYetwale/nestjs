@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= templateVersion.invoice_number %> V3</title>
+</head>
+<body class="bg-gray-200">
+      <div class=" p-8 max-w-3xl mx-auto">
+      <div class="invoice max-w-[850px] mx-auto bg-white p-16 border border-gray-300 rounded-md ">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold">Sample Invoice</h1>
+        </div>
+  
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <h2 class="text-lg font-bold mb-2">Billed To</h2>
+            <p>Your Client</p>
+            <p>1234 Clients Street</p>
+            <p>City, California 90210</p>
+            <p>United States</p>
+            <p>1-888-123-8910</p>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold mb-2">Date Issued</h2>
+            <p>26/3/2021</p>
+            <h2 class="text-lg font-bold mb-2">Invoice Number</h2>
+            <p>INV-10012</p>
+            <h2 class="text-lg font-bold mb-2">Amount Due</h2>
+            <p>$1,699.48</p>
+          </div>
+        </div>
+  
+        <div class="mt-8">
+          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 pb-4">
+            <div>
+              <h3 class="font-bold">Description</h3>
+              <p>Cost of various services.</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Unit Price</h3>
+              <p>$55.00</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Qty</h3>
+              <p>10</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Amount</h3>
+              <p>$123.39 +Tax</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 py-4">
+            <div>
+              <h3 class="font-bold">Description</h3>
+              <p>Consultant for your business.</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Unit Price</h3>
+              <p>$75.00</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Qty</h3>
+              <p>15</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Amount</h3>
+              <p>$123.39 +Tax</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 py-4">
+            <div>
+              <h3 class="font-bold">Description</h3>
+              <p>Cost of materials and supplies to complete job.</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Unit Price</h3>
+              <p>$123.39</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Qty</h3>
+              <p>1</p>
+            </div>
+            <div>
+              <h3 class="font-bold">Amount</h3>
+              <p>$123.39 +Tax</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="mt-8">
+          <div class="flex justify-end">
+            <div>
+              <div class="flex justify-between">
+                <p>Subtotal</p>
+                <p>$1,798.39</p>
+              </div>
+              <div class="flex justify-between">
+                <p>Discount</p>
+                <p>-$179.84</p>
+              </div>
+              <div class="flex justify-between">
+                <p>Tax</p>
+                <p>$80.93</p>
+              </div>
+              <div class="flex justify-between font-bold text-lg">
+                <p>Total</p>
+                <p>$1,699.48</p>
+              </div>
+              <div class="flex justify-between">
+                <p>Deposit Requested</p>
+                <p>$169.95</p>
+              </div>
+              <div class="flex justify-between">
+                <p>Deposit Due</p>
+                <p>$169.95</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="mt-8">
+          <h2 class="text-lg font-bold mb-2">Notes</h2>
+          <p>Thank you for your business!</p>
+        </div>
+  
+        <div class="mt-8">
+          <h2 class="text-lg font-bold mb-2">Terms</h2>
+          <p>Please pay within 30 days using the link in your invoice email.</p>
+        </div>
+      </div>
+      </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import { LineItemsModule } from './lineItems/lineItems.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CompaniesModule } from './companies/companies.module';
 import { MailerModule } from './mailer/mailer.module';
+import {TemplateVersionModule  } from './template-version/template-version.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { MailerModule } from './mailer/mailer.module';
     PrismaModule,
     NotificationsModule,
     CompaniesModule,
-    MailerModule
+    MailerModule,
+    TemplateVersionModule
   ],
 })
 export class AppModule {}

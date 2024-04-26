@@ -10,6 +10,7 @@ import { Type } from 'class-transformer';
 import { RegisterUserDto } from 'src/auth/dto/register.dto';
 
 export class DocumentDto {
+ 
   @ApiProperty()
   @IsNotEmpty()
   file_name: string;

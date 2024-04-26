@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
@@ -27,7 +27,6 @@ export class AuthController {
     // console.log(req.user);
     return req.user;
   }
-
   @Get()
   getAllUsers(){
    return this.authService.getAllUsers()

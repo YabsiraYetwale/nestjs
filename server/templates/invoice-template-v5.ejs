@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= templateVersion.invoice_number %> V5</title>
+</head>
+<body>
+        <div class='bg-gray-200  py-8 md:py-8 px-4 md:px-16  '>
+        <div class='max-w-[850px] mx-auto bg-white p-16 border border-gray-300 rounded-md min-h-[920px]'>
+            <div class=' '>
+            <!-- {/* {header} */} -->
+            <div class='flex justify-between items-center mb-6 '>
+                <div class='flex gap-4'>
+                <button class='flex items-center space-x-2 px-3 py-2 rounded-sm border border-slate-600'>
+                  
+                <MdOutlinePrint />
+                  <span>Print</span>
+                  </button>
+                <button class='flex items-center space-x-2 px-3 py-2 rounded-sm border border-slate-600'>
+                  
+                    <IoCloudDownloadOutline />
+                    <span>Download</span>
+                    </button>
+                </div>
+                <div class='flex gap-4'>
+                <button class='flex text-purple-600 font-semibold items-center space-x-2 px-3 py-2 rounded-sm border border-purple-600'>
+                  
+                <FaCloudArrowUp class='font-semibold'/> 
+                    <span>Save Online</span>
+                    </button>
+                <button class='flex text-purple-600 font-semibold items-center space-x-2 px-3 py-2 rounded-sm border border-purple-600'>
+                  
+                <IoMailOutline class='font-semibold' />
+                    <span>Send</span>
+                    </button>
+                </div>
+            
+            </div>
+ <div class='flex justify-between '>        
+                   
+<div class="flex items-center justify-center">
+    <label htmlFor="dropzone-file" class="flex flex-col items-center justify-center w-48 h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg class="w-8 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+            </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Upload Logo</span></p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">PNG (MAX. 240x240px)</p>
+        </div>
+        <input id="dropzone-file" type="file" class="hidden" />
+    </label>
+    </div>
+    <div class="flex items-center justify-center"><h1 class='text 4x1 uppercase font-semibold '>Invoice</h1></div>
+</div> 
+</div>
+<!-- {/* company Details */} -->
+<div class='flex flex-col w-1/2 mt-6'>
+    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400 ' type='text' placeholder='your company' name='companyName' onChange={handelInputchange} value={formData.companyName} />
+    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='your name' name='invoiceAuthor' onChange={handelInputchange} value={formData.invoiceAuthor} />
+    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='company address'name='companyAddress' onChange={handelInputchange} value={formData.companyAddress} />
+    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='city,state zip'name='companyCity' onChange={handelInputchange} value={formData.companyCity} />
+    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='country eg usa'name='companyCountry' onChange={handelInputchange} value={formData.companyCountry}/>
+</div>
+<!-- {/* client details */} -->
+<div class='flex justify-between'>
+    <div class='flex flex-col w-1/2 mt-6'>
+        <h2 class='mb-2 font-semibold'>Bill To</h2>
+        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder="your client's company"name='clientCompany'onChange={handelInputchange} value={formData.clientCompany} />
+        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder="client's address" name='clientAddress'onChange={handelInputchange} value={formData.clientAddress}/>
+        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='city,state zip'name='clientCity' onChange={handelInputchange} value={formData.clientCity} />
+        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='country eg usa'name='clientCountry' onChange={handelInputchange} value={formData.clientCountry}/>
+    </div>
+    <div class='flex flex-col w-1/2 mt-6'>
+                                   
+        <div class='flex gap-2'>
+            <label class='text-slate-500 font-bold' htmlFor='invoiceNumber'>
+                Invoice #
+            </label>
+            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='INV-202' name='invoiceNumber'onChange={handelInputchange} value={formData.invoiceNumber} />
+        </div>
+        
+        <div class='flex gap-2'>
+            <label class='text-slate-500 font-bold' htmlFor='invoiceDate'>
+                Invoice Date
+            </label>
+            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='date' name='invoiceDate' onChange={handelInputchange} value={formData.invoiceDate} />
+        </div>
+        <div class='flex gap-2'>
+            <label class='text-slate-500 font-bold' htmlFor='dueeDate'>
+                Due Date
+            </label>
+            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='date'name='invoiceDueDate' onChange={handelInputchange} value={formData.invoiceDueDate} />
+        </div>
+    </div>
+    </div>
+ <!-- {/* table */} -->
+ <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Item Description
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Quantity
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Rate
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Tax
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4">
+                    1
+                </td>
+                <td class="px-6 py-4">
+                    10
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+                <td class="px-6 py-4">
+                    $4000
+                </td>
+                
+                <td>
+                <button>
+                <IoIosClose />
+                </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="total-section text-right mt-4 p-3">
+        Subtotal: $11,850.90<br />
+        VAT 10%: $1,185.09<br />
+        Total: $13,035.99<br />
+        Paid To Date: $8,366.50<br />
+        Balance Due: $4,669.49
+      </div>
+</div>
+</div>
+</div>
+</body>
+</html>

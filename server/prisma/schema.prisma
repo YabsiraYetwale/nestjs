@@ -15,6 +15,7 @@ model User {
   role       String?  @default("user")
   company_id String?
   company    Company? @relation("usercompany", fields: [company_id], references: [id], onDelete: Cascade)
+  invoices   Invoices[]  @relation("userInvoices")
 }
 
 model Company {
@@ -38,6 +39,7 @@ model Company {
   kebele               String
   users                User[]     @relation("usercompany")
   documents            Document[] @relation("documentcompany")
+  invoices             Invoices[]   @relation("companyInvoices")
 }
 
 model Document {
@@ -45,7 +47,7 @@ model Document {
   file_name  String
   file_path  String
   company_id String?
-  company    Company? @relation("documentcompany", fields: [company_id], references: [id])
+  company    Company? @relation("documentcompany", fields: [company_id], references: [id], onDelete: Cascade)
 }
 
 model Clients {
@@ -74,6 +76,12 @@ model Invoices {
   client_id      String?
   client         Clients?     @relation("clientInvoices", fields: [client_id], references: [email], onDelete: Cascade)
   line_items     Line_Items[] @relation("invoiceLineItems")
+
+  creator_id     String? 
+  creator        User? @relation("userInvoices", fields: [creator_id], references: [id], onDelete: Cascade)
+  company_id     String?
+  company        Company?   @relation("companyInvoices", fields: [company_id], references: [id], onDelete: Cascade)
+  
 }
 
 model Line_Items {
