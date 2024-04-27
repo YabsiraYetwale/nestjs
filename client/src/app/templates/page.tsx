@@ -8,7 +8,7 @@ const App = () => {
   const [text, setText] = useState('');
   const [selectedVersion, setSelectedVersion] = useState('v1');
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event: { target: { value: any; }; }) => {
     const newText = event.target.value;
     setText(newText);
 
@@ -16,18 +16,18 @@ const App = () => {
     saveText(newText);
   };
 
-  const saveText = (newText) => {
+  const saveText = (newText: any) => {
     axios
       .post('http://localhost:3001/api/text', { text: newText })
-      .then((response) => {
+      .then((response: any) => {
         // Handle the response from the server
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
       });
   };
 
-  const handleColorChange = (event) => {
+  const handleColorChange = (event: { target: { value: any; }; }) => {
     const newColor = event.target.value;
 
     // Send a PUT request to update the color on the server
@@ -36,12 +36,12 @@ const App = () => {
       .then(() => {
         setColor(newColor);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
       });
   };
 
-  const handleVersionChange = (event) => {
+  const handleVersionChange = (event: { target: { value: any; }; }) => {
     const selectedVersion = event.target.value;
     setSelectedVersion(selectedVersion);
   };
@@ -50,10 +50,10 @@ const App = () => {
     if (selectedVersion) {
       axios
         .get(`http://localhost:3001/api/${selectedVersion}`)
-        .then((response) => {
+        .then((response: { data: React.SetStateAction<string>; }) => {
           setHtml(response.data);
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error(error);
         });
     }
