@@ -48,7 +48,8 @@ async getAllInvoices(searchQuery: string, query: Query) {
 
   const invoices = await this.prismaService.invoices.findMany({
     where: whereCondition,
-    include: { line_items: true, client: true, },
+    // include: { line_items: true, client: true, },
+    include: { line_items: true, client: true,creator: true,company: true , },
   });
 
   if (!searchQuery) {
@@ -125,8 +126,14 @@ async getAllInvoices(searchQuery: string, query: Query) {
           })),
         },
       },
+      // include: {
+      //   line_items: true,
+      // },
       include: {
         line_items: true,
+        client: true,
+        creator: true,
+        company: true,
       },
     });
 
