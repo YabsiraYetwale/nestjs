@@ -18,7 +18,8 @@ export const fetchCustomers=()=>async(dispatch:any)=>{
         const {data}= await api.fetchCustomers()
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
-        return data.allClients
+        // console.log(data.allClients)
+        return data
     } catch (error) {
         console.log(error)
     }
