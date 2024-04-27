@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { JwtAdminGuard, JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CompaniesService } from './companies.service';
-import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('companies')
@@ -14,7 +13,7 @@ export class CompaniesController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   getOneCompany(@Param() id:string){
    return this.companiesService.getOneCompany(id)
   }

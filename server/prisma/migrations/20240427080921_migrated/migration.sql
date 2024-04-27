@@ -30,8 +30,19 @@ CREATE TABLE "Company" (
     "subcity" TEXT NOT NULL,
     "woreda" TEXT NOT NULL,
     "kebele" TEXT NOT NULL,
+    "description" TEXT,
 
     CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Document" (
+    "id" TEXT NOT NULL,
+    "file_name" TEXT NOT NULL,
+    "file_path" TEXT NOT NULL,
+    "company_id" TEXT,
+
+    CONSTRAINT "Document_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -61,6 +72,8 @@ CREATE TABLE "Invoices" (
     "status" TEXT DEFAULT 'unpaid',
     "isRead" BOOLEAN DEFAULT false,
     "client_id" TEXT,
+    "creator_id" TEXT,
+    "company_id" TEXT,
 
     CONSTRAINT "Invoices_pkey" PRIMARY KEY ("id")
 );
@@ -120,7 +133,16 @@ CREATE UNIQUE INDEX "Invoices_invoice_number_key" ON "Invoices"("invoice_number"
 ALTER TABLE "User" ADD CONSTRAINT "User_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Document" ADD CONSTRAINT "Document_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Invoices" ADD CONSTRAINT "Invoices_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "Clients"("email") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Invoices" ADD CONSTRAINT "Invoices_creator_id_fkey" FOREIGN KEY ("creator_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Invoices" ADD CONSTRAINT "Invoices_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Line_Items" ADD CONSTRAINT "Line_Items_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "Invoices"("id") ON DELETE CASCADE ON UPDATE CASCADE;

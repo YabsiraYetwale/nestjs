@@ -72,6 +72,9 @@ export class CreateCompanyDto {
   @ApiProperty()
   @IsNotEmpty()
   kebele: string;
+  @ApiProperty()
+  @IsOptional()
+  description: string;
   @ApiProperty({ type: [RegisterUserDto] })
   @ValidateNested({ each: true })
   @Type(() => RegisterUserDto)

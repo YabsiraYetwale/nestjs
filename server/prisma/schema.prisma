@@ -37,6 +37,7 @@ model Company {
   subcity              String
   woreda               String
   kebele               String
+  description          String?
   users                User[]     @relation("usercompany")
   documents            Document[] @relation("documentcompany")
   invoices             Invoices[]   @relation("companyInvoices")
