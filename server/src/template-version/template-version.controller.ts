@@ -7,7 +7,7 @@ import { TemplateVersionService } from './template-version.service';
 export class TemplateVersionController {
   constructor(private templateVersionService: TemplateVersionService) {}
   @Get('v1/:id')
-  // @Render('invoice-template-v1')
+  @Render('invoice-template-v1')
   // @UseGuards(JwtAuthGuard)
   getTemplateV1(@Param() id:string){
    return this.templateVersionService.getTemplateVersion(id);

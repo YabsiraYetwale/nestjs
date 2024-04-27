@@ -8,24 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title><%= templateVersion.invoice_number %> V5</title>
 </head>
-<body>
-        <div class='bg-gray-200  py-8 md:py-8 px-4 md:px-16  '>
-        <div class='max-w-[850px] mx-auto bg-white p-16 border border-gray-300 rounded-md min-h-[920px]'>
+<body class="bg-gray-200 ">
+        <div class='p-8 max-w-3xl mx-auto'>
+        <div class=''>
             <div class=' '>
             <!-- {/* {header} */} -->
-            <div class='flex justify-between items-center mb-6 '>
-                <div class='flex gap-4'>
-                <button class='flex items-center space-x-2 px-3 py-2 rounded-sm border border-slate-600'>
-                  
-                <MdOutlinePrint />
-                  <span>Print</span>
-                  </button>
-                <button class='flex items-center space-x-2 px-3 py-2 rounded-sm border border-slate-600'>
-                  
-                    <IoCloudDownloadOutline />
-                    <span>Download</span>
-                    </button>
-                </div>
                 <div class='flex gap-4'>
                 <button class='flex text-purple-600 font-semibold items-center space-x-2 px-3 py-2 rounded-sm border border-purple-600'>
                   
@@ -56,7 +43,7 @@
     </div>
     <div class="flex items-center justify-center"><h1 class='text 4x1 uppercase font-semibold '>Invoice</h1></div>
 </div> 
-</div>
+
 <!-- {/* company Details */} -->
 <div class='flex flex-col w-1/2 mt-6'>
     <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400 ' type='text' placeholder='your company' name='companyName' onChange={handelInputchange} value={formData.companyName} />
@@ -117,9 +104,6 @@
                 <th scope="col" class="px-6 py-3">
                     amount
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -155,6 +139,7 @@
         Paid To Date: $8,366.50<br />
         Balance Due: $4,669.49
       </div>
+</div>
 </div>
 </div>
 </div>
