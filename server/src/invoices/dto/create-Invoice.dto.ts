@@ -38,6 +38,12 @@ export class CreateInvoiceDto {
     @ApiProperty()
     @IsEmpty()
     company_id :string;
+    @ApiProperty()
+    @IsEmpty()
+    creator :any;   
+    @ApiProperty()
+    @IsEmpty()
+    company :any;
     @ApiProperty({ type: [CreateLineItemDto] })
     @ArrayNotEmpty()
     @ValidateNested({ each: true })

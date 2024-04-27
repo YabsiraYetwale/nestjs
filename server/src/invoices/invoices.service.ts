@@ -49,7 +49,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
   const invoices = await this.prismaService.invoices.findMany({
     where: whereCondition,
     // include: { line_items: true, client: true, },
-    include: { line_items: true, client: true,creator: true,company: true , },
+    include: { line_items: true, client: true,creator: true, },
   });
 
   if (!searchQuery) {
@@ -61,7 +61,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
   async getOneInvoice(id: string) {
     const invoice = await this.prismaService.Invoices.findUnique({
       where: id,
-      include: { line_items: true, client: true,creator: true,company: true , },
+      include: { line_items: true, client: true,creator: true, },
     });
     if (!invoice) {
       throw new HttpException("Invoice doesn't exist", 404)
@@ -71,7 +71,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
   } 
 
   async createInvoice(createInvoiceDto: CreateInvoiceDto, validatedUser: ValidatedUser) {
-    const { total_amount, line_items, client, ...post } = createInvoiceDto;
+    const { total_amount, line_items, client,creator,company, ...post } = createInvoiceDto;
 
     const totalAmount = line_items?.reduce((total, item) => {
       return total + item.quantity * item.unit_price;
@@ -110,10 +110,10 @@ async getAllInvoices(searchQuery: string, query: Query) {
             id: validatedUser.id,
           },
         },
-        company: {
-          connect: {
-            id: validatedUser.company_id,
-          },
+        // company: {
+        //   connect: {
+        //     id: validatedUser.company_id,
+        //   },
         },
         
         ...post,
