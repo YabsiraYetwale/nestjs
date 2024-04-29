@@ -9,6 +9,15 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <title><%= templateVersion.invoice_number %> V1</title>
+  <style>
+    .roar{
+  position: relative;
+  top:-80px;
+  width:110px;
+  transform: rotate(-40deg);
+  text-transform: uppercase;
+}
+  </style>
 
 </head>
   <body class="bg-gray-200 ">
@@ -104,7 +113,7 @@
                   </section>
                 </div>
             </section>
-            <div class="w-[110px] border relative top-[-80px] transform rotate-[-40deg] uppercase flex items-center  p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
+            <div class="roar w-[110px] border relative top-[-80px] transform rotate-[-40deg] uppercase flex items-center  p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md">
               <%=templateVersion?.status%>
               </div>
           </div>

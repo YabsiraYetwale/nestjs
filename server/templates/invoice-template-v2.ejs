@@ -8,12 +8,19 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <title><%= templateVersion.invoice_number %> V2</title>
+  <style>
+    .ta{
+      padding:20px 0;
+    }
+    .total{
+      position:relative;
+      right:-29rem;
+      padding:10px 0;
+    }
+  </style>
 </head>
 <body class="bg-gray-200 ">
      <div class="p-10 rounded shadow-lg w-full">
-   <div  class=' p-8 max-w-3xl mx-auto'>
-      <div class="">
-
       <div class="p-10 bg-white rounded shadow-lg w-full">
       <div class="flex justify-between items-center pb-10 border-b">
         <img src="/logo.png" alt="Company Logo" class="w-24 h-24" />
@@ -24,50 +31,52 @@
       <div class="flex justify-between items-start py-10 border-b text-black">
         <div>
           <h4 class="text-blue-600 font-semibold text-xl">Company Information</h4>
-          <p>Sender Name</p>
-          <p>Sender Street</p>
-          <p>Sender City, Sender State, Sender Zip</p>
+          <p>Company:<%=templateVersion?.company?.general_manager_name%></p>
+          <p>General Manager:<%=templateVersion?.company?.general_manager_name%></p>
+          <p><%=templateVersion?.company?.country%></p>
+          <p><%=templateVersion?.company?.city%>,<%=templateVersion?.company?.subcity%> , <%=templateVersion?.company?.woreda%></p>
         </div>
         <div>
           <h4 class="text-blue-600 font-semibold text-xl">Receiver</h4>
-          <p>Receiver Name</p>
-          <p>Receiver Street</p>
-          <p>Receiver City, Receiver State, Receiver Zip</p>
-        </div>
-        <div>
-          <h4 class="text-blue-600 font-semibold text-xl">Receiver</h4>
-          <p>Receiver Name</p>
-          <p>Receiver Street</p>
-          <p>Receiver City, Receiver State, Receiver Zip</p>
+          <p>Receiver Name:<%=templateVersion?.client?.name%></p>
+          <p>Receiver billing address:<%=templateVersion?.client?.billing_address%></p>
+          <p><%=templateVersion?.client?.shipping_city%>, <%=templateVersion?.client?.shipping_state%>, <%=templateVersion?.client?.shipping_zip%></p>
         </div>
       </div>
-      <div class="invoice-body">
+      <div class="ta">
     <table class="w-full border-collapse text-black">
         <thead>
             <tr>
-                <th class="p-2 border text-left">Service</th>
+                <th class="p-2 border text-left">Item</th>
                 <th class="p-2 border text-left">Description</th>
-                <th class="p-2 border text-left">Rate</th>
+                <th class="p-2 border text-left">Unit Price</th>
+                <th class="p-2 border text-left">Tax Rate</th>
                 <th class="p-2 border text-left">QTY</th>
                 <th class="p-2 border text-left">Amount</th>
             </tr>
         </thead>
         <tbody>
+          <% let index = 1; %>
+          <% templateVersion.line_items.forEach(function(item) { %>
             <tr>
-                <td class="p-2 border">Service 1</td>
-                <td class="p-2 border">Description of Service 1</td>
-                <td class="p-2 border">Rate of Service 1</td>
-                <td class="p-2 border">Quantity of Service 1</td>
-                <td class="p-2 border">Amount for Service 1</td>
+
+                <td class="p-2 border"><%= index %></td>
+                <td class="p-2 border"><%= item.description %></td>
+                <td class="p-2 border"><%= item.unit_price %></td>
+                <td class="p-2 border"><%= item.tax_rate %></td>
+                <td class="p-2 border"><%= item.quantity %></td>
+                <td class="p-2 border"><%= item.quantity * item.unit_price %></td>
             </tr>
+            <% index++; %>
+            <% }); %>
         </tbody>
     </table>
-    <div class="text-right mt-4 text-black">
-        <p>Subtotal: $Subtotal</p>
-        <p>VAT 10%: $VAT</p>
-        <p>Total: $Total</p>
-        <p>Paid To Date: $PaidToDate</p>
-        <p>Balance Due: $BalanceDue</p>
+    <div class="total">
+      <p>Subtotal: $<%=templateVersion?.total_amount%></p>
+      <p>VAT 10%: $VAT</p>
+      <p>Total: $Total</p>
+      <p>Paid To Date: $PaidToDate</p>
+      <p>Balance Due: $BalanceDue</p>
     </div>
 </div>
 <div class="mt-10">

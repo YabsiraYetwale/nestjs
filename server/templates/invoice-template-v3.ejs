@@ -8,11 +8,28 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <title><%= templateVersion.invoice_number %> V3</title>
+  <style>
+    .sample{
+      margin-bottom:16px
+    }
+    .date{
+position:relative;
+left:10rem;
+    }
+    .description1{
+      margin:100px 0 10px 0;
+    }
+    .description{
+      display:grid;
+      margin:20px 0;
+      grid-template-columns:1fr 1fr 1fr 1fr;
+    }
+  </style>
 </head>
 <body class="bg-gray-200">
-      <div class=" p-8 max-w-3xl mx-auto">
+      <div class="max-w-3xl mx-auto">
       <div class="">
-        <div class="flex justify-between items-center mb-6">
+        <div class="sample flex justify-between items-center mb-6">
           <h1 class="text-2xl font-bold">Sample Invoice</h1>
         </div>
   
@@ -25,7 +42,7 @@
             <p>United States</p>
             <p>1-888-123-8910</p>
           </div>
-          <div>
+          <div class="date">
             <h2 class="text-lg font-bold mb-2">Date Issued</h2>
             <p>26/3/2021</p>
             <h2 class="text-lg font-bold mb-2">Invoice Number</h2>
@@ -35,61 +52,27 @@
           </div>
         </div>
   
-        <div class="mt-8">
-          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 pb-4">
+        <div class="description1 border-t">
+          <% templateVersion.line_items.forEach(function(item) { %> 
+            <div class="description grid grid-cols-4 gap-4 border-b  border-gray-200 pb-4">
             <div>
               <h3 class="font-bold">Description</h3>
-              <p>Cost of various services.</p>
+              <p><%= item.description %></p>
             </div>
             <div>
               <h3 class="font-bold">Unit Price</h3>
-              <p>$55.00</p>
+              <p>$<%= item.unit_price %></p>
             </div>
             <div>
               <h3 class="font-bold">Qty</h3>
-              <p>10</p>
+              <p><%= item.quantity %></p>
             </div>
             <div>
               <h3 class="font-bold">Amount</h3>
-              <p>$123.39 +Tax</p>
+              <p>$<%= item.quantity * item.unit_price %> +Tax</p>
             </div>
           </div>
-          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 py-4">
-            <div>
-              <h3 class="font-bold">Description</h3>
-              <p>Consultant for your business.</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Unit Price</h3>
-              <p>$75.00</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Qty</h3>
-              <p>15</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Amount</h3>
-              <p>$123.39 +Tax</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-4 gap-4 border-b border-gray-200 py-4">
-            <div>
-              <h3 class="font-bold">Description</h3>
-              <p>Cost of materials and supplies to complete job.</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Unit Price</h3>
-              <p>$123.39</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Qty</h3>
-              <p>1</p>
-            </div>
-            <div>
-              <h3 class="font-bold">Amount</h3>
-              <p>$123.39 +Tax</p>
-            </div>
-          </div>
+          <% }); %>
         </div>
   
         <div class="mt-8">

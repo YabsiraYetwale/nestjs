@@ -22,6 +22,7 @@ export default function Template({ params }: any) {
   const id = params.id as string;
 
   const [template, setTemplate] = useState('');
+  const [email, setEmail] = useState('');
   const [color, setColor] = useState('#000000');
   const [text, setText] = useState('');
   const [selectedVersion, setSelectedVersion] = useState('v1');
@@ -30,9 +31,22 @@ export default function Template({ params }: any) {
 
 
 
+
+  const handleSendEmail = () => {
+    axios
+    .get(`https://invoicesystm-app.onrender.com/api/mailer/${id}`)
+    .then((response: { data: React.SetStateAction<string>; }) => {
+      alert("email send successfully!")
+      setEmail(response.data);
+      console.log(response.data)
+    })
+    .catch((error: any) => {
+      console.error(error);
+    });
+}
+  
   const handleColorChange = (event: { target: { value: any; }; }) => {
     const newColor = event.target.value;
-
     // Send a PUT request to update the color on the server
     axios
       .put('https://invoicesystm-app.onrender.com/api/color', { color: newColor })
@@ -52,7 +66,7 @@ export default function Template({ params }: any) {
   useEffect(() => {
     if (selectedVersion) {
       axios
-        .get(`https://invoicesystm-app.onrender.com/api/templates/${selectedVersion}/${id}`)
+        .get(`http://localhost:3001/api/templates/${selectedVersion}/${id}`)
         .then((response: { data: React.SetStateAction<string>; }) => {
           setTemplate(response.data);
         })
@@ -96,7 +110,7 @@ export default function Template({ params }: any) {
              content={() =>componentRef.current}
              pageStyle="print"
             />
-            <Button className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">
+            <Button  onClick={handleSendEmail} className="bg-transparent border border-pink-400 text-pink-400 hover:bg-transparent">
               Email
             </Button>
           </div>

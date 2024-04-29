@@ -8,6 +8,19 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <title><%= templateVersion.invoice_number %> V4</title>
+  <style>
+    .to-info{
+      padding:20px;
+    }
+    .info-container{
+      display:flex;
+      gap:10px;
+    }
+    .total-section{
+      position:relative;
+      left:28rem;
+    }
+  </style>
 </head>
 <body>
     
@@ -33,7 +46,7 @@
         <div class="to-info flex justify-between">
           <div class="to-container">
             <p>
-              Billed To:<br />
+              <strong>Billed To:</strong><br />
               <%=templateVersion?.client?.name%><br />
               <%=templateVersion?.client?.shipping_country%><br />
               <%=templateVersion?.client?.billing_address%><br />
@@ -104,17 +117,6 @@
           Total: $13,035.99<br />
           <!-- Paid To Date: $8,366.50<br />
           Balance Due: $4,669.49 -->
-        </div>
-  
-        <div class="invoice-btns flex justify-center mt-6">
-       <button type="button" class="invoice-btn bg-gray-200 hover:bg-gray-300 rounded px-4 py-2 mr-4" onClick={printInvoice}>
-            <FontAwesomeIcon icon={faPrint} class="mr-2" />
-            Print
-          </button>
-          <button type="button" class="invoice-btn bg-gray-200 hover:bg-gray-300 rounded px-4 py-2">
-            <FontAwesomeIcon icon={faDownload} class="mr-2" />
-            Download
-          </button>
         </div>
       </div>
       </div>
