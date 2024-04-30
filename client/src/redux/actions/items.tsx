@@ -23,4 +23,16 @@ export const updateItem=(id:String,item:any,router:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
+export const updateCompany=(id:String,company:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.updateCompany(id,company)
+        console.log('data',data)
+        dispatch({type:UPDATE,payload:data})
+        // router.push(`/invoices/template/${id}`)
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
 

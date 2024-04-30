@@ -19,7 +19,6 @@ async getAllInvoices(searchQuery: string, query: Query) {
   let whereCondition = {};
   if (searchQuery) {
     const lowercaseQuery = searchQuery.toLowerCase();
-
     whereCondition = {
       OR: [
         {
@@ -63,7 +62,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
       include: { line_items: true, client: true,creator: true,company: true, },
     });
     if (!invoice) {
-      throw new HttpException("Invoice doesn't exist", 404)
+      throw new HttpException("Invoice doesn't exist", 404);
     } else {
       return { invoice };
     }

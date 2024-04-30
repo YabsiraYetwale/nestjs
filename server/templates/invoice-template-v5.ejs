@@ -30,27 +30,16 @@
     .details{
         padding:20px 0px;
     }
+    .to-container{
+        padding:60px 0px;
+        position:relative;
+      left:-2rem;
+    }
   </style>
 </head>
 <body class="bg-gray-200 ">
         <div class='p-8 max-w-3xl mx-auto'>
         <div class=''>
-            <div class=' '>
-            <!-- {/* {header} */} -->
-                <!-- <div class='flex gap-4'>
-                <button class='flex text-purple-600 font-semibold items-center space-x-2 px-3 py-2 rounded-sm border border-purple-600'>
-                  
-                <FaCloudArrowUp class='font-semibold'/> 
-                    <span>Save Online</span>
-                    </button>
-                <button class='flex text-purple-600 font-semibold items-center space-x-2 px-3 py-2 rounded-sm border border-purple-600'>
-                  
-                <IoMailOutline class='font-semibold' />
-                    <span>Send</span>
-                    </button>
-                </div> -->
-            
-            </div>
  <div class='flex justify-between '>        
                    
 <div class="flex items-center justify-center">
@@ -68,45 +57,50 @@
     <div class="flex items-center justify-center"><h1 class='text 4x1 uppercase font-semibold '>Invoice</h1></div>
 </div> 
 
-<!-- {/* company Details */} -->
 <div class='details flex flex-col w-1/2 mt-6'>
-    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400 ' type='text' placeholder='your company' name='companyName' onChange={handelInputchange} value={formData.companyName} />
-    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='your name' name='invoiceAuthor' onChange={handelInputchange} value={formData.invoiceAuthor} />
-    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='company address'name='companyAddress' onChange={handelInputchange} value={formData.companyAddress} />
-    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='city,state zip'name='companyCity' onChange={handelInputchange} value={formData.companyCity} />
-    <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='country eg usa'name='companyCountry' onChange={handelInputchange} value={formData.companyCountry}/>
+    <input class='h-7 text-base border-0 p-1 mb-2'/>
+    <input class='h-7 text-base border-0 p-1 mb-2'/>
+    <input class='h-7 text-base border-0 p-1 mb-2' />
+    <input class='h-7 text-base border-0 p-1 mb-2'/>
+    <input class='h-7 text-base border-0 p-1 mb-2'/>
 </div>
 <!-- {/* client details */} -->
 <div class='flex justify-between'>
-    <div class='flex flex-col w-1/2 mt-6'>
-        <h2 class='mb-2 font-semibold'>Bill To</h2>
-        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder="your client's company"name='clientCompany'onChange={handelInputchange} value={formData.clientCompany} />
-        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder="client's address" name='clientAddress'onChange={handelInputchange} value={formData.clientAddress}/>
-        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='city,state zip'name='clientCity' onChange={handelInputchange} value={formData.clientCity} />
-        <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='country eg usa'name='clientCountry' onChange={handelInputchange} value={formData.clientCountry}/>
-    </div>
-    <div class='flex flex-col w-1/2 mt-6'>
-                                   
-        <div class='flex gap-2'>
-            <label class='text-slate-500 font-bold' htmlFor='invoiceNumber'>
-                Invoice #
-            </label>
-            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='text' placeholder='INV-202' name='invoiceNumber'onChange={handelInputchange} value={formData.invoiceNumber} />
-        </div>
-        
-        <div class='flex gap-2'>
-            <label class='text-slate-500 font-bold' htmlFor='invoiceDate'>
-                Invoice Date
-            </label>
-            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='date' name='invoiceDate' onChange={handelInputchange} value={formData.invoiceDate} />
+    <div class="to-container">
+        <p>
+          <strong>Billed To:</strong><br />
+          <%=templateVersion?.client?.name%><br />
+          <%=templateVersion?.client?.shipping_country%><br />
+          <%=templateVersion?.client?.billing_address%><br />
+          <%=templateVersion?.client?.shipping_address%><br />
+          <%=templateVersion?.client?.shipping_city%>,<%=templateVersion?.client?.shipping_state%><br />
+          <%=templateVersion?.client?.shipping_zip%><br />
+          <%=templateVersion?.client?.contact_person%><br />
+          1-888-777-9998 <%=templateVersion?.client?.phone%>
+        </p>
+      </div>
+      <div class='flex flex-col w-1/2 mt-6'>
+      <div class='flex gap-2'>
+            <p class='text-slate-500 font-bold'>
+                Invoice 
+            </p>
+            <p ><%=templateVersion?.invoice_number%></p>
         </div>
         <div class='flex gap-2'>
-            <label class='text-slate-500 font-bold' htmlFor='dueeDate'>
-                Due Date
-            </label>
-            <input class='h-7 text-base border-0 p-1 mb-2 placeholder:text-slate-400  ' type='date'name='invoiceDueDate' onChange={handelInputchange} value={formData.invoiceDueDate} />
+            <p class='text-slate-500 font-bold'>
+             Date
+            </p>
+            <%= templateVersion?.date ? templateVersion.date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-') : '' %>
         </div>
-    </div>
+        <div class='flex gap-2'>
+            <p class='text-slate-500 font-bold'>
+             DueDate
+            </p>
+            <%=templateVersion?.due_date%>
+        </div>
+      </div>
+
+     
     </div>
  <!-- {/* table */} -->
  <div class="tablem relative overflow-x-auto shadow-md sm:rounded-lg my-6">
@@ -162,4 +156,4 @@
 </div>
 </div>
 </body>
-</html>
+</html> 

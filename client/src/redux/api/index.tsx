@@ -49,3 +49,6 @@ export const markInvoiceStatusRead =   (id:String) => API.put(`/invoices/${id}/m
 export const createItem = (item:any) => API.post("/items", item);
 export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);
 
+// Company
+export const updateCompany = (id:String,company:any) => API.post(`/companies/${id}`, company);
+

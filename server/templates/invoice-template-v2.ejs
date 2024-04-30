@@ -11,6 +11,13 @@
   <style>
     .ta{
       padding:20px 0;
+      position:relative;
+      top:80px;
+    }
+    .padi{
+      padding:0 0 100px 0;
+      position:relative;
+      /* top:80px; */
     }
     .total{
       position:relative;
@@ -28,13 +35,10 @@
           <h3 class="text-blue-600 font-semibold text-2xl">Invoice</h3>
         </div>
       </div>
-      <div class="flex justify-between items-start py-10 border-b text-black">
-        <div>
+      <div class="padi flex justify-between items-start py-20 border-b text-black">
+        <div >
           <h4 class="text-blue-600 font-semibold text-xl">Company Information</h4>
-          <p>Company:<%=templateVersion?.company?.general_manager_name%></p>
-          <p>General Manager:<%=templateVersion?.company?.general_manager_name%></p>
-          <p><%=templateVersion?.company?.country%></p>
-          <p><%=templateVersion?.company?.city%>,<%=templateVersion?.company?.subcity%> , <%=templateVersion?.company?.woreda%></p>
+          
         </div>
         <div>
           <h4 class="text-blue-600 font-semibold text-xl">Receiver</h4>
@@ -43,7 +47,7 @@
           <p><%=templateVersion?.client?.shipping_city%>, <%=templateVersion?.client?.shipping_state%>, <%=templateVersion?.client?.shipping_zip%></p>
         </div>
       </div>
-      <div class="ta">
+      <div class="ta ">
     <table class="w-full border-collapse text-black">
         <thead>
             <tr>
@@ -78,10 +82,6 @@
       <p>Paid To Date: $PaidToDate</p>
       <p>Balance Due: $BalanceDue</p>
     </div>
-</div>
-<div class="mt-10">
-    <p>Thank you for choosing Novotech! If you have any questions or comments regarding our services, feel free to contact us.</p>
-    <p>Terms: Payment is required 10 days after service has been completed. A late fee of £10 per day will be added to the invoice once the initial 10 days have passed and no invoice will be sent out.</p>
 </div>
     </div>
     </div>

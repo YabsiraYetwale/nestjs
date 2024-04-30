@@ -27,7 +27,7 @@ export class CompaniesService {
 
   async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto) {
     const { users,documents, ...post } = updateCompanyDto;
-    const hashedPassword = await bcrypt.hash(users.password, 10);
+    // const hashedPassword = await bcrypt.hash(users.password, 10);
   
     const existingCompany = await this.prismaService.Company.findUnique({ where: id ,
       include: { documents: true },
@@ -43,18 +43,18 @@ export class CompaniesService {
       where: id ,
       data: {
         ...post,
-        users: {
-          update: {
-            where: { email: users.email },
-            data: {
-              username: users.username,
-              password: hashedPassword,
-              role: users.role,
-            },
-          },
-        },
+        // users: {
+        //   update: {
+        //     where: { email: users?.email },
+        //     data: {
+        //       username: users?.username,
+        //       // password: hashedPassword,
+        //       role: users?.role,
+        //     }
+        //   },
+        // },
         documents: {
-          create: documents.map((document) => ({
+          create: documents?.map((document) => ({
             file_name: document.file_name,
             file_path: document.file_path,
           })),
@@ -66,13 +66,15 @@ export class CompaniesService {
       throw new Error("Failed to update Company");
     }
   
-    const token = this.jwtService.sign({
-      username: users.username,
-      email: users.email,
-      role: users.role,
-    });
+    // const token = this.jwtService.sign({
+    //   username: users.username,
+    //   email: users.email,
+    //   role: users.role,
+    // });
   
-    return { token,message:"Company updated successfully!" };
+    return { ...updatedCompany,message:"Company updated successfully!" };
+    // return {message:"Company updated successfully!" };
+    // return {...updatedCompany};
   }
   async deleteCompany(id: string) {
     const existingCompany = await this.prismaService.Company.findUnique({where:id});

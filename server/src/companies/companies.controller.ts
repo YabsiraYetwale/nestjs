@@ -17,10 +17,11 @@ export class CompaniesController {
   getOneCompany(@Param() id:string){
    return this.companiesService.getOneCompany(id)
   }
-  @Patch(':id')
+  @Post(':id')
   @UseGuards(JwtAdminGuard)
   updateUser(@Param() id:string, @Body() updateCompanyDto:UpdateCompanyDto){
-   return this.companiesService.updateCompany(id,updateCompanyDto)
+    console.log("updated",id)
+   return this.companiesService.updateCompany(id,updateCompanyDto);
   }
   @Delete(':id')
   @UseGuards(JwtAdminGuard)
