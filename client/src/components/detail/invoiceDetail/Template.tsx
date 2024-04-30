@@ -90,7 +90,7 @@ export default function Template({ params }: any) {
   useEffect(() => {
     if (selectedVersion) {
       axios
-        .get(`http://localhost:3001/api/templates/${selectedVersion}/${id}`)
+        .get(`https://invoicesystm-app.onrender.com/api/templates/${selectedVersion}/${id}`)
         .then((response: { data: React.SetStateAction<string>; }) => {
           setTemplate(response.data);
         })
