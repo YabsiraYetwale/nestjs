@@ -48,7 +48,7 @@ const FormSchema = z.object({
   // client_id: z.string(),
   client,
   due_date: z.string().min(1, "due_date is required"),
-  status: z.string(),
+  status: z.string().optional(),
   line_items: z.array(LineItemSchema),
 
 });

@@ -47,6 +47,19 @@ export const updateCustomer=(id:String,customer:any,router:any)=>async(dispatch:
         console.log(error)
     }
 }
+
+export const updateCustomerTemplate=(id:String,customer:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.updateCustomer(id,customer)
+        console.log(data)
+        dispatch({type:UPDATE,payload:data})
+        // router.push(`/customers/details/${id}`)
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const deleteCustomer=(id:String,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
