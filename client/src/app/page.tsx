@@ -5,9 +5,11 @@ import Card, { CardContent, CardProps } from "@/components/Card";
 import RecentInvoiceActivitiesCard from "@/components/RecentActivitiesCard";
 import { useEffect, useState } from "react";
 import {useDispatch} from "react-redux";
+import { useRouter } from "next/navigation";
 import { fetchInvoices } from "@/redux/actions/invoices";
 import { fetchCustomers } from "@/redux/actions/customers";
 import Link from "next/link";
+
 
 export type CustomerProps = {
   amount: any;
@@ -20,6 +22,8 @@ export default function Home() {
 
   const [invoices, setInvoices] = useState<CardProps[] | null>(null);
   const [customers, setCustomers] = useState<CardProps[] | null>(null);
+  const [search, setSearch] = useState('');
+const router = useRouter();
 const dispatch = useDispatch();
 
 useEffect(() => {
@@ -36,7 +40,7 @@ useEffect(() => {
 
 useEffect(() => {
   const fetchData = async () => {
-      const response = await dispatch<any>(fetchCustomers());
+      const response = await dispatch<any>(fetchCustomers(search,router));
       setCustomers(response);
   };
   fetchData();
