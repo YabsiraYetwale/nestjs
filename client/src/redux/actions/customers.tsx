@@ -12,13 +12,22 @@ export const createCustomer=(customer:any,router:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const fetchCustomers=()=>async(dispatch:any)=>{
+export const fetchCustomers=(searchQuery:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
-        const {data}= await api.fetchCustomers()
+        const {data}= await api.fetchCustomers(searchQuery)
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
         // console.log(data.allClients)
+        if(searchQuery || data.map((id:string)=>id)){
+            router.push(`/customers?searchQuery=${searchQuery}`)
+        }
+        if(!searchQuery){
+            router.push(`/customers`)
+        }
+       else if(data==="No matching clients found."){
+            router.push('/customers/no-result')
+        }
         return data
     } catch (error) {
         console.log(error)

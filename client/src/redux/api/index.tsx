@@ -27,7 +27,7 @@ export const deleteUser = (id:String) => API.delete(`/auth/${id}`);
 
 // customer
 export const createCustomer = (customer:any) => API.post("/clients", customer);
-export const fetchCustomers = () => API.get("/clients");
+export const fetchCustomers = (searchQuery:any) => API.get(`/clients?searchQuery=${searchQuery}`);
 export const fetchCustomer = (id:String) => API.get(`/clients/${id}`);
 export const updateCustomer = (id:String, customer:any) => API.put(`/clients/${id}`, customer);
 export const deleteCustomer = (id:String) => API.delete(`/clients/${id}`);
