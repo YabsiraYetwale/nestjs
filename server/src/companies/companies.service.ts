@@ -11,12 +11,12 @@ export class CompaniesService {
     ) {}
     
   async getAllCompanies(){
-    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true }})
+    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
     return {allCompanies}
   }
 
   async getOneCompany(id:string){
-    const company = await this.prismaService.Company.findUnique({ where:id,include: {users: true ,documents:true}})
+    const company = await this.prismaService.Company.findUnique({ where:id,include: {users: true ,documents:true,additional_fields:true }})
     if (!company) {
       throw new HttpException("Company doesn't exist",404)
     }
@@ -25,13 +25,16 @@ export class CompaniesService {
     }
   }
 
-  async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto) {
-    const { users,documents, ...post } = updateCompanyDto;
+  async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto,
+    file_name: Express.Multer.File[],
+    company_logo: Express.Multer.File[],
+    ) {
+    const { additional_fields,users,documents, ...post } = updateCompanyDto;
     // const hashedPassword = await bcrypt.hash(users.password, 10);
   
     const existingCompany = await this.prismaService.Company.findUnique({ where: id ,
-      include: { documents: true },
-     });
+      include: { documents: true,additional_fields:true },
+     })
     if (!existingCompany) {
       throw new HttpException("Company doesn't exist", 404);
     }
@@ -39,9 +42,29 @@ export class CompaniesService {
       where: { company_id: existingCompany.id },
     });
   
+  // const newDocuments = {
+  //   create: [
+  //     {
+  //       file_name: file_name ? file_name[0].originalname : null,
+  //       file_path: file_name ? file_name[0].path : null,
+  //     },
+  //   ],
+  // };
+  const newDocuments = {
+    create: file_name
+      ? file_name.map((file) => ({
+          file_name: file.originalname,
+          file_path: file.path,
+        }))
+      : [],
+  };
     const updatedCompany = await this.prismaService.Company.update({
       where: id ,
       data: {
+        additional_fields: {
+          create: additional_fields, 
+        },
+        company_logo: company_logo ? company_logo[0].originalname : null,
         ...post,
         // users: {
         //   update: {
@@ -53,12 +76,7 @@ export class CompaniesService {
         //     }
         //   },
         // },
-        documents: {
-          create: documents?.map((document) => ({
-            file_name: document.file_name,
-            file_path: document.file_path,
-          })),
-        },
+        documents: newDocuments,
       },
     });
   

@@ -12,7 +12,9 @@ export class AuthService {
     private jwtService: JwtService,
     private prismaService: PrismaService,
   ) {}
-  async registerUser(registerCompanyDto: CreateCompanyDto) {
+  async registerUser(registerCompanyDto: CreateCompanyDto,
+    file_name: Express.Multer.File[],
+    company_logo: Express.Multer.File[],) {
     const {
       users,
       documents,
@@ -86,6 +88,15 @@ export class AuthService {
     } else if (existingCompanyEmail) {
       throw new HttpException('CompanyEmail already exists', 409);
     } else {
+
+      const newDocuments = {
+        create: [
+          {
+            file_name: file_name ? file_name[0].originalname : null,
+            file_path: file_name ? file_name[0].path : null,
+          },
+        ],
+      };
       const user = await this.prismaService.Company.create({
         data: {
           users: {
@@ -96,13 +107,9 @@ export class AuthService {
               role: users.role,
             },
           },
-          documents: {
-            create: documents.map((document) => ({
-              file_name: document.file_name,
-              file_path: document.file_path,
-            })),
-          },
+          documents: newDocuments ,
           name,
+          company_logo:company_logo ? company_logo[0].originalname : null,
           company_number,
           vat_reg_number,
           tel1,
@@ -114,7 +121,7 @@ export class AuthService {
           ...post,
         },
       });
-      return { message: 'User registered successfully' };
+      return { message: 'User registered successfully' }
     }
   }
 

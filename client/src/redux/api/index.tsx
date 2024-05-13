@@ -50,5 +50,5 @@ export const createItem = (item:any) => API.post("/items", item);
 export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);
 
 // Company
-export const updateCompany = (id:String,company:any) => API.post(`/companies/${id}`, company);
+export const updateCompany = (id:String,company:any) => API.patch(`/companies/${id}`, company);
 

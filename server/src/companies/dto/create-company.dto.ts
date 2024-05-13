@@ -12,10 +12,10 @@ import { RegisterUserDto } from 'src/auth/dto/register.dto';
 export class DocumentDto {
  
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   file_name: string;
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   file_path: string;
 }
 
@@ -75,6 +75,10 @@ export class CreateCompanyDto {
   @ApiProperty()
   @IsOptional()
   description: string;
+  
+  @ApiProperty()
+  @IsOptional()
+  additional_fields: any;
   @ApiProperty({ type: [RegisterUserDto] })
   @ValidateNested({ each: true })
   @Type(() => RegisterUserDto)
@@ -84,6 +88,6 @@ export class CreateCompanyDto {
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => DocumentDto )
-  documents: DocumentDto [];
+  documents: DocumentDto []
 }
 

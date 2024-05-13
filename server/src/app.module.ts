@@ -10,6 +10,8 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { CompaniesModule } from './companies/companies.module';
 import { MailerModule } from './mailer/mailer.module';
 import {TemplateVersionModule  } from './template-version/template-version.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -23,8 +25,10 @@ import {TemplateVersionModule  } from './template-version/template-version.modul
     NotificationsModule,
     CompaniesModule,
     MailerModule,
-    TemplateVersionModule
+    TemplateVersionModule,
+    MulterModule.register({ dest: './uploads' }),
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
 

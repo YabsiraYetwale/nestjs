@@ -41,6 +41,8 @@ model Company {
   users                User[]     @relation("usercompany")
   documents            Document[] @relation("documentcompany")
   invoices             Invoices[]   @relation("companyInvoices")
+  additional_fields      AdditionalFieldS?   @relation("additional_field_Company")
+
 }
 
 model Document {
@@ -82,7 +84,7 @@ model Invoices {
   creator        User? @relation("userInvoices", fields: [creator_id], references: [id], onDelete: Cascade)
   company_id     String?
   company        Company?   @relation("companyInvoices", fields: [company_id], references: [id], onDelete: Cascade)
-  
+
 }
 
 model Line_Items {
@@ -93,4 +95,12 @@ model Line_Items {
   tax_rate    Decimal   @db.Decimal(5, 2)
   invoice_id  String?
   invoice     Invoices? @relation("invoiceLineItems", fields: [invoice_id], references: [id], onDelete: Cascade)
+}
+
+model AdditionalFieldS {
+  id       String       @id @default(uuid())
+  additional_fields      Json?
+  company_id     String? @unique
+  company       Company?   @relation("additional_field_Company", fields: [company_id], references: [id], onDelete: Cascade)
+  
 }

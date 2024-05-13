@@ -25,6 +25,7 @@ import InvoiceTemplateV2 from "./invoice-template-v2";
 import InvoiceTemplateV3 from "./invoice-template-v3";
 import InvoiceTemplateV4 from "./invoice-template-v4";
 import InvoiceTemplateV5 from "./invoice-template-v5";
+import UpdateCompanyForm from "./addi";
 
 export default function Template({ params }: any) {
   const id = params.id as string;
@@ -111,7 +112,7 @@ export default function Template({ params }: any) {
           </CardContent>
         </div>
       </div>
-      <div className="relative invoice max-w-[740px] mx-auto bg-white p-16  border border-gray-300 rounded-md">
+   <div className="relative invoice max-w-[740px] mx-auto bg-white p-16  border border-gray-300 rounded-md">
         <div ref={componentRef} className="">
         <div className="">
         {selectedVersion === "v1" && (
@@ -136,9 +137,9 @@ export default function Template({ params }: any) {
           <InvoiceTemplateV5 params={params}/>
         </div> )}
       </div>
+      {/* <UpdateCompanyForm params={params}/> */}
         </div>
       </div>
-
       <Button
         onClick={() => window.scrollTo(0, 0)}
         className="absolute  bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400"
