@@ -54,7 +54,8 @@ const FormSchema = z.object({
 });
 const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const [search, setSearch] = useState('');
+ const router = useRouter();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -84,7 +85,7 @@ const InvoiceForm = ({ params }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>(fetchCustomers());
+        const response = await dispatch<any>(fetchCustomers(search,router));
         setCustomer(response);
       } catch (error) {
         console.error('Error:', error);
