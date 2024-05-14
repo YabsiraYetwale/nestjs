@@ -88,6 +88,10 @@ export default function Detail({ params }: any) {
     setIsPopUp(false);
   };
 
+  const invoiceDate = new Date(invoice?.date);
+  const originalDate = invoiceDate.toLocaleDateString();
+  const [day, month, year] = originalDate.split('/');
+  const formattedDate = `${year}-${month}-${day}`;
   return (
     <>
     <div id="top"/>
@@ -200,7 +204,7 @@ export default function Detail({ params }: any) {
               email={invoice?.client?.email}
               name={invoice?.client?.name}
               invoice_number={invoice?.invoice_number}
-              date={invoice?.date}
+              date={formattedDate}
               due_date={invoice?.due_date}
             />
           )}

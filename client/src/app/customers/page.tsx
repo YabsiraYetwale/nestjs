@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {ArrowUp,User,Search} from "lucide-react";
 import {useDispatch} from "react-redux";
-import { fetchCustomers } from "@/redux/actions/customers";
+import { fetchCustomers, fetchCustomersBySearch } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 type Props = {};
@@ -76,7 +76,7 @@ export default function CustomersPage({}: Props) {
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await dispatch<any>(fetchCustomers(search,router));
+      const response = await dispatch<any>(fetchCustomersBySearch(search,router));
       setCustomer(response);
     } catch (error) {
       console.error('Error:', error);
@@ -88,24 +88,12 @@ useEffect(() => {
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   const response = await dispatch<any>(
-    fetchCustomers(search, router)
+    fetchCustomersBySearch(search, router)
   );
   setCustomer(response);
 };
   return (
     <>
-    {/* <div className="flex justify-evenly">
-    <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Customers" />
-      {customer && <DataTable columns={columns} data={customer} />}
-    </div>
-    <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
-         <Link href='/customers/addCustomer'>
-            Add New
-        </Link>
-        </Button>
-    </div> */}
-    
     <div className="flex justify-evenly">
       <div className="flex flex-col gap-5  w-full">
         <div className="flex md:flex-row flex-col-reverse lg:gap-[20rem] gap-5 ">

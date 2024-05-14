@@ -85,7 +85,7 @@ const InvoiceForm = ({ params }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>(fetchCustomers(search,router));
+        const response = await dispatch<any>(fetchCustomers(search));
         setCustomer(response);
       } catch (error) {
         console.error('Error:', error);

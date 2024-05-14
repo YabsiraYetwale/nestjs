@@ -40,7 +40,7 @@ useEffect(() => {
 
 useEffect(() => {
   const fetchData = async () => {
-      const response = await dispatch<any>(fetchCustomers(search,router));
+      const response = await dispatch<any>(fetchCustomers(search));
       setCustomers(response);
   };
   fetchData();

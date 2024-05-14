@@ -25,6 +25,20 @@ type Invoice = {
   invoice_number?: any;
 };
 
+const formatDate = (dateString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
+
+  const date = new Date(dateString);
+  const originalDate = date.toLocaleDateString(undefined, options);
+  const [day, month, year] = originalDate.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+
 const columns: ColumnDef<Invoice>[] = [
   {
     accessorKey: "invoice_number",
@@ -50,6 +64,10 @@ const columns: ColumnDef<Invoice>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }: any) => {
+      const formattedDate = formatDate(row.getValue("date"));
+      return <div>{formattedDate}</div>;
+    },
   },
   {
     accessorKey: "due_date",

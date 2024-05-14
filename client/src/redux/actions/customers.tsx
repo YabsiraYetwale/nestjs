@@ -12,7 +12,19 @@ export const createCustomer=(customer:any,router:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const fetchCustomers=(searchQuery:any,router:any)=>async(dispatch:any)=>{
+export const fetchCustomers=(searchQuery:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.fetchCustomers(searchQuery)
+        dispatch({type:FETCH_ALL,payload:data})
+        dispatch({type:END_LOADING})
+        // console.log(data.allClients)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const fetchCustomersBySearch=(searchQuery:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchCustomers(searchQuery)
