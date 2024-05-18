@@ -1,8 +1,9 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
 
 @Injectable()
 export class CompaniesService {
@@ -25,10 +26,18 @@ export class CompaniesService {
     }
   }
 
+
+
   async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto,
     file_name: Express.Multer.File[],
     company_logo: Express.Multer.File[],
+    @Req() request: Request,
     ) {
+
+      const protocol = request.protocol;
+      const host = request.get('host');
+      const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
+  
     const { additional_fields,users,documents, ...post } = updateCompanyDto;
     // const hashedPassword = await bcrypt.hash(users.password, 10);
   
@@ -42,19 +51,11 @@ export class CompaniesService {
       where: { company_id: existingCompany.id },
     });
   
-  // const newDocuments = {
-  //   create: [
-  //     {
-  //       file_name: file_name ? file_name[0].originalname : null,
-  //       file_path: file_name ? file_name[0].path : null,
-  //     },
-  //   ],
-  // };
   const newDocuments = {
     create: file_name
       ? file_name.map((file) => ({
           file_name: file.originalname,
-          file_path: file.path,
+          file_path:`${protocol}://${host}/${file.filename}`,
         }))
       : [],
   };
@@ -64,7 +65,7 @@ export class CompaniesService {
         additional_fields: {
           create: additional_fields, 
         },
-        company_logo: company_logo ? company_logo[0].originalname : null,
+        company_logo:company_logo_url,
         ...post,
         // users: {
         //   update: {

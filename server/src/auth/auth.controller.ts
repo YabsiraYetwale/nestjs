@@ -13,14 +13,15 @@ import { extname } from 'path';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @Post('register')
   @UseInterceptors(
     FileFieldsInterceptor([
-      { name: 'file_name', maxCount: 1 },
-      { name: 'company_logo', maxCount: 1 },
+       { name: 'file_name', maxCount: 1 },
+      { name: 'company_logo', maxCount: 1 }
     ], {
       storage: diskStorage({
-        destination: './uploads',
+        destination: './dist/uploads',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -36,8 +37,10 @@ export class AuthController {
  files: {
    file_name?: Express.Multer.File[];
    company_logo?: Express.Multer.File[];
- }, ){
-  return this.authService.registerUser(createCompanyDto,files.file_name,files.company_logo)
+ },
+ @Req() request: Request,
+  ){
+  return this.authService.registerUser(createCompanyDto,files.file_name,files.company_logo,request)
  }
 @Post('login')
 // @UseGuards(LocalGuard)

@@ -52,3 +52,7 @@ export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);
 // Company
 export const updateCompany = (id:String,company:any) => API.patch(`/companies/${id}`, company);
 
+// AdditionalFields
+export const createAdditionalFields= (additionalFields:any) => API.post('/items/custom',additionalFields);
+export const fetchAdditionalFieldsByCompanyId= (companyId:String) => API.get(`/items/custom/${companyId}`);
+

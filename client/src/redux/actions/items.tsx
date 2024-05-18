@@ -36,3 +36,28 @@ export const updateCompany=(id:String,company:any,router:any)=>async(dispatch:an
     }
 }
 
+export const createAdditionalFields=(additionalFields:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.createAdditionalFields(additionalFields)
+        dispatch({type:CREATE,payload:data})
+        // router.push('/invoices')
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const fetchAdditionalFieldsByCompanyId=(companyId:String)=>async(dispatch:any)=>{
+    try {
+        try {
+            const {data}= await api.fetchAdditionalFieldsByCompanyId(companyId)
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+

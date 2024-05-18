@@ -31,3 +31,15 @@ export class CreateLineItemsDto {
   @Type(() => CreateLineItemDto)
   lineItems: CreateLineItemDto[];
 }
+
+
+
+export class CustomFieldsDto {
+  @ApiProperty()
+  @IsOptional()
+  additional_fields: any;
+    
+  @ApiProperty()
+  @IsOptional()
+  company_id: any;
+}

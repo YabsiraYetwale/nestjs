@@ -35,6 +35,7 @@ export default function InvoiceTemplateV2 ({ params }: any){
     <div className="">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Sample Invoice</h1>
+        <img className="logo w-20" src={invoice?.company?.company_logo} alt="Company Logo" />
       </div>
 
       <div className="grid grid-cols-2 gap-6">

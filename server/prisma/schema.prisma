@@ -41,7 +41,7 @@ model Company {
   users                User[]     @relation("usercompany")
   documents            Document[] @relation("documentcompany")
   invoices             Invoices[]   @relation("companyInvoices")
-  additional_fields      AdditionalFieldS?   @relation("additional_field_Company")
+  additional_fields      AdditionalFieldS[]   @relation("additional_field_Company")
 
 }
 
@@ -96,11 +96,15 @@ model Line_Items {
   invoice_id  String?
   invoice     Invoices? @relation("invoiceLineItems", fields: [invoice_id], references: [id], onDelete: Cascade)
 }
+model customFieds {
+   id          String    @id @default(uuid())
+ fields Json?
+}
 
 model AdditionalFieldS {
   id       String       @id @default(uuid())
   additional_fields      Json?
-  company_id     String? @unique
+  company_id     String? 
   company       Company?   @relation("additional_field_Company", fields: [company_id], references: [id], onDelete: Cascade)
   
 }

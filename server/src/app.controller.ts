@@ -1,48 +1,16 @@
-// import {
-//     Controller,
-//     Get,
-//     Post,
-//     UploadedFile,
-//     UseInterceptors,
-//   } from '@nestjs/common';
-//   import { FileInterceptor } from '@nestjs/platform-express';
-//   import { diskStorage } from 'multer';
-//   import { extname } from 'path';
-  
-//   @Controller()
-//   export class AppController {
-  
-  
-//     @Post('/file')
-//     @UseInterceptors(
-//       FileInterceptor('file', {
-//         storage: diskStorage({
-//           destination: './uploads',
-//           filename: (req, file, callback) => {
-//             const uniqueSuffix =
-//               Date.now() + '-' + Math.round(Math.random() * 1e9);
-//             const ext = extname(file.originalname);
-//             const filename = `${uniqueSuffix}${ext}`;
-//             callback(null, filename);
-//           },
-//         }),
-//       }),
-//     )
-//     handleUpload(@UploadedFile() file: Express.Multer.File) {
-//       console.log('file', file);
-//       return 'File upload API';
-//     }
-//   }
+
 import {
   Controller,
   Get,
   Post,
+  Req,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Request } from 'express';
 
 @Controller()
 export class AppController {
@@ -53,7 +21,7 @@ export class AppController {
       { name: 'file2', maxCount: 1 },
     ], {
       storage: diskStorage({
-        destination: './uploads',
+        destination: './dist/uploads',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -70,10 +38,22 @@ export class AppController {
       file1?: Express.Multer.File[];
       file2?: Express.Multer.File[];
     },
+    @Req() request: Request,
   ) {
-    console.log('file1', files.file1);
-    console.log('file2', files.file2);
+    
+    const protocol = request.protocol;
+    const host = request.get('host'); 
+    
+    // Generate the file URLs
+    const file1Url = files.file1 ? `${protocol}://${host}/${files.file1[0].filename}` : null;
+    const file2Url = files.file2 ? `${protocol}://${host}/${files.file2[0].filename}` : null;
+  
+    console.log('file1', file1Url);
+    console.log('file2', file2Url);
+    console.log('file', files.file1);
+  
     // Process the uploaded files as needed
+  
     return 'Files uploaded successfully';
   }
 }

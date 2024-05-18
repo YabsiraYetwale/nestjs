@@ -7,14 +7,35 @@ import { UpdateLineItemsDto } from './dto/update-Line-Items.dto';
 @Controller('items')
 export class LineItemsController {
   constructor(private lineItemsService: LineItemsService) {}
+
+  @Post('custom')
+  async createCustomField(@Body() fields: any) {
+    return this.lineItemsService.createCustomField(fields);
+  }
+
+  @Get('custom')
+  getCustomField(){
+   return this.lineItemsService.getCustomField();
+  }
+
+  @Get('custom/:company_id')
+  async getAdditionalFieldsByCompanyId(@Param('company_id') companyId: string) {
+    return  this.lineItemsService.getAdditionalFieldsByCompanyId(companyId);
+  }
+  @Delete('custom/:id')
+  //  @UseGuards(JwtAuthGuard)
+  deleteCustomField(@Param() id:string){
+    return this.lineItemsService.deleteCustomField(id);
+   }
+
   @Get()
   getAllLineItems(){
-   return this.lineItemsService.getAllLineItems()
+   return this.lineItemsService.getAllLineItems();
   }
   @Get(':id')
   // @UseGuards(JwtAuthGuard)
   getOneInvoice(@Param() id:string){
-   return this.lineItemsService.getOneLineItems(id)
+   return this.lineItemsService.getOneLineItems(id);
   }
  @Post()
 // @UseGuards(JwtAdminGuard)
@@ -31,5 +52,6 @@ createLineItems(@Body() lineItemsDto: CreateLineItemsDto) {
  deleteLineItems(@Param() id:string){
   return this.lineItemsService.deleteLineItems(id)
  }
+
 
 }

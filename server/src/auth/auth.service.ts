@@ -1,9 +1,10 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable, HttpException, Req } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
 import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 
 @Injectable()
@@ -12,9 +13,13 @@ export class AuthService {
     private jwtService: JwtService,
     private prismaService: PrismaService,
   ) {}
+
   async registerUser(registerCompanyDto: CreateCompanyDto,
     file_name: Express.Multer.File[],
-    company_logo: Express.Multer.File[],) {
+    company_logo: Express.Multer.File[],
+    @Req() request: Request,
+  
+    ) {
     const {
       users,
       documents,
@@ -88,15 +93,19 @@ export class AuthService {
     } else if (existingCompanyEmail) {
       throw new HttpException('CompanyEmail already exists', 409);
     } else {
+      const protocol = request.protocol;
+      const host = request.get('host');
+      const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
 
       const newDocuments = {
-        create: [
-          {
-            file_name: file_name ? file_name[0].originalname : null,
-            file_path: file_name ? file_name[0].path : null,
-          },
-        ],
+        create: file_name
+          ? file_name.map((file) => ({
+              file_name: file.originalname,
+              file_path:`${protocol}://${host}/${file.filename}`,
+            }))
+          : [],
       };
+
       const user = await this.prismaService.Company.create({
         data: {
           users: {
@@ -109,7 +118,7 @@ export class AuthService {
           },
           documents: newDocuments ,
           name,
-          company_logo:company_logo ? company_logo[0].originalname : null,
+          company_logo:company_logo_url,
           company_number,
           vat_reg_number,
           tel1,

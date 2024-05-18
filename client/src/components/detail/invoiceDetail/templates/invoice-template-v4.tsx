@@ -32,7 +32,9 @@ export default function InvoiceTemplateV4({ params }: any) {
       <div className="">
       <div className="">
       <div className="flex justify-between items-center pb-10 border-b">
-        <img src="/logo.png" alt="Company Logo" className="w-24 h-24" />
+      <img className="w-24 h-24" src={invoice?.company?.company_logo} alt="Company Logo" />
+
+        {/* <img src="/logo.png" alt="Company Logo" className="w-24 h-24" /> */}
         <div className="text-right">
           <h3 className="text-blue-600 font-semibold text-2xl">Invoice</h3>
         </div>

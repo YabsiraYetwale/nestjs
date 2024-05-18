@@ -12,6 +12,8 @@ import { MailerModule } from './mailer/mailer.module';
 import {TemplateVersionModule  } from './template-version/template-version.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -26,7 +28,10 @@ import { AppController } from './app.controller';
     CompaniesModule,
     MailerModule,
     TemplateVersionModule,
-    MulterModule.register({ dest: './uploads' }),
+    MulterModule.register({ dest: './dist/uploads' }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    })
   ],
   controllers: [AppController],
 })

@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,  UploadedFile,
   UseInterceptors,
-  UploadedFiles, } from '@nestjs/common';
+  UploadedFiles,
+  Req, } from '@nestjs/common';
 import { JwtAdminGuard, JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CompaniesService } from './companies.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { FileFieldsInterceptor} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Request } from 'express';
 
 @Controller('companies')
 export class CompaniesController {
@@ -32,7 +34,7 @@ export class CompaniesController {
       { name: 'company_logo', maxCount: 1 },
     ], {
       storage: diskStorage({
-        destination: './uploads',
+        destination: './dist/uploads',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -49,9 +51,12 @@ export class CompaniesController {
   files: {
     file_name?: Express.Multer.File[];
     company_logo?: Express.Multer.File[];
-  }, ){
+  }, 
+  @Req() request: Request,
+  ){
+  
     console.log("updated")
-   return this.companiesService.updateCompany(id,updateCompanyDto,files.file_name,files.company_logo);
+   return this.companiesService.updateCompany(id,updateCompanyDto,files.file_name,files.company_logo,request);
   };
   @Delete(':id')
   @UseGuards(JwtAdminGuard)

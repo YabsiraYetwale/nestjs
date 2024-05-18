@@ -25,7 +25,7 @@ import InvoiceTemplateV2 from "./invoice-template-v2";
 import InvoiceTemplateV3 from "./invoice-template-v3";
 import InvoiceTemplateV4 from "./invoice-template-v4";
 import InvoiceTemplateV5 from "./invoice-template-v5";
-import UpdateCompanyForm from "./addi";
+import CustomFieldsForm from "./addi";
 
 export default function Template({ params }: any) {
   const id = params.id as string;
@@ -48,20 +48,7 @@ export default function Template({ params }: any) {
       });
   };
 
-  const handleColorChange = (event: { target: { value: any } }) => {
-    const newColor = event.target.value;
-    // Send a PUT request to update the color on the server
-    axios
-      .put("https://invoicesystm-app.onrender.com/api/color", {
-        color: newColor,
-      })
-      .then(() => {
-        setColor(newColor);
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
-  };
+
 
   const handleVersionChange = (event: { target: { value: any } }) => {
     const selectedVersion = event.target.value;
@@ -107,7 +94,7 @@ export default function Template({ params }: any) {
                 <option value="v4">Version 4</option>
                 <option value="v5">Version 5</option>
               </select>
-              <input type="color" value={color} onChange={handleColorChange} />
+              {/* <input type="color" value={color} onChange={handleColorChange} /> */}
             </div>
           </CardContent>
         </div>
@@ -137,7 +124,7 @@ export default function Template({ params }: any) {
           <InvoiceTemplateV5 params={params}/>
         </div> )}
       </div>
-      {/* <UpdateCompanyForm params={params}/> */}
+      <CustomFieldsForm params={params}/>
         </div>
       </div>
       <Button

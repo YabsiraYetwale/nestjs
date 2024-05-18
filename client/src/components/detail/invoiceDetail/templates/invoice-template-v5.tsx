@@ -39,10 +39,8 @@ export default function InvoiceTemplateV5({ params }: any) {
           <div
               className="flex p-2 bg-opacity-20 text-lg lg:text-2xl font-bold drop-shadow-md"
             >
-              <span className="text-green-500 dark:text-green-400  ">
-                Invoice
-              </span>
-              <span className="text-blue-500 dark:text-yellow-400">Systm</span>
+            <img className="logo w-20" src={invoice?.company?.company_logo} alt="Company Logo" />
+
             </div>
             </h1>
             <HandMetal />

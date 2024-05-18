@@ -85,9 +85,10 @@ export class CreateCompanyDto {
   users: RegisterUserDto;
  
   @ApiProperty({ type: [DocumentDto ] })
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => DocumentDto )
+  // @ArrayNotEmpty()
+  // @ValidateNested({ each: true })
+  // @Type(() => DocumentDto )
+  @IsOptional()
   documents: DocumentDto []
 }
 
