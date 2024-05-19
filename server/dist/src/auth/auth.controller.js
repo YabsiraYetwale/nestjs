@@ -56,7 +56,7 @@ __decorate([
         { name: 'company_logo', maxCount: 1 }
     ], {
         storage: (0, multer_1.diskStorage)({
-            destination: './dist/uploads',
+            destination: './uploads',
             filename: (req, file, callback) => {
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                 const ext = (0, path_1.extname)(file.originalname);

@@ -34,7 +34,7 @@ export class CompaniesController {
       { name: 'company_logo', maxCount: 1 },
     ], {
       storage: diskStorage({
-        destination: './dist/uploads',
+        destination: './uploads',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1E9);
