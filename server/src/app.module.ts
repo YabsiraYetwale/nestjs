@@ -27,11 +27,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     CompaniesModule,
     MailerModule,
     TemplateVersionModule,
-    // MulterModule.register({ dest: './uploads' }),
+    MulterModule.register({ dest: './uploads' }),
     
-    // ServeStaticModule.forRoot({
-    //   rootPath: `${process.cwd()}/uploads`,
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: `${process.cwd()}/uploads`,
+    }),
   ],
   controllers: [AppController],
 })
