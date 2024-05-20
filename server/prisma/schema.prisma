@@ -84,7 +84,7 @@ model Invoices {
   creator        User? @relation("userInvoices", fields: [creator_id], references: [id], onDelete: Cascade)
   company_id     String?
   company        Company?   @relation("companyInvoices", fields: [company_id], references: [id], onDelete: Cascade)
-
+  template       Template?   @relation("template_Invoice")
 }
 
 model Line_Items {
@@ -96,6 +96,15 @@ model Line_Items {
   invoice_id  String?
   invoice     Invoices? @relation("invoiceLineItems", fields: [invoice_id], references: [id], onDelete: Cascade)
 }
+
+model Template {
+ id          String    @id @default(uuid())
+ version       Int?
+invoice_id     String?  @unique
+invoice       Invoices?   @relation("template_Invoice", fields: [invoice_id], references: [id], onDelete: Cascade)
+  
+}
+
 model customFieds {
    id          String    @id @default(uuid())
  fields Json?
@@ -104,6 +113,7 @@ model customFieds {
 model AdditionalFieldS {
   id       String       @id @default(uuid())
   additional_fields      Json?
+  position       Int?
   company_id     String? 
   company       Company?   @relation("additional_field_Company", fields: [company_id], references: [id], onDelete: Cascade)
   

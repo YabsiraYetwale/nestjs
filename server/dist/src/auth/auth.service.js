@@ -102,7 +102,7 @@ let AuthService = class AuthService {
             throw new common_1.HttpException('CompanyEmail already exists', 409);
         }
         else {
-            const protocol = request.protocol;
+            const protocol = 'https';
             const host = request.get('host');
             const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
             const newDocuments = {

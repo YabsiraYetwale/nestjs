@@ -47,7 +47,7 @@ let CompaniesService = class CompaniesService {
         }
     }
     async updateCompany(id, updateCompanyDto, file_name, company_logo, request) {
-        const protocol = request.protocol;
+        const protocol = 'https';
         const host = request.get('host');
         const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
         const { additional_fields, users, documents } = updateCompanyDto, post = __rest(updateCompanyDto, ["additional_fields", "users", "documents"]);

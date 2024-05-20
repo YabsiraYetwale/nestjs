@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { InvoiceProps } from './InvoiceProps';
 import Image from 'next/image';
-import CustomFieldsForm from './addi';
+import CustomFieldsForm from './CustomFieldsForm';
 
 const InvoiceTemplateV1 = ({ params }: any) => {
   const id = params.id as string;
@@ -37,6 +37,7 @@ const InvoiceTemplateV1 = ({ params }: any) => {
           {/* <img className="logo w-20" src="https://via.placeholder.com/150" alt="Company Logo" /> */}
           <img className="logo w-20" src={invoice?.company?.company_logo} alt="Company Logo" />
           {/* <Image src={invoice?.company?.company_logo} width={500} height={300} alt="My Image" /> */}
+        <p>logo-- {invoice?.company?.company_logo}</p>
         </div>
         <div className="from-container text-right pt-2 bg-origin-padding">
           <p>

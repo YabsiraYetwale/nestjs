@@ -25,7 +25,7 @@ import InvoiceTemplateV2 from "./invoice-template-v2";
 import InvoiceTemplateV3 from "./invoice-template-v3";
 import InvoiceTemplateV4 from "./invoice-template-v4";
 import InvoiceTemplateV5 from "./invoice-template-v5";
-import CustomFieldsForm from "./addi";
+import CustomFieldsForm from "./CustomFieldsForm";
 
 export default function Template({ params }: any) {
   const id = params.id as string;

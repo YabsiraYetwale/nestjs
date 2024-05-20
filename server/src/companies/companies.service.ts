@@ -34,7 +34,8 @@ export class CompaniesService {
     @Req() request: Request,
     ) {
 
-      const protocol = request.protocol;
+      // const protocol = request.protocol;
+      const protocol = 'https';
       const host = request.get('host');
       const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
   

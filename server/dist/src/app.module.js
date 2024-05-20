@@ -19,9 +19,7 @@ const notifications_module_1 = require("./notifications/notifications.module");
 const companies_module_1 = require("./companies/companies.module");
 const mailer_module_1 = require("./mailer/mailer.module");
 const template_version_module_1 = require("./template-version/template-version.module");
-const platform_express_1 = require("@nestjs/platform-express");
 const app_controller_1 = require("./app.controller");
-const serve_static_1 = require("@nestjs/serve-static");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -38,10 +36,6 @@ AppModule = __decorate([
             companies_module_1.CompaniesModule,
             mailer_module_1.MailerModule,
             template_version_module_1.TemplateVersionModule,
-            platform_express_1.MulterModule.register({ dest: './uploads' }),
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: `${process.cwd()}/uploads`,
-            }),
         ],
         controllers: [app_controller_1.AppController],
     })
