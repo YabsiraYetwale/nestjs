@@ -24,8 +24,7 @@ let AppController = class AppController {
         const file1Url = files.file1 ? `${protocol}://${host}/${files.file1[0].filename}` : null;
         const file2Url = files.file2 ? `${protocol}://${host}/${files.file2[0].filename}` : null;
         console.log('file1', file1Url);
-        console.log('file2', file2Url);
-        console.log('file', files.file1);
+        console.log('file2Url', file2Url);
         return 'Files uploaded successfully';
     }
 };
