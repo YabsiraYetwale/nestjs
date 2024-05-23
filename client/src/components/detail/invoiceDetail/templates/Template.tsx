@@ -40,6 +40,14 @@ export default function Template({ params }: any) {
   const [email, setEmail] = useState("");
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
 
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      templateVersion:"",
+    },
+    
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,13 +60,6 @@ export default function Template({ params }: any) {
     fetchData();
   }, [id, dispatch]);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      templateVersion:"",
-    },
-    
-  });
 
   const handleSendEmail = () => {
     axios
@@ -73,9 +74,15 @@ export default function Template({ params }: any) {
       });
   };
 
-  
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch<any>(updateInvoiceTemplate(id, values, router));  
+const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+  try {
+    await dispatch<any>(updateInvoiceTemplate(id, values, router));
+    // Fetch the updated invoice data and update the state
+    const updatedInvoice = await dispatch<any>(fetchInvoice(id));
+    setInvoice(updatedInvoice);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
 
   const componentRef = useRef(null);
@@ -160,29 +167,33 @@ export default function Template({ params }: any) {
       </div>
    <div className="relative invoice max-w-[740px] mx-auto bg-white p-16  border border-gray-300 rounded-md">
         <div ref={componentRef} className="">
-        <div className="">
-        {invoice?.templateVersion === "v1"  && (
-          <div>
-            <InvoiceTemplateV1 params={params}/>
-          </div>
-        )}
-        {invoice?.templateVersion === "v2" && (
-        <div>
-          <InvoiceTemplateV2 params={params}/>
-        </div> )}
-        {invoice?.templateVersion === "v3" && (
-        <div>
-          <InvoiceTemplateV3 params={params}/>
-        </div> )}
-        {invoice?.templateVersion === "v4" && (
-        <div>
-          <InvoiceTemplateV4 params={params}/>
-        </div> )}
-        {invoice?.templateVersion === "v5" && (
-        <div>
-          <InvoiceTemplateV5 params={params}/>
-        </div> )}
-      </div>
+      <div className="">
+  {invoice?.templateVersion === "v1" && (
+    <div>
+      <InvoiceTemplateV1 params={params} />
+    </div>
+  )}
+  {invoice?.templateVersion === "v2" && (
+    <div>
+      <InvoiceTemplateV2 params={params} />
+    </div>
+  )}
+  {invoice?.templateVersion === "v3" && (
+    <div>
+      <InvoiceTemplateV3 params={params} />
+    </div>
+  )}
+  {invoice?.templateVersion === "v4" && (
+    <div>
+      <InvoiceTemplateV4 params={params} />
+    </div>
+  )}
+  {invoice?.templateVersion === "v5" && (
+    <div>
+      <InvoiceTemplateV5 params={params} />
+    </div>
+  )}
+</div>
       <CustomFieldsForm params={params}/>
         </div>
       </div>

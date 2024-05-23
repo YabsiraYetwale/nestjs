@@ -20,6 +20,28 @@ function CustomFieldsForm({ params }: any) {
   const [position, setPosition] = useState('');
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
 
+  
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const { name, value } = e.target;
+    setFields((prevFields) => {
+      const updatedFields = [...prevFields];
+      updatedFields[index] = { ...updatedFields[index], [name]: value };
+      return updatedFields;
+    });
+  };
+
+  const addField = () => {
+    setFields((prevFields) => [...prevFields, { name: '', value: '' }]);
+  };
+
+  const removeField = (index: number) => {
+    setFields((prevFields) => {
+      const updatedFields = [...prevFields];
+      updatedFields.splice(index, 1);
+      return updatedFields;
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,7 +80,6 @@ function CustomFieldsForm({ params }: any) {
     };
     fetchData();
   }, [invoice?.company.id, dispatch]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -74,32 +95,32 @@ function CustomFieldsForm({ params }: any) {
         company_id:invoice?.company.id,
         position:'0',
       };
-      dispatch<any>(createAdditionalFields( payload,router));
+
+          await dispatch<any>(createAdditionalFields( payload,router))
+          // Fetch the updated template data and update the fields
+
+              const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
+              const { additionalFields } = response;
+              const initialFields: Field[] = [];
+        
+              additionalFields.forEach((item: any) => {
+                if (item.additional_fields && item.position=='0') {
+                  const fieldObj = item.additional_fields;
+                  
+                  Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {
+                    if ( name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
+                      
+                      initialFields.push({ name, value });
+                    }
+                  });
+                }
+              });
+              setFields(initialFields);
     } catch (error) {
       console.error('Failed to create custom field:', error);
     }
   };
 
-  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { name, value } = e.target;
-    setFields((prevFields) => {
-      const updatedFields = [...prevFields];
-      updatedFields[index] = { ...updatedFields[index], [name]: value };
-      return updatedFields;
-    });
-  };
-
-  const addField = () => {
-    setFields((prevFields) => [...prevFields, { name: '', value: '' }]);
-  };
-
-  const removeField = (index: number) => {
-    setFields((prevFields) => {
-      const updatedFields = [...prevFields];
-      updatedFields.splice(index, 1);
-      return updatedFields;
-    });
-  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -121,7 +142,8 @@ function CustomFieldsForm({ params }: any) {
               onChange={(e) => setPosition(e.target.value)}
               className='hidden'
         />
-      {additional_fields.map((field, index) => (
+      {invoice && 
+      additional_fields.map((field, index) => (
         <div key={index}  className="flex">
           <label>
             <input
@@ -160,5 +182,4 @@ function CustomFieldsForm({ params }: any) {
     </form>
   );
 }
-
 export default CustomFieldsForm;
