@@ -1,6 +1,6 @@
 import axios from "axios";
-const API = axios.create({ baseURL:"http://localhost:3001/api"});
-// const API = axios.create({ baseURL:"https://invoicesystm-app.onrender.com/api"});
+// const API = axios.create({ baseURL:"http://localhost:3001/api"});
+const API = axios.create({ baseURL:"https://invoicesystm-app.onrender.com/api"});
 
 API.interceptors.request.use((req:any) => {
   const authData = localStorage.getItem("InvoiceAuth");

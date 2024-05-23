@@ -36,6 +36,7 @@ export declare class NotificationsController {
             client_id: string;
             creator_id: string;
             company_id: string;
+            templateVersion: import(".prisma/client").$Enums.TemplateVersion;
         })[];
     }>;
     MarkNotificationRead(id: string): Promise<any>;

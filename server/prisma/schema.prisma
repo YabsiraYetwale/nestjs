@@ -68,6 +68,14 @@ model Clients {
   invoices         Invoices[] @relation("clientInvoices")
 }
 
+enum TemplateVersion {
+  v1 @map("v1")
+  v2 @map("v2")
+  v3 @map("v3")
+  v4 @map("v4")
+  v5 @map("v5")
+}
+
 model Invoices {
   id             String       @id @default(uuid())
   invoice_number String       @unique
@@ -84,7 +92,7 @@ model Invoices {
   creator        User? @relation("userInvoices", fields: [creator_id], references: [id], onDelete: Cascade)
   company_id     String?
   company        Company?   @relation("companyInvoices", fields: [company_id], references: [id], onDelete: Cascade)
-  template       Template?   @relation("template_Invoice")
+  templateVersion TemplateVersion?   @default(v1)
 }
 
 model Line_Items {
@@ -97,14 +105,6 @@ model Line_Items {
   invoice     Invoices? @relation("invoiceLineItems", fields: [invoice_id], references: [id], onDelete: Cascade)
 }
 
-model Template {
- id          String    @id @default(uuid())
- version       Int?
-invoice_id     String?  @unique
-invoice       Invoices?   @relation("template_Invoice", fields: [invoice_id], references: [id], onDelete: Cascade)
-  
-}
-
 model customFieds {
    id          String    @id @default(uuid())
  fields Json?
@@ -113,7 +113,7 @@ model customFieds {
 model AdditionalFieldS {
   id       String       @id @default(uuid())
   additional_fields      Json?
-  position       Int?
+  position       String? 
   company_id     String? 
   company       Company?   @relation("additional_field_Company", fields: [company_id], references: [id], onDelete: Cascade)
   

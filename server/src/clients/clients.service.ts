@@ -85,10 +85,10 @@ async getAllClients(searchQuery: string, query: Query) {
   });
 
   if (!searchQuery) {
-    return clients;
+    return {clients};
   }
 
-  return clients.length > 0 ? clients : 'No matching clients found.';
+  return clients.length > 0 ? {clients} : 'No matching clients found.';
 }
 
 

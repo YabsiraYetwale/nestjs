@@ -49,11 +49,6 @@ __decorate([
 ], CreateInvoiceDto.prototype, "total_amount", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateInvoiceDto.prototype, "client_id", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsEmpty)(),
     __metadata("design:type", String)
 ], CreateInvoiceDto.prototype, "creator_id", void 0);
@@ -72,6 +67,11 @@ __decorate([
     (0, class_validator_1.IsEmpty)(),
     __metadata("design:type", Object)
 ], CreateInvoiceDto.prototype, "company", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateInvoiceDto.prototype, "templateVersion", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ type: [create_Line_Items_dto_1.CreateLineItemDto] }),
     (0, class_validator_1.ArrayNotEmpty)(),

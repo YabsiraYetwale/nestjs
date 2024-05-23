@@ -1,42 +1,78 @@
-import { IsEmail, IsNotEmpty, MaxLength, ValidateNested} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, MaxLength, ValidateNested} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 export class  CreateClientDto{
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     name:string 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     billing_address:string 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @MaxLength(100, { message: 'must be a maximum of 100 characters' })
     contact_person:string 
     @ApiProperty()
     @IsEmail()
-    @IsNotEmpty()
+    @IsOptional()
     @MaxLength(100, { message: 'Email must be a maximum of 100 characters' })
     email:string 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     @MaxLength(20, { message: 'Phone must be a maximum of 20 characters' })
     phone:string 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     shipping_address:string
     @ApiProperty()
-    @IsNotEmpty()
+    @IsOptional()
     shipping_city:string 
     @ApiProperty()  
-    @IsNotEmpty()
+    @IsOptional()
     shipping_state:string 
     @ApiProperty()  
-    @IsNotEmpty()
+    @IsOptional()
     shipping_zip:string
     @ApiProperty() 
-    @IsNotEmpty()   
+    @IsOptional()   
     shipping_country:string
   }
+// export class  CreateClientDto{
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     name:string 
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     billing_address:string 
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     @MaxLength(100, { message: 'must be a maximum of 100 characters' })
+//     contact_person:string 
+//     @ApiProperty()
+//     @IsEmail()
+//     @IsNotEmpty()
+//     @MaxLength(100, { message: 'Email must be a maximum of 100 characters' })
+//     email:string 
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     @MaxLength(20, { message: 'Phone must be a maximum of 20 characters' })
+//     phone:string 
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     shipping_address:string
+//     @ApiProperty()
+//     @IsNotEmpty()
+//     shipping_city:string 
+//     @ApiProperty()  
+//     @IsNotEmpty()
+//     shipping_state:string 
+//     @ApiProperty()  
+//     @IsNotEmpty()
+//     shipping_zip:string
+//     @ApiProperty() 
+//     @IsNotEmpty()   
+//     shipping_country:string
+//   }
 
   export class CreateClientsDto {
     @ApiProperty({ type: [CreateClientDto] })

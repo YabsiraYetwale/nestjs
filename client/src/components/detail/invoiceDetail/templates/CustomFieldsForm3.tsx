@@ -37,15 +37,15 @@ function CustomFieldsForm({ params }: any) {
       try {
         const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
         const { additionalFields } = response;
+      
         const initialFields: Field[] = [];
   
         additionalFields.forEach((item: any) => {
-          if (item.additional_fields && item.position=='0') {
+          if (item.additional_fields && item.position=='3') {
             const fieldObj = item.additional_fields;
-            
+  
             Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {
-              if ( name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
-                
+              if (position === '3' && name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
                 initialFields.push({ name, value });
               }
             });
@@ -72,7 +72,7 @@ function CustomFieldsForm({ params }: any) {
       const payload = {
         additional_fields: transformedFields,
         company_id:invoice?.company.id,
-        position:'0',
+        position:'3',
       };
       dispatch<any>(createAdditionalFields( payload,router));
     } catch (error) {

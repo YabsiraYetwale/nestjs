@@ -90,6 +90,17 @@ export const updateInvoice=(id:String,invoice:any,router:any)=>async(dispatch:an
         console.log(error)
     }
 }
+export const updateInvoiceTemplate=(id:String,invoice:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.updateInvoice(id,invoice)
+        dispatch({type:UPDATE,payload:data})
+        // router.push(`/invoices/template/${id}`)
+        dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const deleteInvoice=(id:String,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})

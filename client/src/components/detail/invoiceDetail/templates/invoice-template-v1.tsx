@@ -6,7 +6,8 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { InvoiceProps } from './InvoiceProps';
 import Image from 'next/image';
-import CustomFieldsForm from './CustomFieldsForm';
+import CustomFieldsForm2 from './CustomFieldsForm2';
+import CustomFieldsForm1 from './CustomFieldsForm1';
 
 const InvoiceTemplateV1 = ({ params }: any) => {
   const id = params.id as string;
@@ -37,7 +38,7 @@ const InvoiceTemplateV1 = ({ params }: any) => {
           {/* <img className="logo w-20" src="https://via.placeholder.com/150" alt="Company Logo" /> */}
           <img className="logo w-20" src={invoice?.company?.company_logo} alt="Company Logo" />
           {/* <Image src={invoice?.company?.company_logo} width={500} height={300} alt="My Image" /> */}
-        <p>logo-- {invoice?.company?.company_logo}</p>
+        <p>logo- {invoice?.company?.company_logo}</p>
         </div>
         <div className="from-container text-right pt-2 bg-origin-padding">
           <p>
@@ -48,7 +49,7 @@ const InvoiceTemplateV1 = ({ params }: any) => {
             {invoice?.company?.woreda}<br />
             {invoice?.company?.tel1}
           </p>
-          <CustomFieldsForm params={params}/>
+          <CustomFieldsForm1 params={params}/>
         </div>
       </div>
 
@@ -64,7 +65,7 @@ const InvoiceTemplateV1 = ({ params }: any) => {
             1-888-777-9998 */}
           </p>
           <TemplateForm params={params}/>
-          <CustomFieldsForm params={params}/>
+          <CustomFieldsForm2 params={params}/>
 
         </div>
         <div className="info-container flex flex-wrap-reverse  justify-betweenmb-4 mt-3 ">

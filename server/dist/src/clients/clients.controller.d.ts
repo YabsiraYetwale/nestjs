@@ -5,7 +5,9 @@ import { Query as expressQuery } from 'express-serve-static-core';
 export declare class ClientsController {
     private clientsService;
     constructor(clientsService: ClientsService);
-    getAllClients(searchQuery: string, query: expressQuery): Promise<any>;
+    getAllClients(searchQuery: string, query: expressQuery): Promise<"No matching clients found." | {
+        clients: any;
+    }>;
     getOneClient(id: string): Promise<{
         client: any;
     }>;

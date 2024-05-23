@@ -19,7 +19,7 @@ export const fetchCustomers=(searchQuery:any)=>async(dispatch:any)=>{
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
         // console.log(data.allClients)
-        return data
+        return data.clients
     } catch (error) {
         console.log(error)
     }
@@ -30,8 +30,7 @@ export const fetchCustomersBySearch=(searchQuery:any,router:any)=>async(dispatch
         const {data}= await api.fetchCustomers(searchQuery)
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
-        // console.log(data.allClients)
-        if(searchQuery || data.map((id:string)=>id)){
+        if(searchQuery || data.clients.map((id:string)=>id)){
             router.push(`/customers?searchQuery=${searchQuery}`)
         }
         if(!searchQuery){
@@ -40,7 +39,7 @@ export const fetchCustomersBySearch=(searchQuery:any,router:any)=>async(dispatch
        else if(data==="No matching clients found."){
             router.push('/customers/no-result')
         }
-        return data
+        return data.clients
     } catch (error) {
         console.log(error)
     }

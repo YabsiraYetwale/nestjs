@@ -32,16 +32,16 @@ const LineItemSchema = z.object({
   tax_rate: z.coerce.number().gte(0, "Tax Rate must be 0 and above"),
 });
 const client = z.object({
-  name: z.string(),
-  email: z.string(),
-  billing_address: z.string(),
-  contact_person: z.string(),
-  phone: z.string(),
-  shipping_address:z.string(),
-  shipping_city   :z.string(),
-  shipping_state  :z.string(),
-  shipping_zip    :z.string(),
-  shipping_country:z.string(),
+  name: z.string().optional(),
+  email: z.string().optional(),
+  billing_address: z.string().optional(),
+  contact_person: z.string().optional(),
+  phone: z.string().optional(),
+  shipping_address:z.string().optional(),
+  shipping_city   :z.string().optional(),
+  shipping_state  :z.string().optional(),
+  shipping_zip    :z.string().optional(),
+  shipping_country:z.string().optional(),
 });
 
 const FormSchema = z.object({
@@ -82,6 +82,7 @@ const InvoiceForm = ({ params }: any) => {
   }, [id, dispatch]);
 
   const [customer, setCustomer] = useState<Customers[] | null>(null);
+  const [existingCustomer, setExistingCustomer] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -169,34 +170,41 @@ const InvoiceForm = ({ params }: any) => {
             />
           </div>
             </div>
-          <div className='w-[100%] flex flex-col gap-5'>
+
+          <div className=' flex flex-col gap-5'>
           <div className='flex md:flex-row flex-col gap-5'>
-          <CardContent className='w-[100%] flex flex-col gap-5'>
+          <CardContent className={`${existingCustomer && 'relative left-[-350px]'} w-[100%] flex flex-col gap-5`}>
           <div className='flex md:flex-row flex-col gap-5 items-center bg-zinc-100 py-2 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]'>
-          <p className='font-bold text-[20px] text-gray-600'>
+          <p  onClick={()=>setExistingCustomer(false)} className='font-bold cursor-pointer text-[20px] text-gray-600 hover:text-gray-400'>
             Customer Information
           </p>
-          {/* <div className='flex'>  
-              <p className="text-blue-600 font-bold">OR Existing Customer</p> 
-              <FormField
-              control={form.control}
-              name="client_id"
-              render={({ field }: any) => (
-                <FormItem className="flex flex-col items-center">
-                  <FormControl>
-                    <select
-                      className="flex  gap-5 border"
-                      {...field}
-                    >
-                      <option>{customer?.map((i)=>i?.email)}</option>
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            </div> */}
+          <div className='flex'>  
+               <div className='flex gap-2'>
+               <p className="text-blue-600 hover:text-blue-400 font-bold ">OR</p>
+            {!existingCustomer && <p onClick={()=>setExistingCustomer(true)}
+             className="text-blue-600 hover:text-blue-400 font-bold cursor-pointer">Existing Customer</p> }
+               </div>
+            {existingCustomer &&  <FormField
+            control={form.control}
+            name='client.email'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <select className="flex  gap-5 border"  {...field}>
+                  <option> -- choose email --</option>
+                  {customer?.map((i)=>
+                    <option>{i?.email}</option>
+                  )}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />}
+
             </div>
+            </div>
+            {!existingCustomer &&  <>
           <div className='flex gap-5'>
           <FormField
             control={form.control}
@@ -249,7 +257,7 @@ const InvoiceForm = ({ params }: any) => {
             )}
           />
           </div>
-            <FormField
+          <FormField
             control={form.control}
             name='client.billing_address'
             render={({ field }:any) => (
@@ -261,8 +269,10 @@ const InvoiceForm = ({ params }: any) => {
               </FormItem>
             )}
           />
+          </>}
           </CardContent>
-          <CardContent className='w-[100%] flex flex-col gap-5'>
+        
+          {!existingCustomer && <CardContent className='w-[100%] flex flex-col gap-5'>
           <p className='font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]'>Shipping Information</p>
           <div className='flex gap-5'>
           <FormField
@@ -342,7 +352,7 @@ const InvoiceForm = ({ params }: any) => {
             )}
           />
           </div>
-        </CardContent>
+        </CardContent>}
         </div>
        </div>
         <div className="w-[100%] flex gap-5 flex-col">

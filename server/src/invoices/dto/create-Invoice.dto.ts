@@ -29,9 +29,9 @@ export class CreateInvoiceDto {
     @ApiProperty()
     total_amount: number;
     
-    @ApiProperty()
-    @IsOptional()
-    client_id: string;
+    // @ApiProperty()
+    // @IsOptional()
+    // client_id: string;
     @ApiProperty()
     @IsEmpty()
     creator_id :string;   
@@ -44,11 +44,16 @@ export class CreateInvoiceDto {
     @ApiProperty()
     @IsEmpty()
     company :any;
+
+    @ApiProperty()
+    @IsOptional()
+    templateVersion :string;
+
     @ApiProperty({ type: [CreateLineItemDto] })
     @ArrayNotEmpty()
     @ValidateNested({ each: true })
     @Type(() => CreateLineItemDto)
-    line_items: CreateLineItemDto[];
+    line_items: CreateLineItemDto[]
 
   
     @ApiProperty({ type: [CreateClientDto] })
@@ -56,6 +61,4 @@ export class CreateInvoiceDto {
     @Type(() => CreateClientDto)
     client: CreateClientDto;
   }
-
-
 

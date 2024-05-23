@@ -5,7 +5,9 @@ import { UpdateClientDto } from './dto/update-Client.dto';
 export declare class ClientsService {
     private prismaService;
     constructor(prismaService: PrismaService);
-    getAllClients(searchQuery: string, query: Query): Promise<any>;
+    getAllClients(searchQuery: string, query: Query): Promise<"No matching clients found." | {
+        clients: any;
+    }>;
     getOneClient(id: string): Promise<{
         client: any;
     }>;

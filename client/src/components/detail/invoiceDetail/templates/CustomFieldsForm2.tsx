@@ -11,7 +11,7 @@ interface Field {
   value: string;
 }
 
-function CustomFieldsForm({ params }: any) {
+function CustomFieldsForm2({ params }: any) {
   const id = params.id as string;
   const dispatch = useDispatch();
   const router = useRouter();
@@ -37,15 +37,15 @@ function CustomFieldsForm({ params }: any) {
       try {
         const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
         const { additionalFields } = response;
+      
         const initialFields: Field[] = [];
   
         additionalFields.forEach((item: any) => {
-          if (item.additional_fields && item.position=='0') {
+          if (item.additional_fields && item.position=='2') {
             const fieldObj = item.additional_fields;
-            
+  
             Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {
-              if ( name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
-                
+              if (name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
                 initialFields.push({ name, value });
               }
             });
@@ -72,7 +72,7 @@ function CustomFieldsForm({ params }: any) {
       const payload = {
         additional_fields: transformedFields,
         company_id:invoice?.company.id,
-        position:'0',
+        position:'2',
       };
       dispatch<any>(createAdditionalFields( payload,router));
     } catch (error) {
@@ -161,4 +161,4 @@ function CustomFieldsForm({ params }: any) {
   );
 }
 
-export default CustomFieldsForm;
+export default CustomFieldsForm2;

@@ -90,9 +90,9 @@ let ClientsService = class ClientsService {
             include: { invoices: true },
         });
         if (!searchQuery) {
-            return clients;
+            return { clients };
         }
-        return clients.length > 0 ? clients : 'No matching clients found.';
+        return clients.length > 0 ? { clients } : 'No matching clients found.';
     }
     async getOneClient(id) {
         const client = await this.prismaService.Clients.findUnique({

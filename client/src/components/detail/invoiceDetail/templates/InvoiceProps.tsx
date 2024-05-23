@@ -7,4 +7,5 @@ export type InvoiceProps = {
     client?: any;
     line_items?: any;
     company?: any;
+    templateVersion?:any;
   };

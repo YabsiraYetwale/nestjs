@@ -80,6 +80,7 @@ let InvoicesService = class InvoicesService {
         }
     }
     async createInvoice(createInvoiceDto, validatedUser) {
+        var _a;
         const { total_amount, line_items, client, creator, company } = createInvoiceDto, post = __rest(createInvoiceDto, ["total_amount", "line_items", "client", "creator", "company"]);
         const totalAmount = line_items === null || line_items === void 0 ? void 0 : line_items.reduce((total, item) => {
             return total + item.quantity * item.unit_price;
@@ -92,20 +93,34 @@ let InvoicesService = class InvoicesService {
             const lastNumber = parseInt(lastInvoice.invoice_number.split('-')[1]);
             invoiceNumber = `INV-${(lastNumber + 1).toString().padStart(3, '0')}`;
         }
+        const clientData = {
+            name: client === null || client === void 0 ? void 0 : client.name,
+            billing_address: client === null || client === void 0 ? void 0 : client.billing_address,
+            shipping_address: client === null || client === void 0 ? void 0 : client.shipping_address,
+            shipping_city: client === null || client === void 0 ? void 0 : client.shipping_city,
+            shipping_state: client === null || client === void 0 ? void 0 : client.shipping_state,
+            shipping_zip: client === null || client === void 0 ? void 0 : client.shipping_zip,
+            shipping_country: client === null || client === void 0 ? void 0 : client.shipping_country,
+            contact_person: client === null || client === void 0 ? void 0 : client.contact_person,
+            email: client === null || client === void 0 ? void 0 : client.email,
+            phone: client === null || client === void 0 ? void 0 : client.phone,
+        };
+        let createdClient;
+        if (clientData.email) {
+            createdClient = await this.prismaService.Clients.findUnique({
+                where: {
+                    email: clientData.email,
+                },
+            });
+            if (!createdClient) {
+                createdClient = await this.prismaService.Clients.create({
+                    data: clientData,
+                });
+            }
+        }
         const newInvoice = await this.prismaService.Invoices.create({
-            data: Object.assign(Object.assign({ invoice_number: invoiceNumber, total_amount: totalAmount, client: {
-                    create: {
-                        name: client.name,
-                        billing_address: client.billing_address,
-                        shipping_address: client.shipping_address,
-                        shipping_city: client.shipping_city,
-                        shipping_state: client.shipping_state,
-                        shipping_zip: client.shipping_zip,
-                        shipping_country: client.shipping_country,
-                        contact_person: client.contact_person,
-                        email: client.email,
-                        phone: client.phone,
-                    },
+            data: Object.assign(Object.assign({ invoice_number: invoiceNumber, total_amount: totalAmount }, post), { client: {
+                    connect: createdClient ? { id: createdClient.id } : undefined,
                 }, creator: {
                     connect: {
                         id: validatedUser.id,
@@ -114,8 +129,8 @@ let InvoicesService = class InvoicesService {
                     connect: {
                         id: validatedUser.company_id,
                     },
-                } }, post), { line_items: {
-                    create: line_items === null || line_items === void 0 ? void 0 : line_items.map((item) => ({
+                }, line_items: {
+                    create: (_a = createInvoiceDto.line_items) === null || _a === void 0 ? void 0 : _a.map((item) => ({
                         description: item.description,
                         quantity: item.quantity,
                         unit_price: item.unit_price,
@@ -131,6 +146,7 @@ let InvoicesService = class InvoicesService {
         });
         return newInvoice;
     }
+    ;
     async updateInvoice(id, updateInvoiceDto) {
         const { total_amount, client, line_items } = updateInvoiceDto, post = __rest(updateInvoiceDto, ["total_amount", "client", "line_items"]);
         const existingInvoice = await this.prismaService.Invoices.findUnique({
@@ -140,9 +156,12 @@ let InvoicesService = class InvoicesService {
         if (!existingInvoice) {
             throw new common_1.HttpException("Invoice doesn't exist", 404);
         }
-        await this.prismaService.Line_Items.deleteMany({
-            where: { invoice_id: existingInvoice.id },
-        });
+        const lineItemsProvided = line_items && line_items.length > 0;
+        if (lineItemsProvided) {
+            await this.prismaService.Line_Items.deleteMany({
+                where: { invoice_id: existingInvoice.id },
+            });
+        }
         const totalAmount = line_items === null || line_items === void 0 ? void 0 : line_items.reduce((total, item) => {
             return total + item.quantity * item.unit_price;
         }, 0);
@@ -150,25 +169,27 @@ let InvoicesService = class InvoicesService {
             where: id,
             data: Object.assign(Object.assign({ total_amount: totalAmount }, post), { client: {
                     update: {
-                        name: client.name,
-                        billing_address: client.billing_address,
-                        shipping_address: client.shipping_address,
-                        shipping_city: client.shipping_city,
-                        shipping_state: client.shipping_state,
-                        shipping_zip: client.shipping_zip,
-                        shipping_country: client.shipping_country,
-                        contact_person: client.contact_person,
-                        email: client.email,
-                        phone: client.phone,
+                        name: client === null || client === void 0 ? void 0 : client.name,
+                        billing_address: client === null || client === void 0 ? void 0 : client.billing_address,
+                        shipping_address: client === null || client === void 0 ? void 0 : client.shipping_address,
+                        shipping_city: client === null || client === void 0 ? void 0 : client.shipping_city,
+                        shipping_state: client === null || client === void 0 ? void 0 : client.shipping_state,
+                        shipping_zip: client === null || client === void 0 ? void 0 : client.shipping_zip,
+                        shipping_country: client === null || client === void 0 ? void 0 : client.shipping_country,
+                        contact_person: client === null || client === void 0 ? void 0 : client.contact_person,
+                        email: client === null || client === void 0 ? void 0 : client.email,
+                        phone: client === null || client === void 0 ? void 0 : client.phone,
+                    },
+                }, line_items: lineItemsProvided
+                    ? {
+                        create: line_items === null || line_items === void 0 ? void 0 : line_items.map((item) => ({
+                            description: item === null || item === void 0 ? void 0 : item.description,
+                            quantity: item === null || item === void 0 ? void 0 : item.quantity,
+                            unit_price: item === null || item === void 0 ? void 0 : item.unit_price,
+                            tax_rate: item === null || item === void 0 ? void 0 : item.tax_rate,
+                        })),
                     }
-                }, line_items: {
-                    create: line_items === null || line_items === void 0 ? void 0 : line_items.map((item) => ({
-                        description: item.description,
-                        quantity: item.quantity,
-                        unit_price: item.unit_price,
-                        tax_rate: item.tax_rate,
-                    })),
-                } }),
+                    : undefined }),
         });
         if (!updatedInvoice) {
             throw new Error('Failed to update Invoice!!!');

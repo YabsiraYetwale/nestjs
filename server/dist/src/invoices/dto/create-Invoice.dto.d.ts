@@ -7,11 +7,11 @@ export declare class CreateInvoiceDto {
     date: Date;
     due_date: Date;
     total_amount: number;
-    client_id: string;
     creator_id: string;
     company_id: string;
     creator: any;
     company: any;
+    templateVersion: string;
     line_items: CreateLineItemDto[];
     client: CreateClientDto;
 }
