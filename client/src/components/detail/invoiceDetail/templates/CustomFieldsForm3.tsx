@@ -75,6 +75,24 @@ function CustomFieldsForm({ params }: any) {
         position:'3',
       };
       dispatch<any>(createAdditionalFields( payload,router));
+        // Fetch the updated template data and update the fields
+        const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
+        const { additionalFields } = response;
+        const initialFields: Field[] = [];
+  
+        additionalFields.forEach((item: any) => {
+          if (item.additional_fields && item.position=='0') {
+            const fieldObj = item.additional_fields;
+            
+            Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {
+              if ( name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
+                
+                initialFields.push({ name, value });
+              }
+            });
+          }
+        });
+        setFields(initialFields);
     } catch (error) {
       console.error('Failed to create custom field:', error);
     }

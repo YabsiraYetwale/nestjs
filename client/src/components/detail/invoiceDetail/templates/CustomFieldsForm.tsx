@@ -98,7 +98,6 @@ function CustomFieldsForm({ params }: any) {
 
           await dispatch<any>(createAdditionalFields( payload,router))
           // Fetch the updated template data and update the fields
-
               const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
               const { additionalFields } = response;
               const initialFields: Field[] = [];
