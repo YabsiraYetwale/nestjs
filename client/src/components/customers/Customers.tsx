@@ -15,55 +15,63 @@ import { CustomersProps } from "../schemas/customerProps";
 
 type Props = {};
 
+type CellProps = {
+  row: any;
+};
+
+const Cell: React.FC<CellProps> = ({ row }) => {
+  const id = row.getValue("id");
+  const localActive = useLocale();
+
+  return (
+    <div className="flex gap-2 items-center">
+      <Link
+        className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
+        href={`/${localActive}/customers/details/${id}`}
+      >
+        View
+      </Link>
+    </div>
+  );
+};
 
 const columns: ColumnDef<CustomersProps>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }:any) => {
+    cell: ({ row }: any) => {
       return (
         <div className="flex gap-2 items-center">
           <div className="h-10 w-10  bg-zinc-100 py-2 border-b border-s-zinc-200 flex items-center justify-center">
-          <User/>
+            <User />
           </div>
-          <p>{row.getValue("name")} </p>
+          <p>{row.getValue("name")}</p>
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "email",
-    header: "Email"
+    header: "Email",
   },
   {
     accessorKey: "billing_address",
-    header: "Billing Address"
+    header: "Billing Address",
   },
   {
     accessorKey: "contact_person",
-    header: "Contact Person"
+    header: "Contact Person",
   },
-    {
+  {
     accessorKey: "phone",
-    header: "Phone"
+    header: "Phone",
   },
   {
     accessorKey: "id",
     header: "Manage",
-    cell: ({ row}:any) => {
-      const id = row.getValue("id");
-     
-      const localActive = useLocale();
-
-      return (
-        <div className="flex gap-2 items-center">
-          <Link className="bg-blue-600 px-5 py-2 text-white rounded-[10px]" href={`/${localActive}/customers/details/${id}`}>View</Link>
-        </div>
-      );
-    }
+    cell: Cell,
   },
-];
-
+]
 
 
 export default function Customers({}: Props) {

@@ -13,7 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {useLocale } from 'next-intl';
 
-type Props = {};
+type Props = {
+  params: any;
+};
 
 type Invoice = {
   invoice_number: string;
@@ -38,11 +40,33 @@ const formatDate = (dateString: string) => {
 
   const date = new Date(dateString);
   const originalDate = date.toLocaleDateString(undefined, options);
-  const [day, month, year] = originalDate.split('/');
+  const [day, month, year] = originalDate.split("/");
   return `${year}-${month}-${day}`;
 };
 
 type InvoiceWithClient = Invoice & { client: Client };
+
+type CellProps = {
+  row: any;
+};
+
+const Cell: React.FC<CellProps> = ({ row }) => {
+  const id = row.getValue("id");
+  const localActive = useLocale();
+
+  return (
+    <div>
+      <div className="flex gap-2 items-center">
+        <Link
+          className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
+          href={`/${localActive}/invoices/details/${id}`}
+        >
+          View
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 const columns: ColumnDef<InvoiceWithClient>[] = [
   {
@@ -56,7 +80,7 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }:any) => {
+    cell: ({ row }: any) => {
       return (
         <div
           className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
@@ -85,23 +109,7 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
   {
     accessorKey: "id",
     header: "Manage",
-    cell: ({ row }:any) => {
-      const id = row.getValue("id");
-      const localActive = useLocale();
-
-      return (
-        <div>
-          <div className="flex gap-2 items-center">
-            <Link
-              className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-              href={`/${localActive}/invoices/details/${id}`}
-            >
-              View
-            </Link>
-          </div>
-        </div>
-      );
-    },
+    cell: Cell,
   },
 ];
 
