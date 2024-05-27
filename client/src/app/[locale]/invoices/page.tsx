@@ -21,7 +21,7 @@ export default function CustomersPage() {
             <Link href={`/${localActive}/invoices/addInvoice`}>{t("add")}</Link>
           </Button>
         </div>
-        <Invoices />
+        <Invoices/>
       </div>
       <Goup />
     </>

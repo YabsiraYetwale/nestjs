@@ -13,9 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {useLocale } from 'next-intl';
 
-type Props = {
-  params: any;
-};
+type Props = {};
 
 type Invoice = {
   invoice_number: string;
