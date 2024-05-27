@@ -18,6 +18,8 @@ import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/redux/actions/auth';
+import {useLocale } from 'next-intl';
+
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -30,6 +32,8 @@ const FormSchema = z.object({
 const SignInForm = () => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const localActive = useLocale();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -88,7 +92,7 @@ const SignInForm = () => {
       <GoogleSignInButton >Sign in with Google</GoogleSignInButton>
       <p className='text-center text-sm text-gray-600 mt-2'>
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
+        <Link className='text-blue-500 hover:underline' href={`/${localActive}/sign-up`}>
           Sign up
         </Link>
       </p>

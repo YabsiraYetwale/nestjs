@@ -32,21 +32,29 @@ export class AuthController {
       }),
     }),
   )
- registerUser(@Body() createCompanyDto: CreateCompanyDto,
+ registerUserCompany(@Body() createCompanyDto: CreateCompanyDto,
  @UploadedFiles()
- files: {
-   file_name?: Express.Multer.File[];
-   company_logo?: Express.Multer.File[];
- },
+//  files: {
+//    file_name?: Express.Multer.File[];
+//    company_logo?: Express.Multer.File[];
+//  },
  @Req() request: Request,
   ){
-  return this.authService.registerUser(createCompanyDto,files.file_name,files.company_logo,request)
+  return this.authService.registerUserCompany(createCompanyDto,request)
+  // return this.authService.registerUser(createCompanyDto,files.file_name,files.company_logo,request)
+ }
+
+ @Post('addUser')
+// @UseGuards(LocalGuard)
+registerUser(@Body() registerUserDto:RegisterUserDto){
+  return this.authService.registerUser(registerUserDto)
  }
 @Post('login')
 // @UseGuards(LocalGuard)
  loginUser(@Req() req: Request,@Body() loginUserDto:LoginUserDto){
   return this.authService.loginUser(loginUserDto)
  }
+
 
   @Get('/user/current-user')
   @UseGuards(JwtAuthGuard)

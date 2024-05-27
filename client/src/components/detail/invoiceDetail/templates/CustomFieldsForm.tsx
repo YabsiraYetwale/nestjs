@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from '@/redux/actions/invoices';
-import { InvoiceProps } from '@/components/detail/invoiceDetail/templates/InvoiceProps';
+import { InvoiceProps } from '@/components/schemas/InvoiceProps';
 import { createAdditionalFields, fetchAdditionalFieldsByCompanyId } from '@/redux/actions/items';
 import { useRouter } from 'next/navigation';
 

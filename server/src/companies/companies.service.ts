@@ -12,8 +12,8 @@ export class CompaniesService {
     ) {}
     
   async getAllCompanies(){
-    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
-    return {allCompanies}
+    const companies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
+    return {companies}
   }
 
   async getOneCompany(id:string){

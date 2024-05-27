@@ -26,8 +26,11 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    registerUser(createCompanyDto, files, request) {
-        return this.authService.registerUser(createCompanyDto, files.file_name, files.company_logo, request);
+    registerUserCompany(createCompanyDto, request) {
+        return this.authService.registerUserCompany(createCompanyDto, request);
+    }
+    registerUser(registerUserDto) {
+        return this.authService.registerUser(registerUserDto);
     }
     loginUser(req, loginUserDto) {
         return this.authService.loginUser(loginUserDto);
@@ -67,9 +70,16 @@ __decorate([
     })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFiles)()),
-    __param(2, (0, common_1.Req)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Object, Object]),
+    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "registerUserCompany", null);
+__decorate([
+    (0, common_1.Post)('addUser'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [register_dto_1.RegisterUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registerUser", null);
 __decorate([

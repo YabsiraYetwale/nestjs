@@ -1,4 +1,3 @@
-/// <reference types="multer" />
 import { RegisterUserDto } from './dto/register.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +8,10 @@ export declare class AuthService {
     private jwtService;
     private prismaService;
     constructor(jwtService: JwtService, prismaService: PrismaService);
-    registerUser(registerCompanyDto: CreateCompanyDto, file_name: Express.Multer.File[], company_logo: Express.Multer.File[], request: Request): Promise<{
+    registerUser(registerUserDto: RegisterUserDto): Promise<{
+        message: string;
+    }>;
+    registerUserCompany(registerCompanyDto: CreateCompanyDto, request: Request): Promise<{
         message: string;
     }>;
     loginUser(loginUserDto: LoginUserDto): Promise<{

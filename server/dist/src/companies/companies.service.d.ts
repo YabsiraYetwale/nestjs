@@ -8,7 +8,7 @@ export declare class CompaniesService {
     private prismaService;
     constructor(jwtService: JwtService, prismaService: PrismaService);
     getAllCompanies(): Promise<{
-        allCompanies: any;
+        companies: any;
     }>;
     getOneCompany(id: string): Promise<{
         company: any;

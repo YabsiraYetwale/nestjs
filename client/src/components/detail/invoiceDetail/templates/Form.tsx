@@ -9,7 +9,7 @@ import { fetchInvoice } from "@/redux/actions/invoices";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { InvoiceProps } from "./InvoiceProps";
+import { InvoiceProps } from "../../../schemas/InvoiceProps";
 import {updateCustomerTemplate } from "@/redux/actions/customers";
 
 const FormSchema = z.object({

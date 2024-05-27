@@ -1,4 +1,4 @@
-import { CREATE, END_LOADING, START_LOADING, UPDATE } from '../actionTypes/index'
+import { CREATE, END_LOADING, FETCH_ALL, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 export const createItem=(item:any,router:any)=>async(dispatch:any)=>{
     try {
@@ -19,6 +19,17 @@ export const updateItem=(id:String,item:any,router:any)=>async(dispatch:any)=>{
         dispatch({type:UPDATE,payload:data})
         router.push('/')
         dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const fetchCompanies=()=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.fetchCompanies()
+        dispatch({type:FETCH_ALL,payload:data})
+        dispatch({type:END_LOADING})
+        return data.companies
     } catch (error) {
         console.log(error)
     }

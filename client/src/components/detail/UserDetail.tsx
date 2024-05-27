@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteUser, fetchUser } from "@/redux/actions/auth";
+import {useLocale } from 'next-intl';
 
 type UserProps = {
   username: string;
@@ -16,6 +17,7 @@ type UserProps = {
 export default function UserDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const localActive = useLocale();
   const id = params.id as string;
 
   const [user, setUser] = useState<UserProps | null>(null);
@@ -36,7 +38,7 @@ export default function UserDetail({ params }: any) {
     setIsDelete(!isDelete);
   };
   const handleConfirm = () => {
-    dispatch<any>(deleteUser(id,router))
+    dispatch<any>(deleteUser(id,router,localActive))
   };
   return (
     <div className='flex flex-col gap-[170px]'>
@@ -81,7 +83,7 @@ export default function UserDetail({ params }: any) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/users/edit/${id}`}>
+        <Link href={`/${localActive}/users/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
             Edit
           </Button>

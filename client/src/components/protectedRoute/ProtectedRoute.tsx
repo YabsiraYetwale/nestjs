@@ -3,11 +3,15 @@ import {useEffect, useState } from "react";
 import { useDispatch} from 'react-redux';
 import { useRouter } from "next/navigation";
 import { fetchCurrentUser } from "@/redux/actions/auth";
+import {useLocale } from 'next-intl';
+
 
 function Redirect () {
   const router = useRouter();
+  const localActive = useLocale();
+
     useEffect(() => {
-      router.push("/sign-in");
+      router.push(`/${localActive}/sign-in`);
     }, [router]);
   return (<div>Redirecting</div>);};
   type userProps= {

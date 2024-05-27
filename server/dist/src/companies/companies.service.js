@@ -34,8 +34,8 @@ let CompaniesService = class CompaniesService {
         this.prismaService = prismaService;
     }
     async getAllCompanies() {
-        const allCompanies = await this.prismaService.Company.findMany({ include: { users: true, documents: true, additional_fields: true } });
-        return { allCompanies };
+        const companies = await this.prismaService.Company.findMany({ include: { users: true, documents: true, additional_fields: true } });
+        return { companies };
     }
     async getOneCompany(id) {
         const company = await this.prismaService.Company.findUnique({ where: id, include: { users: true, documents: true, additional_fields: true } });

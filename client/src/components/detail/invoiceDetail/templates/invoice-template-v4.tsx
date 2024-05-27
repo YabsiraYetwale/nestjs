@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ItemsCard from '../ItemsCard'
 import TemplateForm from './Form'
-import { InvoiceProps } from "./InvoiceProps";
+import { InvoiceProps } from "../../../schemas/InvoiceProps";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
+import CustomFieldsForm2 from './CustomFieldsForm2';
+import CustomFieldsForm1 from './CustomFieldsForm1';
 
 
 export default function InvoiceTemplateV4({ params }: any) {
@@ -55,6 +57,7 @@ export default function InvoiceTemplateV4({ params }: any) {
             <div>
               <p>{invoice?.company?.city},{invoice?.company?.woreda}</p>
             </div>
+            <CustomFieldsForm1 params={params}/>
         </div>
         <div>
           <h4 className="text-blue-600 font-semibold text-xl">Receiver</h4>
@@ -62,6 +65,7 @@ export default function InvoiceTemplateV4({ params }: any) {
           <p>Receiver Street</p>
           <p>Receiver City, Receiver State, Receiver Zip</p> */}
                     <TemplateForm params={params}/>
+                    <CustomFieldsForm2 params={params}/>
 
         </div>
       </div>

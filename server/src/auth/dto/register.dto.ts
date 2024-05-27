@@ -15,4 +15,7 @@ export class RegisterUserDto{
     @IsOptional()
     @MaxLength(20, { message: 'Role must be a maximum of 20 characters' })
     role:string 
+   
+    @IsNotEmpty()
+    company_id:string 
 }

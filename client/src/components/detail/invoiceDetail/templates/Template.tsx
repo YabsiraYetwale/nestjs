@@ -14,7 +14,7 @@ import InvoiceTemplateV3 from "./invoice-template-v3";
 import InvoiceTemplateV4 from "./invoice-template-v4";
 import InvoiceTemplateV5 from "./invoice-template-v5";
 import CustomFieldsForm from "./CustomFieldsForm";
-import { InvoiceProps } from "./InvoiceProps";
+import { InvoiceProps } from "../../../schemas/InvoiceProps";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import {
@@ -135,8 +135,7 @@ const onSubmit = async (values: z.infer<typeof FormSchema>) => {
                     <select
                       {...field}
                      
-                      className="border text-center w-[150px] h-[40px]"
-                    >
+                      className=" text-center w-[150px] ">
                       <option value={invoice?.templateVersion}>{invoice?.templateVersion}</option>
                       <option value='v1'>ver1</option>
                       <option value='v2'>ver2</option>
@@ -151,10 +150,9 @@ const onSubmit = async (values: z.infer<typeof FormSchema>) => {
             />
           </div>
             </div>
-       
           </div>
-          <div className='flex gap-5 mt-6'>
-        <Button className='bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 ' type='submit'>
+          <div className='flex gap-5 '>
+        <Button className='bg-transparent hover:bg-transparent flex text-purple-600 font-semibold items-center space-x-2 px-5 rounded-sm border border-purple-600' type='submit'>
           Save
         </Button>
         </div>

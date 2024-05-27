@@ -18,6 +18,8 @@ import { useRouter } from 'next/navigation';
 import { createCustomer, fetchCustomer, updateCustomer } from '@/redux/actions/customers';
 import Link from 'next/link';
 import { CardContent } from '../Card';
+import {useLocale } from 'next-intl';
+
 const FormSchema = z
   .object({
     name: z.string().min(1, 'name is required').max(100),
@@ -36,6 +38,7 @@ const FormSchema = z
 const CustomerForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -69,10 +72,10 @@ const CustomerForm = ({params}:any) => {
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
-         dispatch<any>(updateCustomer(id,values,router));
+         dispatch<any>(updateCustomer(id,values,router,localActive));
        }
        else{
-         dispatch<any>(createCustomer(values,router));
+         dispatch<any>(createCustomer(values,router,localActive));
        }
      };
 
@@ -238,7 +241,7 @@ const CustomerForm = ({params}:any) => {
           {id ? 'Update ':'Add ' }Customer
         </Button>
         <Button className="bg-red-600 sm:h-[40px] h-[30px] hover:bg-red-500">
-                <Link href={`/customers`}>Cancel</Link>
+                <Link href={`/${localActive}/customers`}>Cancel</Link>
               </Button>
         </div>
       </form>

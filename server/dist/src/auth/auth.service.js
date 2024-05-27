@@ -34,7 +34,29 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.prismaService = prismaService;
     }
-    async registerUser(registerCompanyDto, file_name, company_logo, request) {
+    async registerUser(registerUserDto) {
+        const { email, username, password } = registerUserDto, post = __rest(registerUserDto, ["email", "username", "password"]);
+        const existingUserEmail = await this.prismaService.User.findUnique({
+            where: { email: email },
+        });
+        const existingUserUsername = await this.prismaService.User.findUnique({
+            where: { username: username },
+        });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        if (existingUserEmail) {
+            throw new common_1.HttpException('Email already exists', 409);
+        }
+        else if (existingUserUsername) {
+            throw new common_1.HttpException('Username already exists', 409);
+        }
+        else {
+            const user = await this.prismaService.User.create({
+                data: Object.assign({ username, password: hashedPassword, email }, post),
+            });
+            return { message: 'User registered successfully' };
+        }
+    }
+    async registerUserCompany(registerCompanyDto, request) {
         const { users, documents, name, company_number, vat_reg_number, tel1, tel2, house_no, po_box, fax, email } = registerCompanyDto, post = __rest(registerCompanyDto, ["users", "documents", "name", "company_number", "vat_reg_number", "tel1", "tel2", "house_no", "po_box", "fax", "email"]);
         const existingUserEmail = await this.prismaService.User.findUnique({
             where: { email: users.email },
@@ -104,15 +126,6 @@ let AuthService = class AuthService {
         else {
             const protocol = 'https';
             const host = request.get('host');
-            const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
-            const newDocuments = {
-                create: file_name
-                    ? file_name.map((file) => ({
-                        file_name: file.originalname,
-                        file_path: `${protocol}://${host}/${file.filename}`,
-                    }))
-                    : [],
-            };
             const user = await this.prismaService.Company.create({
                 data: Object.assign({ users: {
                         create: {
@@ -121,7 +134,8 @@ let AuthService = class AuthService {
                             email: users.email,
                             role: users.role,
                         },
-                    }, documents: newDocuments, name, company_logo: company_logo_url, company_number,
+                    }, name,
+                    company_number,
                     vat_reg_number,
                     tel1,
                     tel2,
@@ -130,7 +144,7 @@ let AuthService = class AuthService {
                     fax,
                     email }, post),
             });
-            return { message: 'User registered successfully' };
+            return { message: 'User/Company registered successfully' };
         }
     }
     async loginUser(loginUserDto) {
@@ -210,11 +224,11 @@ let AuthService = class AuthService {
     }
 };
 __decorate([
-    __param(3, (0, common_1.Req)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Array, Array, Object]),
+    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Object]),
     __metadata("design:returntype", Promise)
-], AuthService.prototype, "registerUser", null);
+], AuthService.prototype, "registerUserCompany", null);
 AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,

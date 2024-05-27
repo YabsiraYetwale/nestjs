@@ -4,9 +4,11 @@ import { HandMetal } from "lucide-react";
 import TemplateForm from "./Form";
 import ItemsCard from "../ItemsCard";
 import { fetchInvoice } from "@/redux/actions/invoices";
-import { InvoiceProps } from "./InvoiceProps";
+import { InvoiceProps } from "../../../schemas/InvoiceProps";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import CustomFieldsForm2 from "./CustomFieldsForm2";
+import CustomFieldsForm1 from "./CustomFieldsForm1";
 export default function InvoiceTemplateV5({ params }: any) {
   const id = params.id as string;
   const dispatch = useDispatch();
@@ -62,7 +64,8 @@ export default function InvoiceTemplateV5({ params }: any) {
               <span> {invoice?.company?.name}</span>
               <span>{invoice?.company?.kebele}</span> 
               <span>Company No: {invoice?.company?.company_number}</span> 
-              <span>Company Vat: {invoice?.company?.vat_reg_number}</span>  
+              <span>Company Vat: {invoice?.company?.vat_reg_number}</span> 
+              <CustomFieldsForm1 params={params}/> 
             </div>
             <div className="flex flex-col gap-3">
               <strong>Billing To<hr/></strong>
@@ -71,6 +74,7 @@ export default function InvoiceTemplateV5({ params }: any) {
               <span>'templateVersion?.client?.email'</span>
               <span>'templateVersion?.client?.phone'</span> */}
                         <TemplateForm params={params}/>
+                        <CustomFieldsForm2 params={params}/>
 
             </div>
             <div className="flex flex-col gap-3">

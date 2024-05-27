@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from '@/redux/actions/invoices';
-import { InvoiceProps } from '@/components/detail/invoiceDetail/templates/InvoiceProps';
+import { InvoiceProps } from '@/components/schemas/InvoiceProps';
 import { createAdditionalFields, fetchAdditionalFieldsByCompanyId } from '@/redux/actions/items';
 import { useRouter } from 'next/navigation';
 
@@ -81,7 +81,7 @@ function CustomFieldsForm1({ params }: any) {
         const initialFields: Field[] = [];
   
         additionalFields.forEach((item: any) => {
-          if (item.additional_fields && item.position=='0') {
+          if (item.additional_fields && item.position=='1') {
             const fieldObj = item.additional_fields;
             
             Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {

@@ -17,6 +17,8 @@ API.interceptors.request.use((req:any) => {
 // Auth
 export const signUp = (user:any) => API.post("/auth/register", user);
 export const signIn = (user:any) => API.post("/auth/login", user);
+export const addUser = (user:any) => API.post("/auth/addUser", user);
+
 
 // user profile
 export const fetchCurrentUser = () => API.get("/auth/user/current-user");
@@ -50,6 +52,7 @@ export const createItem = (item:any) => API.post("/items", item);
 export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);
 
 // Company
+export const fetchCompanies = () => API.get('/companies');
 export const updateCompany = (id:String,company:any) => API.patch(`/companies/${id}`, company);
 
 // AdditionalFields

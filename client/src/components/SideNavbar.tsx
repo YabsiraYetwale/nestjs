@@ -16,9 +16,13 @@ import {
 import { Button } from "./ui/button";
 
 import { useWindowWidth } from "@react-hook/window-size";
+import {useLocale } from 'next-intl';
+
 
 export default function SideNavbar({}: Props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const localActive = useLocale();
+
 
   const onlyWidth = useWindowWidth();
   const mobileWidth = onlyWidth < 768;
@@ -59,25 +63,25 @@ export default function SideNavbar({}: Props) {
             },
             {
               title: "Invoices",
-              href: "/invoices",
+              href: (`/${localActive}/invoices`),
               icon: Activity,
               variant: "ghost",
             },
             {
               title: "Customers",
-              href: "/customers",
+              href: (`/${localActive}/customers`),
               icon: UsersRound,
               variant: "ghost",
             },
             {
               title: "System Users",
-              href: "/users",
+              href: (`/${localActive}/users`),
               icon: Users,
               variant: "ghost",
             },
             {
               title: "Settings",
-              href: "/settings",
+              href: (`/${localActive}/settings`),
               icon: Settings,
               variant: "ghost",
             },

@@ -6,7 +6,7 @@ export declare class CompaniesController {
     private readonly companiesService;
     constructor(companiesService: CompaniesService);
     getAllCompanies(): Promise<{
-        allCompanies: any;
+        companies: any;
     }>;
     getOneCompany(id: string): Promise<{
         company: any;

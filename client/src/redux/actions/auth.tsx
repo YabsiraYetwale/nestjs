@@ -1,13 +1,13 @@
 import {DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 
-export const signUp=(user:any,router:any)=>async(dispatch:any)=>{
+export const signUp=(user:any,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
         alert(data.message)
         dispatch({type:SIGNUP,payload:data})
-        router.push('/sign-in')
+        router.push(`/${localActive}/sign-in`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -65,36 +65,36 @@ export const fetchUser=(id:String)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const createUser=(user:any,router:any)=>async(dispatch:any)=>{
+export const createUser=(user:any,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
-        const {data}= await api.signUp(user)
+        const {data}= await api.addUser(user)
         alert(data.message)
         dispatch({type:SIGNUP,payload:data})
-        router.push('/users')
+        router.push(`/${localActive}/users`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
         // alert('create user was not successful')
     }
 }
-export const updateUser=(id:String,user:any,router:any)=>async(dispatch:any)=>{
+export const updateUser=(id:String,user:any,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateUser(id,user)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/users/details/${id}`)
+        router.push(`/${localActive}/users/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
     }
 }
-export const deleteUser=(id:String,router:any)=>async(dispatch:any)=>{
+export const deleteUser=(id:String,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteUser(id)
         dispatch({type:DELETE,payload:id})
-        router.push('/users')
+        router.push(`/${localActive}/users`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

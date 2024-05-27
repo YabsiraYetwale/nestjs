@@ -14,9 +14,40 @@ export class AuthService {
     private prismaService: PrismaService,
   ) {}
 
-  async registerUser(registerCompanyDto: CreateCompanyDto,
-    file_name: Express.Multer.File[],
-    company_logo: Express.Multer.File[],
+  async registerUser(registerUserDto: RegisterUserDto) {
+    const {email,username,password,...post} = registerUserDto;
+    const existingUserEmail = await this.prismaService.User.findUnique({
+      where: { email:email },
+    });
+    const existingUserUsername = await this.prismaService.User.findUnique({
+      where: { username: username },
+    });
+    
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    if (existingUserEmail) {
+      throw new HttpException('Email already exists', 409);
+    } else if (existingUserUsername) {
+      throw new HttpException('Username already exists', 409);}
+       else {
+
+      const user = await this.prismaService.User.create({
+        data: {
+          
+              username,
+              password: hashedPassword,
+              email,
+              ...post
+            },
+         
+        },);
+      return { message: 'User registered successfully' }
+    }
+  }
+  async registerUserCompany(registerCompanyDto: CreateCompanyDto,
+    // file_name: Express.Multer.File[],
+    // company_logo: Express.Multer.File[],
     @Req() request: Request,
   
     ) {
@@ -96,16 +127,16 @@ export class AuthService {
       // const protocol = request.protocol;
       const protocol = 'https';
       const host = request.get('host');
-      const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
+      // const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
 
-      const newDocuments = {
-        create: file_name
-          ? file_name.map((file) => ({
-              file_name: file.originalname,
-              file_path:`${protocol}://${host}/${file.filename}`,
-            }))
-          : [],
-      };
+      // const newDocuments = {
+      //   create: file_name
+      //     ? file_name.map((file) => ({
+      //         file_name: file.originalname,
+      //         file_path:`${protocol}://${host}/${file.filename}`,
+      //       }))
+      //     : [],
+      // };
 
       const user = await this.prismaService.Company.create({
         data: {
@@ -117,9 +148,9 @@ export class AuthService {
               role: users.role,
             },
           },
-          documents: newDocuments ,
+          // documents: newDocuments ,
           name,
-          company_logo:company_logo_url,
+          // company_logo:company_logo_url,
           company_number,
           vat_reg_number,
           tel1,
@@ -131,7 +162,7 @@ export class AuthService {
           ...post,
         },
       });
-      return { message: 'User registered successfully' }
+      return { message: 'User/Company registered successfully' }
     }
   }
 

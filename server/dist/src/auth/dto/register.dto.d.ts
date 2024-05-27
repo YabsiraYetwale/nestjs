@@ -4,4 +4,5 @@ export declare class RegisterUserDto {
     email: string;
     password: string;
     role: string;
+    company_id: string;
 }

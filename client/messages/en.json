@@ -1,0 +1,52 @@
+{
+  "IndexPage": {
+    "title": "next-intl example",
+    "description": "Welcome to the Next.js Internationalization (i18n) example! This demo showcases the power of the App Router and how to manage multilingual content seamlessly using next-intl."
+  },
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "description": "Oops! It seems like you've stumbled upon a page that doesn't exist. Don't worry, our internationalization magic is still hard at work on other parts of the app. Feel free to navigate back to explore more!"
+  },
+  "Logo":{
+    "title1": "Invoice",
+    "title2": "Systm"
+  },
+ 
+  "Dashboard":{
+    "quickaccess":"Quick access",
+    "title":"Dashboard"
+  },
+  "Customers":{
+    "title":"Customers"
+  },
+  "Invoices":{
+    "title":"Invoices"
+  },
+  "Users":{
+    "title":"Users"
+  },
+  "Settings":{
+    "title":"Settings"
+  },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "invoices": "Invoices",
+    "customers": "Custommers",
+    "systemUsers": "System Users",
+    "settings": "Settings",
+    "newInvoice": "create new invoice",
+    "manageCustomers": "manage customers",
+    "viewStatus": "view invoice status",
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "logout": "Logout",
+    "add":"Add New"
+  },
+
+  "Footer": {
+    "copyright": "© 2024 Your App. All rights reserved."
+  },
+  "My":{
+    "me":"home"
+  }
+}

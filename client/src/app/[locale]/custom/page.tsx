@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from '@/redux/actions/invoices';
-import { InvoiceProps } from '@/components/detail/invoiceDetail/templates/InvoiceProps';
+import { InvoiceProps } from '@/components/schemas/InvoiceProps';
 
 interface Field {
   name: string;

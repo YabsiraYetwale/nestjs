@@ -18,6 +18,7 @@ import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signUp } from '@/redux/actions/auth';
+import {useLocale } from 'next-intl';
 
 const FormSchema = z
   .object({
@@ -32,6 +33,8 @@ const FormSchema = z
 const SignUpForm = () => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const localActive = useLocale();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -43,7 +46,7 @@ const SignUpForm = () => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     // console.log(values);
-    dispatch<any>(signUp(values,router))
+    dispatch<any>(signUp(values,router,localActive))
   };
 
   return (
@@ -104,7 +107,7 @@ const SignUpForm = () => {
       <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
       <p className='text-center text-sm text-gray-600 mt-2'>
         If you have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-in'>
+        <Link className='text-blue-500 hover:underline' href={`/${localActive}/sign-in`}>
           Sign in
         </Link>
       </p>

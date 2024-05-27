@@ -1,4 +1,3 @@
-/// <reference types="multer" />
 /// <reference types="passport" />
 import { RegisterUserDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
@@ -8,10 +7,10 @@ import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    registerUser(createCompanyDto: CreateCompanyDto, files: {
-        file_name?: Express.Multer.File[];
-        company_logo?: Express.Multer.File[];
-    }, request: Request): Promise<{
+    registerUserCompany(createCompanyDto: CreateCompanyDto, request: Request): Promise<{
+        message: string;
+    }>;
+    registerUser(registerUserDto: RegisterUserDto): Promise<{
         message: string;
     }>;
     loginUser(req: Request, loginUserDto: LoginUserDto): Promise<{

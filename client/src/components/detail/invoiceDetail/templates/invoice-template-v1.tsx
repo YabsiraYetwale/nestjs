@@ -4,7 +4,7 @@ import ItemsCard from '../ItemsCard';
 import TemplateForm from './Form';
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { InvoiceProps } from './InvoiceProps';
+import { InvoiceProps } from '../../../schemas/InvoiceProps';
 import Image from 'next/image';
 import CustomFieldsForm2 from './CustomFieldsForm2';
 import CustomFieldsForm1 from './CustomFieldsForm1';

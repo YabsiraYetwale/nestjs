@@ -38,5 +38,9 @@ __decorate([
     (0, class_validator_1.MaxLength)(20, { message: 'Role must be a maximum of 20 characters' }),
     __metadata("design:type", String)
 ], RegisterUserDto.prototype, "role", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], RegisterUserDto.prototype, "company_id", void 0);
 exports.RegisterUserDto = RegisterUserDto;
 //# sourceMappingURL=register.dto.js.map

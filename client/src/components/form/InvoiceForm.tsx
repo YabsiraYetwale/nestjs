@@ -25,6 +25,8 @@ import { fetchCustomers } from "@/redux/actions/customers";
 import { Customers } from "@/app/customers/page";
 import Link from "next/link";
 import { CardContent } from "../Card";
+import {useLocale } from 'next-intl';
+
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
@@ -55,6 +57,7 @@ const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const router = useRouter();
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -96,12 +99,12 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router));
-      router.push(`/invoices/details/${id}`);
+      dispatch<any>(updateInvoice(id, values, router,localActive));
+      router.push(`/${localActive}/invoices/details/${id}`);
       console.log("valuess", values);
     } else {
       dispatch<any>(createInvoice(values, router));
-      router.push("/invoices");
+      router.push(`/${localActive}/invoices`);
     }
   };
   const removeLineItem = (index: number) => {
@@ -503,7 +506,7 @@ const InvoiceForm = ({ params }: any) => {
               Save
             </Button>
             <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
-              <Link href={`/invoices`}>Cancel</Link>
+              <Link href={`/${localActive}/invoices`}>Cancel</Link>
             </Button>
           </div>
         </form>

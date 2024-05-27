@@ -28,19 +28,27 @@ export const fetchInvoice=(id:any)=>async(dispatch:any)=>{
     }
 }
 
-export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:any)=>{
+export const fetchInvoicesBySearch=(searchQuery:any,router:any,localActive:any)=>async(dispatch:any)=>{
+  
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)
         
         if(searchQuery || data.map((id:string)=>id)){
-            router.push(`/invoices?searchQuery=${searchQuery}`)
+            if (localActive==='en') {
+                router.push(`/en/invoices?searchQuery=${searchQuery}`)
+            }
+            else{
+                router.push(`/amh/invoices?searchQuery=${searchQuery}`)
+            }
+            console.log('localActive',localActive)
         }
         if(!searchQuery){
-            router.push(`/invoices`)
+
+            router.push(`/${localActive}/invoices`)
         }
        else if(data==="No matching invoices found."){
-            router.push('/invoices/no-result')
+            router.push(`/${localActive}/invoices/no-result`)
         }
        dispatch({type:END_LOADING})
        return data
@@ -79,12 +87,12 @@ export const markInvoiceStatusRead=(id:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const updateInvoice=(id:String,invoice:any,router:any)=>async(dispatch:any)=>{
+export const updateInvoice=(id:String,invoice:any,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateInvoice(id,invoice)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/invoices/details/${id}`)
+        router.push(`/${localActive}/invoices/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -101,12 +109,12 @@ export const updateInvoiceTemplate=(id:String,invoice:any,router:any)=>async(dis
         console.log(error)
     }
 }
-export const deleteInvoice=(id:String,router:any)=>async(dispatch:any)=>{
+export const deleteInvoice=(id:String,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteInvoice(id)
         dispatch({type:DELETE,payload:id})
-        router.push('/invoices')
+        router.push(`/${localActive}/invoices`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

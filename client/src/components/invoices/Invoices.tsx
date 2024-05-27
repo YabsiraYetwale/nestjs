@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { fetchInvoicesBySearch } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {useLocale } from 'next-intl';
 
 type Props = {};
 
@@ -86,12 +87,14 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
     header: "Manage",
     cell: ({ row }:any) => {
       const id = row.getValue("id");
+      const localActive = useLocale();
+
       return (
         <div>
           <div className="flex gap-2 items-center">
             <Link
               className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-              href={`/invoices/details/${id}`}
+              href={`/${localActive}/invoices/details/${id}`}
             >
               View
             </Link>
@@ -102,17 +105,18 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
   },
 ];
 
-export default function InvoicePage({}: Props) {
+export default function Invoices({}: Props) {
   const [invoices, setInvoices] = useState<InvoiceWithClient[] | null>(null);
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+ const localActive = useLocale();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch<any>(
-          fetchInvoicesBySearch(search, router)
+          fetchInvoicesBySearch(search, router,localActive),
         );
         setInvoices(response);
       } catch (error) {
@@ -125,22 +129,18 @@ export default function InvoicePage({}: Props) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await dispatch<any>(
-      fetchInvoicesBySearch(search, router)
+      fetchInvoicesBySearch(search, router,localActive)
     );
     setInvoices(response);
   };
 
   return (
     <>
-    <div className="flex justify-evenly">
       <div className="flex flex-col gap-5  w-full">
-        <div className="flex md:flex-row flex-col-reverse lg:gap-[20rem] gap-5 ">
-          <div className="flex sm:gap-[9rem] gap-[15rem]">
-            <PageTitle title="Invoices" />
-            <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
-              <Link href="/invoices/addInvoice">Add New</Link>
-            </Button>
-          </div>
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-5 relative top-[-35px] left-[25rem]">
+        {/* <div className="grid  md:flex-row flex-col-reverse lg:gap-[20rem] gap-5 "> */}
+        {/*  */}
+        <div  className="hidden"></div>
           <form onSubmit={handleSubmit} className="flex gap-1 relative top-1">
             <Input
               value={search}
@@ -155,10 +155,6 @@ export default function InvoicePage({}: Props) {
         </div>
         {invoices && <DataTable columns={columns} data={invoices} />}
       </div>
-    </div>
-    <Button onClick={()=>window.scrollTo(0,0)} className="absolute bottom-0 right-0 bg-blue-500 w-[5px] h-[40px] hover:bg-blue-400">
-    <p><ArrowUp /> </p>
-      </Button>
     </>
   );
 }

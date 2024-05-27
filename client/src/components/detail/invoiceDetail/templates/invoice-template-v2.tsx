@@ -5,8 +5,9 @@ import ItemsCard from '../ItemsCard';
 import TemplateForm from './Form';
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { InvoiceProps } from './InvoiceProps';
+import { InvoiceProps } from '../../../schemas/InvoiceProps';
 import { fetchInvoice } from '@/redux/actions/invoices';
+import CustomFieldsForm2 from './CustomFieldsForm2';
 
 export default function InvoiceTemplateV2 ({ params }: any){
   const id = params.id as string;
@@ -47,6 +48,7 @@ export default function InvoiceTemplateV2 ({ params }: any){
           <p>United States</p>
           <p>1-888-123-8910</p> */}
                     <TemplateForm params={params}/>
+                    <CustomFieldsForm2 params={params}/>
 
         </div>
         <div>

@@ -1,10 +1,12 @@
 "use client";
 import React, { Component, useEffect, useState } from "react";
 import TemplateForm from "./Form";
-import { InvoiceProps } from "./InvoiceProps";
+import { InvoiceProps } from "../../../schemas/InvoiceProps";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
 import ItemsCard from "../ItemsCard";
+import CustomFieldsForm2 from "./CustomFieldsForm2";
+import CustomFieldsForm1 from "./CustomFieldsForm1";
 
 export default function InvoiceTemplateV3({ params }: any) {
   const id = params.id as string;
@@ -69,12 +71,15 @@ export default function InvoiceTemplateV3({ params }: any) {
               {invoice?.company?.city},{invoice?.company?.woreda}
             </p>
           </div>
+          <CustomFieldsForm1 params={params}/>
         </div>
         {/* client details */}
         <div className="flex justify-between">
           <div className="flex flex-col w-1/2 mt-6">
             <h2 className="mb-2 font-semibold">Bill To</h2>
             <TemplateForm params={params} />
+            <CustomFieldsForm2 params={params}/>
+
           </div>
           <div className="flex flex-col w-1/2 mt-6">
             <div className="flex gap-2">

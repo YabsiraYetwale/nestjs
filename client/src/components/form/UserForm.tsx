@@ -17,8 +17,11 @@ import { CardContent } from '../Card';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { createUser, fetchUser, updateUser } from '@/redux/actions/auth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { fetchCompanies } from '@/redux/actions/items';
+import { Company } from '../schemas/companyProps';
+import {useLocale } from 'next-intl';
 
 const FormSchema = z
   .object({
@@ -28,12 +31,14 @@ const FormSchema = z
       .string()
       .min(1, 'Password is required')
       .min(8, 'Password must have than 8 characters'),
-    role: z.string()
+    role: z.string().optional(),
+    company_id: z.string()
   })
 
 const UserForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,9 +46,25 @@ const UserForm = ({params}:any) => {
       username: '',
       email: '',
       password: '',
-      role:''
+      role:'',
+      company_id:'',
     },
   });
+
+  const [companies, setCompanies] = useState<Company[] | null>(null);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await dispatch<any>(fetchCompanies());
+      setCompanies(response);
+      console.log('comp res',response)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  fetchData();
+}, [dispatch]);
 
   useEffect(() => {
     if(id){
@@ -62,10 +83,10 @@ const UserForm = ({params}:any) => {
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
-         dispatch<any>(updateUser(id,values,router));
+         dispatch<any>(updateUser(id,values,router,localActive));
        }
        else{
-         dispatch<any>(createUser(values,router));
+         dispatch<any>(createUser(values,router,localActive));
        }
      };
 
@@ -128,13 +149,30 @@ const UserForm = ({params}:any) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name='company_id'
+            render={({ field }:any) => (
+              <FormItem>
+                <FormControl>
+                  <select {...field}  className='border text-center w-[200px] h-[50px]'>
+                    <option>..Choose company--</option>
+                   {companies?.map((company,i)=>(
+                     <option key={i} value={company.id}>{company.email}</option>
+                   ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
         <div className='flex gap-5 mt-6'>
         <Button className='bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 ' type='submit'>
         {id?'Update':'Create'} User
         </Button>
         <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
-                <Link href={`/users`}>Cancel</Link>
+                <Link href={`/${localActive}/users`}>Cancel</Link>
               </Button>
         </div>
       </form>
