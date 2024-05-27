@@ -2,9 +2,8 @@
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
-import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
-import { Search,ArrowUp } from "lucide-react";
+import { Search} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";

@@ -12,9 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Users } from "@/components/schemas/userProps";
 import {useLocale } from 'next-intl';
 
-type Props = {
-  params: any;
-};
+type Props = {};
 
 type User = {
   id: string;
