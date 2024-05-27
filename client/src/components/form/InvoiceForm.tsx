@@ -22,10 +22,10 @@ import {
 } from "@/redux/actions/invoices";
 import { useEffect, useState } from "react";
 import { fetchCustomers } from "@/redux/actions/customers";
-import { Customers } from "@/app/customers/page";
 import Link from "next/link";
 import { CardContent } from "../Card";
 import {useLocale } from 'next-intl';
+import { CustomersProps } from "../schemas/customerProps";
 
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
@@ -83,7 +83,7 @@ const InvoiceForm = ({ params }: any) => {
     }
   }, [id, dispatch]);
 
-  const [customer, setCustomer] = useState<Customers[] | null>(null);
+  const [customer, setCustomer] = useState<CustomersProps[] | null>(null);
   const [existingCustomer, setExistingCustomer] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
