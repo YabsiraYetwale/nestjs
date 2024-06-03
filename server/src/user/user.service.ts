@@ -10,18 +10,18 @@ export class UserService {
   async myProfile(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        // roles: true,
-        permissions: {
-          select: {
-            role: {
-              select: {
-                action: true,
-              },
-            },
-          },
-        },
-      },
+      // include: {
+      //   // roles: true,
+      //   // permissions: {
+      //   //   select: {
+      //   //     role: {
+      //   //       select: {
+      //   //         action: true,
+      //   //       },
+      //   //     },
+      //   //   },
+      //   // },
+      // },
     });
     delete user.password;
 
