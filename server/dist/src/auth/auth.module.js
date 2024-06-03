@@ -8,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
+const auth_controller_1 = require("./auth.controller");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
-const local_strategy_1 = require("./strategies/local.strategy");
-const jwt_strategy_1 = require("./strategies/jwt.strategy");
-const constants_1 = require("./constants");
+const mailer_module_1 = require("../mailer/mailer.module");
+const mailer_service_1 = require("../mailer/mailer.service");
+const at_strategy_1 = require("./strategy/at.strategy");
+const local_strategy_1 = require("./strategy/local.strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -22,12 +23,13 @@ AuthModule = __decorate([
         imports: [
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
-                secret: constants_1.jwtConstants.secret,
+                secret: 'accesssecrettoken',
                 signOptions: { expiresIn: '1h' },
             }),
+            mailer_module_1.MailerModule,
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, mailer_service_1.MailerService, at_strategy_1.AtStrategy, local_strategy_1.LocalStrategy],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

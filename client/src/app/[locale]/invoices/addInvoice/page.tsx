@@ -1,4 +1,4 @@
-import InvoiceForm from '@/components/form/InvoiceForm';
+import InvoiceForm from '@/components/invoices/form/InvoiceForm';
 import ProtectedRoute from '@/components/protectedRoute/ProtectedRoute';
 
 const page = ({params}:any) => {

@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -25,214 +22,381 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../../prisma/prisma.service");
-const bcrypt = require("bcrypt");
-const create_company_dto_1 = require("../companies/dto/create-company.dto");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
+const bcrypt = require("bcryptjs");
+const resetPassword_template_1 = require("../mail_templates/resetPassword.template");
+const account_verification_1 = require("../utils/account.verification");
+const mailer_service_1 = require("../mailer/mailer.service");
 let AuthService = class AuthService {
-    constructor(jwtService, prismaService) {
-        this.jwtService = jwtService;
-        this.prismaService = prismaService;
+    constructor(prisma, jwt, configService, mailerService) {
+        this.prisma = prisma;
+        this.jwt = jwt;
+        this.configService = configService;
+        this.mailerService = mailerService;
     }
-    async registerUser(registerUserDto) {
-        const { email, username, password } = registerUserDto, post = __rest(registerUserDto, ["email", "username", "password"]);
-        const existingUserEmail = await this.prismaService.User.findUnique({
-            where: { email: email },
+    async createActivationToken(email) {
+        const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
+        const token = await this.jwt.signAsync({ email, activationCode }, {
+            secret: this.configService.get('ACTIVATION_SECRET'),
+            expiresIn: '1h',
         });
-        const existingUserUsername = await this.prismaService.User.findUnique({
-            where: { username: username },
-        });
-        const hashedPassword = await bcrypt.hash(password, 10);
-        if (existingUserEmail) {
-            throw new common_1.HttpException('Email already exists', 409);
-        }
-        else if (existingUserUsername) {
-            throw new common_1.HttpException('Username already exists', 409);
-        }
-        else {
-            const user = await this.prismaService.User.create({
-                data: Object.assign({ username, password: hashedPassword, email }, post),
+        return { token, activationCode };
+    }
+    async forgotPassword(dto) {
+        const transporter = this.mailerService.mailTransport();
+        try {
+            const email = dto.email;
+            const token = await this.jwt.signAsync({ email }, {
+                secret: this.configService.get('FORGOT_PASSWORD'),
+                expiresIn: '1h',
             });
-            return { message: 'User registered successfully' };
+            const html = (0, resetPassword_template_1.resetPasswordTemplate)(`http://localhost:3001/amh/resetPassword?token=${token}`);
+            const mailerOptions = {
+                from: {
+                    name: 'Yabsira Yetwale',
+                    address: this.configService.get('SMTP_MAIL'),
+                },
+                to: dto.email,
+                subject: 'Verify Your Email',
+                html: html,
+            };
+            await transporter.sendMail(mailerOptions);
+            return {
+                success: true,
+                message: 'success send to email; and  please reset your password',
+                token: token,
+            };
+        }
+        catch (err) {
+            throw err;
         }
     }
-    async registerUserCompany(registerCompanyDto, request) {
-        const { users, documents, name, company_number, vat_reg_number, tel1, tel2, house_no, po_box, fax, email } = registerCompanyDto, post = __rest(registerCompanyDto, ["users", "documents", "name", "company_number", "vat_reg_number", "tel1", "tel2", "house_no", "po_box", "fax", "email"]);
-        const existingUserEmail = await this.prismaService.User.findUnique({
-            where: { email: users.email },
-        });
-        const existingUserUsername = await this.prismaService.User.findUnique({
-            where: { username: users.username },
-        });
-        const existingCompanyName = await this.prismaService.Company.findUnique({
-            where: { name },
-        });
-        const existingCompanyNumber = await this.prismaService.Company.findUnique({
-            where: { company_number },
-        });
-        const existingCompanyVatRegNo = await this.prismaService.Company.findUnique({ where: { vat_reg_number } });
-        const existingCompanyTel1 = await this.prismaService.Company.findUnique({
-            where: { tel1 },
-        });
-        const existingCompanyTel2 = await this.prismaService.Company.findUnique({
-            where: { tel2 },
-        });
-        const existingHouseNumber = await this.prismaService.Company.findUnique({
-            where: { house_no },
-        });
-        const existingPo_box = await this.prismaService.Company.findUnique({
-            where: { po_box },
-        });
-        const existingFax = await this.prismaService.Company.findUnique({
-            where: { fax },
-        });
-        const existingCompanyEmail = await this.prismaService.Company.findUnique({
-            where: { email },
-        });
-        const hashedPassword = await bcrypt.hash(users.password, 10);
-        if (existingUserEmail) {
-            throw new common_1.HttpException('Email already exists', 409);
-        }
-        else if (existingUserUsername) {
-            throw new common_1.HttpException('Username already exists', 409);
-        }
-        else if (existingCompanyName) {
-            throw new common_1.HttpException('CompanyName already exists', 409);
-        }
-        else if (existingCompanyNumber) {
-            throw new common_1.HttpException('CompanyNumber already exists', 409);
-        }
-        else if (existingCompanyVatRegNo) {
-            throw new common_1.HttpException('CompanyVatRegNo already exists', 409);
-        }
-        else if (existingCompanyTel1) {
-            throw new common_1.HttpException('CompanyTel1 already exists', 409);
-        }
-        else if (existingCompanyTel2) {
-            throw new common_1.HttpException('CompanyTel2 already exists', 409);
-        }
-        else if (existingHouseNumber) {
-            throw new common_1.HttpException('HouseNumber already exists', 409);
-        }
-        else if (existingPo_box) {
-            throw new common_1.HttpException('Po_box already exists', 409);
-        }
-        else if (existingFax) {
-            throw new common_1.HttpException('Fax already exists', 409);
-        }
-        else if (existingCompanyEmail) {
-            throw new common_1.HttpException('CompanyEmail already exists', 409);
-        }
-        else {
-            const protocol = 'https';
-            const host = request.get('host');
-            const user = await this.prismaService.Company.create({
-                data: Object.assign({ users: {
-                        create: {
-                            username: users.username,
-                            password: hashedPassword,
-                            email: users.email,
-                            role: users.role,
+    async activationAccount(dto, res) {
+        try {
+            const newUser = await this.jwt.verify(dto.activation_token, {
+                secret: this.configService.get('ACTIVATION_SECRET'),
+            });
+            if (!newUser) {
+                throw new common_1.ForbiddenException('token is expired');
+            }
+            if (newUser.activationCode !== dto.activation_code) {
+                throw new common_1.ForbiddenException('Invalid activation code');
+            }
+            const user = await this.prisma.User.findUnique({
+                where: { email: newUser.email },
+                include: {
+                    roles: {
+                        include: {
+                            role: {
+                                include: {
+                                    permissions: {
+                                        select: {
+                                            action: true,
+                                        },
+                                    },
+                                },
+                            },
                         },
-                    }, name,
-                    company_number,
-                    vat_reg_number,
-                    tel1,
-                    tel2,
-                    house_no,
-                    po_box,
-                    fax,
-                    email }, post),
+                    },
+                    permissions: {
+                        select: {
+                            role: {
+                                select: {
+                                    action: true,
+                                },
+                            },
+                        },
+                    },
+                },
             });
-            return { message: 'User/Company registered successfully' };
+            if (!user) {
+                throw new common_1.ForbiddenException('email not found');
+            }
+            await this.prisma.User.update({
+                where: { email: newUser.email },
+                data: {
+                    emailVerified: new Date(),
+                },
+            });
+            user.roles.forEach((role) => {
+                role.role.permissions.forEach((permission) => {
+                    if (!user.permissions.some((existingPermission) => existingPermission.role.action === permission.action)) {
+                        user.permissions.push({ role: permission });
+                    }
+                });
+            });
+            const tokens = await this.GetToken(user.id, user.email, user.roles, user.permissions);
+            await this.prisma.refreshToken.create({
+                data: {
+                    token: tokens.refresh_token,
+                    userId: user.id,
+                },
+            });
+            res.cookie('refreshToken', tokens.refresh_token, {
+                httpOnly: true,
+                sameSite: 'None',
+                secure: true,
+            });
+            res.send({
+                message: 'Account verfied successfully!',
+                accessToken: tokens.access_token,
+            });
+        }
+        catch (err) {
+            throw new common_1.ForbiddenException({ success: false, message: err.message });
         }
     }
-    async loginUser(loginUserDto) {
-        const { email, password } = loginUserDto;
-        const existingUser = await this.prismaService.User.findUnique({
-            where: { email },
+    async signin(dto, res) {
+        try {
+            const user = await this.prisma.User.findUnique({
+                where: {
+                    email: dto.email,
+                },
+                include: {
+                    roles: {
+                        include: {
+                            role: {
+                                include: {
+                                    permissions: {
+                                        select: {
+                                            action: true,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    permissions: {
+                        select: {
+                            role: {
+                                select: {
+                                    action: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            if (!user)
+                throw new common_1.ForbiddenException('Credentials are not valid');
+            if (!user.emailVerified) {
+                const activationToken = await this.createActivationToken(dto.email);
+                const transporter = this.mailerService.mailTransport();
+                await transporter.sendMail((0, account_verification_1.mailerOption)(dto.email, activationToken.activationCode, activationToken.token));
+                res.send({
+                    success: true,
+                    message: `Account not verified! Please check your email ${dto.email} to verify.`,
+                    activationToken: activationToken.token,
+                });
+            }
+            const isMatch = await bcrypt.compare(dto.password, user.password);
+            if (!isMatch)
+                throw new common_1.ForbiddenException('Credentials are not valid');
+            user.roles.forEach((role) => {
+                role.role.permissions.forEach((permission) => {
+                    if (!user.permissions.some((existingPermission) => existingPermission.role.action === permission.action)) {
+                        user.permissions.push({ role: permission });
+                    }
+                });
+            });
+            const tokens = await this.GetToken(user.id, user.email, user.roles, user.permissions);
+            await this.prisma.refreshToken.create({
+                data: {
+                    token: tokens.refresh_token,
+                    userId: user.id,
+                },
+            });
+            res.cookie('refreshToken', tokens.refresh_token, {
+                httpOnly: true,
+                sameSite: 'None',
+                secure: true,
+            });
+            const { emailVerified, password, image, createdAt, updatedAt, company_id } = user, otherFields = __rest(user, ["emailVerified", "password", "image", "createdAt", "updatedAt", "company_id"]);
+            res.send({
+                message: 'Sign in successful',
+                accessToken: this.jwt.sign(Object.assign({}, otherFields)),
+            });
+        }
+        catch (err) {
+            throw new common_1.ForbiddenException('Invalid Credentials');
+        }
+    }
+    async logout(request, response) {
+        const refreshToken = request.cookies['refreshToken'];
+        const refreshTokenInDb = await this.prisma.refreshToken.findFirst({
+            where: {
+                token: refreshToken,
+            },
         });
-        if (!existingUser) {
-            throw new common_1.HttpException({ message: "User doesn't exist." }, 404);
+        if (refreshTokenInDb) {
+            await this.prisma.refreshToken.delete({
+                where: {
+                    id: refreshTokenInDb.id,
+                },
+            });
         }
-        const isPasswordMatch = await bcrypt.compare(password, existingUser === null || existingUser === void 0 ? void 0 : existingUser.password);
-        if (!isPasswordMatch) {
-            throw new common_1.HttpException('invalid credentials', 401);
+        response.clearCookie('refreshToken');
+        response.send({ message: 'You have been logged out successfully' });
+    }
+    async resetPassword(dto) {
+        try {
+            if (dto.password !== dto.confirmPassword) {
+                throw new common_1.ForbiddenException('password is not match');
+            }
+            const email = await this.jwt.verify(dto.token, {
+                secret: this.configService.get('FORGOT_PASSWORD'),
+            });
+            if (!email.email) {
+                throw new common_1.ForbiddenException('token is not valid');
+            }
+            const user = await this.prisma.User.findUnique({
+                where: { email: email.email },
+            });
+            if (!user) {
+                throw new common_1.ForbiddenException('email is not exist');
+            }
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
+            await this.prisma.User.update({
+                where: { id: user.id },
+                data: {
+                    password: hashedPassword,
+                },
+            });
+            return {
+                success: true,
+                message: 'Your password updated successfully',
+            };
         }
-        else if (isPasswordMatch) {
-            const { password } = existingUser, user = __rest(existingUser, ["password"]);
-            const token = this.jwtService.sign(Object.assign({}, user));
-            return { token };
+        catch (err) {
+            throw err;
         }
     }
-    async getCurrentUser(userId) {
-        const user = await this.prismaService.User.findUnique({
+    async refreshToken(userId, res) {
+        const user = await this.prisma.User.findUnique({
             where: { id: userId },
-            include: { company: true },
+            include: {
+                roles: {
+                    include: {
+                        role: {
+                            include: {
+                                permissions: {
+                                    select: {
+                                        action: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                permissions: {
+                    select: {
+                        role: {
+                            select: {
+                                action: true,
+                            },
+                        },
+                    },
+                },
+            },
         });
-        if (!user) {
-            throw new common_1.HttpException("User doesn't exist", 404);
-        }
-        return user;
-    }
-    async getAllUsers() {
-        const allUsers = await this.prismaService.User.findMany();
-        return { allUsers };
-    }
-    async getOneUser(id) {
-        const user = await this.prismaService.User.findUnique({ where: id });
-        if (!user) {
-            throw new common_1.HttpException("User doesn't exist", 404);
-        }
-        else {
-            return { user };
-        }
-    }
-    async updateUser(id, updateUserDto) {
-        const post = updateUserDto;
-        const existingUser = await this.prismaService.User.findUnique({
-            where: id,
+        user.roles.forEach((role) => {
+            role.role.permissions.forEach((permission) => {
+                if (!user.permissions.some((existingPermission) => existingPermission.role.action === permission.action)) {
+                    user.permissions.push({ role: permission });
+                }
+            });
         });
-        if (!existingUser) {
-            throw new common_1.HttpException("User doesn't exist", 404);
-        }
-        const updatedUser = await this.prismaService.User.update({
-            where: id,
-            data: Object.assign({}, post),
+        const tokens = await this.GetToken(user.id, user.email, user.roles, user.permissions);
+        await this.prisma.refreshToken.create({
+            data: {
+                token: tokens.refresh_token,
+                userId: user.id,
+            },
         });
-        if (!updatedUser) {
-            throw new Error('Failed to update User');
-        }
-        const { password } = updateUserDto, user = __rest(updateUserDto, ["password"]);
-        const token = this.jwtService.sign(Object.assign({}, user));
-        return { token, message: 'User updated successfully!' };
+        res.cookie('refreshToken', tokens.refresh_token, {
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true,
+        });
+        res.send({
+            message: 'token refresh successful',
+            accessToken: tokens.access_token,
+        });
     }
-    async deleteUser(id) {
-        const existingUser = await this.prismaService.User.findUnique({
-            where: id,
-        });
-        if (!existingUser) {
-            throw new common_1.HttpException("User doesn't exist", 404);
+    async GetToken(userId, email, roles, permissions) {
+        const jwtPayload = {
+            id: userId,
+            email: email,
+            roles: roles,
+            permissions: permissions,
+        };
+        const [at, rt] = await Promise.all([
+            this.jwt.signAsync(jwtPayload, {
+                secret: this.configService.get('AT_SECRET'),
+                expiresIn: '1h',
+            }),
+            this.jwt.signAsync(jwtPayload, {
+                secret: this.configService.get('RT_SECRET'),
+                expiresIn: '1d',
+            }),
+        ]);
+        return {
+            access_token: at,
+            refresh_token: rt,
+        };
+    }
+    async createUser(dto) {
+        try {
+            const existingUser = await this.prisma.User.findFirst({
+                where: { email: dto.email },
+            });
+            if (existingUser && existingUser.emailVerified) {
+                throw new common_1.ForbiddenException('Email is already taken');
+            }
+            if (dto.password !== dto.retypePassword) {
+                throw new common_1.ForbiddenException('password not match');
+            }
+            const transporter = this.mailerService.mailTransport();
+            const activationToken = await this.createActivationToken(dto.email);
+            if (existingUser && !existingUser.emailVerified) {
+                await transporter.sendMail((0, account_verification_1.mailerOption)(dto.email, activationToken.activationCode, activationToken.token));
+                return {
+                    success: true,
+                    message: `Account not Verify! Please check your email ${dto.email} to verify and ${activationToken.activationCode}`,
+                    activationToken: activationToken.token,
+                };
+            }
+            else {
+                const hashedPassword = await bcrypt.hash(dto.password, 10);
+                await this.prisma.User.create({
+                    data: {
+                        name: dto.name,
+                        email: dto.email,
+                        password: hashedPassword,
+                    },
+                });
+                await transporter.sendMail((0, account_verification_1.mailerOption)(dto.email, activationToken.activationCode, activationToken.token));
+                return {
+                    success: true,
+                    message: `Acount Create Success! Please check your email  to verify`,
+                    activationToken: activationToken.token,
+                };
+            }
         }
-        const deletedUser = await this.prismaService.User.delete({ where: id });
-        if (!deletedUser) {
-            throw new Error('Failed to delete user');
-        }
-        else {
-            return { message: 'User deleted successfully' };
+        catch (err) {
+            console.log(err);
+            throw err;
         }
     }
 };
-__decorate([
-    __param(1, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Object]),
-    __metadata("design:returntype", Promise)
-], AuthService.prototype, "registerUserCompany", null);
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        jwt_1.JwtService,
+        config_1.ConfigService,
+        mailer_service_1.MailerService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

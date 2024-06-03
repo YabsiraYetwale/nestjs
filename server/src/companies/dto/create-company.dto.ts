@@ -1,5 +1,5 @@
+/* eslint-disable prettier/prettier */
 import {
-  ArrayNotEmpty,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -7,88 +7,173 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { RegisterUserDto } from 'src/auth/dto/register.dto';
+import { RegistrationUserDto } from 'src/auth/dto/registration.dto';
 
 export class DocumentDto {
- 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'The name of the file',
+    example: 'document.pdf',
+  })
   @IsOptional()
   file_name: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'The path to the file',
+    example: '/uploads/documents/document.pdf',
+  })
   @IsOptional()
   file_path: string;
 }
 
 export class CreateCompanyDto {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'URL of the company logo',
+    example: 'https://example.com/logo.png',
+  })
   @IsOptional()
   company_logo: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'The name of the company',
+    example: 'Acme Corporation',
+  })
   @IsNotEmpty()
   name: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Name of the general manager',
+    example: 'John Doe',
+  })
   @IsNotEmpty()
   general_manager_name: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Company registration number',
+    example: '1234567890',
+  })
   @IsNotEmpty()
   company_number: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'VAT registration number',
+    example: 'VAT123456789',
+  })
   @IsNotEmpty()
   vat_reg_number: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'House number of the company address',
+    example: '1234',
+  })
   @IsNotEmpty()
   house_no: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'PO Box number of the company',
+    example: 'PO Box 5678',
+  })
   @IsNotEmpty()
   po_box: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Fax number of the company',
+    example: '+123456789',
+  })
   @IsNotEmpty()
   fax: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Email address of the company',
+    example: 'info@example.com',
+  })
   @IsEmail()
   @IsNotEmpty()
   email: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Primary telephone number of the company',
+    example: '+123456789',
+  })
   @IsOptional()
   tel1: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Secondary telephone number of the company',
+    example: '+987654321',
+  })
   @IsOptional()
   tel2: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Country where the company is located',
+    example: 'USA',
+  })
   @IsNotEmpty()
   country: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Region where the company is located',
+    example: 'California',
+  })
   @IsNotEmpty()
   region: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'City where the company is located',
+    example: 'Los Angeles',
+  })
   @IsNotEmpty()
   city: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Subcity where the company is located',
+    example: 'Hollywood',
+  })
   @IsNotEmpty()
   subcity: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Woreda where the company is located',
+    example: 'Woreda 1',
+  })
   @IsNotEmpty()
   woreda: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Kebele where the company is located',
+    example: 'Kebele 15',
+  })
   @IsNotEmpty()
   kebele: string;
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Description of the company',
+    example: 'A leading company in the tech industry.',
+  })
   @IsOptional()
   description: string;
-  
-  @ApiProperty()
+
+  @ApiProperty({
+    description: 'Any additional fields related to the company',
+    example: {},
+  })
   @IsOptional()
   additional_fields: any;
-  @ApiProperty({ type: [RegisterUserDto] })
-  @ValidateNested({ each: true })
-  @Type(() => RegisterUserDto)
-  users: RegisterUserDto;
- 
-  @ApiProperty({ type: [DocumentDto ] })
-  // @ArrayNotEmpty()
-  // @ValidateNested({ each: true })
-  // @Type(() => DocumentDto )
-  @IsOptional()
-  documents: DocumentDto []
-}
 
+  @ApiProperty({
+    description: 'List of users associated with the company',
+    type: [RegistrationUserDto],
+  })
+  @ValidateNested({ each: true })
+  @Type(() => RegistrationUserDto)
+  users: RegistrationUserDto[];
+
+  @ApiProperty({
+    description: 'List of documents related to the company',
+    type: [DocumentDto],
+  })
+  @ValidateNested({ each: true })
+  @Type(() => DocumentDto)
+  @IsOptional()
+  documents: DocumentDto[];
+}

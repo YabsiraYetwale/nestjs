@@ -1,4 +1,4 @@
-import { CreateLineItemDto } from '../../lineItems/dto/create-Line-Items.dto';
+import { CreateLineItemDto } from './create-Line-Items.dto';
 import { CreateClientDto } from 'src/clients/dto/create-Client.dto';
 export declare class CreateInvoiceDto {
     invoice_number: string;

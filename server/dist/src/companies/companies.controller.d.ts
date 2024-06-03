@@ -6,16 +6,16 @@ export declare class CompaniesController {
     private readonly companiesService;
     constructor(companiesService: CompaniesService);
     getAllCompanies(): Promise<{
-        companies: any;
+        allCompanies: any;
     }>;
     getOneCompany(id: string): Promise<{
         company: any;
     }>;
-    updateUser(id: string, updateCompanyDto: UpdateCompanyDto, files: {
+    updateCompany(id: string, updateCompanyDto: UpdateCompanyDto, files: {
         file_name?: Express.Multer.File[];
         company_logo?: Express.Multer.File[];
     }, request: Request): Promise<any>;
-    deleteUser(id: string): Promise<{
+    deleteCompany(id: string): Promise<{
         message: string;
     }>;
 }

@@ -14,12 +14,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompaniesController = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const companies_service_1 = require("./companies.service");
 const update_company_dto_1 = require("./dto/update-company.dto");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const path_1 = require("path");
+const permission_1 = require("../decorators/permission");
+const permission_guard_1 = require("../auth/guard/permission.guard");
+const at_guard_1 = require("../auth/guard/at.guard");
 let CompaniesController = class CompaniesController {
     constructor(companiesService) {
         this.companiesService = companiesService;
@@ -27,26 +29,26 @@ let CompaniesController = class CompaniesController {
     getAllCompanies() {
         return this.companiesService.getAllCompanies();
     }
-    ;
     getOneCompany(id) {
         return this.companiesService.getOneCompany(id);
     }
-    updateUser(id, updateCompanyDto, files, request) {
-        console.log("updated");
+    updateCompany(id, updateCompanyDto, files, request) {
+        console.log('updated');
         return this.companiesService.updateCompany(id, updateCompanyDto, files.file_name, files.company_logo, request);
     }
-    ;
-    deleteUser(id) {
+    deleteCompany(id) {
         return this.companiesService.deleteCompany(id);
     }
 };
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_companies'),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CompaniesController.prototype, "getAllCompanies", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_company'),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
@@ -54,6 +56,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CompaniesController.prototype, "getOneCompany", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_update_company'),
     (0, common_1.Patch)(':id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
         { name: 'file_name', maxCount: undefined },
@@ -62,7 +65,7 @@ __decorate([
         storage: (0, multer_1.diskStorage)({
             destination: './uploads',
             filename: (req, file, callback) => {
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
                 const ext = (0, path_1.extname)(file.originalname);
                 const filename = `${uniqueSuffix}${ext}`;
                 callback(null, filename);
@@ -76,16 +79,17 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_company_dto_1.UpdateCompanyDto, Object, Object]),
     __metadata("design:returntype", void 0)
-], CompaniesController.prototype, "updateUser", null);
+], CompaniesController.prototype, "updateCompany", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_delete_company'),
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CompaniesController.prototype, "deleteUser", null);
+], CompaniesController.prototype, "deleteCompany", null);
 CompaniesController = __decorate([
+    (0, common_1.UseGuards)(at_guard_1.AtGuards, permission_guard_1.PermissionGuard),
     (0, common_1.Controller)('companies'),
     __metadata("design:paramtypes", [companies_service_1.CompaniesService])
 ], CompaniesController);

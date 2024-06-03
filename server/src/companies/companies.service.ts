@@ -1,19 +1,17 @@
 import { HttpException, Injectable, Req } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 
 @Injectable()
 export class CompaniesService {
-  constructor(private jwtService: JwtService,
+  constructor(
     private prismaService: PrismaService,
     ) {}
     
   async getAllCompanies(){
-    const companies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
-    return {companies}
+    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
+    return {allCompanies}
   }
 
   async getOneCompany(id:string){

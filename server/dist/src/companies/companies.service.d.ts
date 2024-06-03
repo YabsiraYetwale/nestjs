@@ -1,14 +1,12 @@
 /// <reference types="multer" />
-import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Request } from 'express';
 export declare class CompaniesService {
-    private jwtService;
     private prismaService;
-    constructor(jwtService: JwtService, prismaService: PrismaService);
+    constructor(prismaService: PrismaService);
     getAllCompanies(): Promise<{
-        companies: any;
+        allCompanies: any;
     }>;
     getOneCompany(id: string): Promise<{
         company: any;

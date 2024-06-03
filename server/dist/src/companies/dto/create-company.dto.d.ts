@@ -1,4 +1,4 @@
-import { RegisterUserDto } from 'src/auth/dto/register.dto';
+import { RegistrationUserDto } from 'src/auth/dto/registration.dto';
 export declare class DocumentDto {
     file_name: string;
     file_path: string;
@@ -23,6 +23,6 @@ export declare class CreateCompanyDto {
     kebele: string;
     description: string;
     additional_fields: any;
-    users: RegisterUserDto;
+    users: RegistrationUserDto[];
     documents: DocumentDto[];
 }

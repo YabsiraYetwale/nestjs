@@ -12,6 +12,25 @@ export declare class InvoicesService {
     private clientsService;
     constructor(prismaService: PrismaService, clientsService: ClientsService);
     getAllInvoices(searchQuery: string, query: Query): Promise<({
+        creator: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: Date;
+            password: string;
+            image: string;
+            createdAt: Date;
+            updatedAt: Date;
+            company_id: string;
+        };
+        line_items: {
+            id: string;
+            description: string;
+            quantity: number;
+            unit_price: import("@prisma/client/runtime/library").Decimal;
+            tax_rate: import("@prisma/client/runtime/library").Decimal;
+            invoice_id: string;
+        }[];
         client: {
             id: string;
             name: string;
@@ -25,22 +44,6 @@ export declare class InvoicesService {
             email: string;
             phone: string;
         };
-        creator: {
-            id: string;
-            username: string;
-            email: string;
-            password: string;
-            role: string;
-            company_id: string;
-        };
-        line_items: {
-            id: string;
-            description: string;
-            quantity: number;
-            unit_price: import("@prisma/client/runtime/library").Decimal;
-            tax_rate: import("@prisma/client/runtime/library").Decimal;
-            invoice_id: string;
-        }[];
     } & {
         id: string;
         invoice_number: string;

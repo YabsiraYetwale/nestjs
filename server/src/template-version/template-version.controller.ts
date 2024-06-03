@@ -1,5 +1,4 @@
 import { Controller, Get,Post,Put,Delete ,Param,Body, UseGuards,Render} from '@nestjs/common';
-import { JwtAdminGuard, JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { TemplateVersionService } from './template-version.service';
 
 

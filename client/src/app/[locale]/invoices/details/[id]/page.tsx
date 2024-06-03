@@ -1,4 +1,4 @@
-import Detail from "@/components/detail/invoiceDetail/Detail";
+import Detail from "@/components/invoices/detail/Detail";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
 const page = ({ params }: any) => {

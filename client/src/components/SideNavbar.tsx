@@ -56,31 +56,31 @@ export default function SideNavbar({}: Props) {
           isCollapsed={mobileWidth ? true : isCollapsed}
           links={[
             {
-              title: "Dashboard",
+              title:(localActive === "en" ? "Dashboard" : "ዳሽቦርድ"),
               href: "/",
               icon: LayoutDashboard,
               variant: "default",
             },
             {
-              title: "Invoices",
+              title: (localActive === "en" ? "Invoices" : "ኢንቮይስ"),
               href: (`/${localActive}/invoices`),
               icon: Activity,
               variant: "ghost",
             },
             {
-              title: "Customers",
+              title: (localActive === "en" ? "Customers" : "ደንበኞች"),
               href: (`/${localActive}/customers`),
               icon: UsersRound,
               variant: "ghost",
             },
             {
-              title: "System Users",
+              title: (localActive === "en" ? "System Users" : "የሲስተም ተጠቃሚዎች"),
               href: (`/${localActive}/users`),
               icon: Users,
               variant: "ghost",
             },
             {
-              title: "Settings",
+              title: (localActive === "en" ? "Settings" : "ምርጫዎች"),
               href: (`/${localActive}/settings`),
               icon: Settings,
               variant: "ghost",

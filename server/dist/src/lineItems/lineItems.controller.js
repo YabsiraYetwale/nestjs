@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LineItemsController = void 0;
 const common_1 = require("@nestjs/common");
 const lineItems_service_1 = require("./lineItems.service");
-const create_Line_Items_dto_1 = require("./dto/create-Line-Items.dto");
+const create_Line_Items_dto_1 = require("../invoices/dto/create-Line-Items.dto");
 const update_Line_Items_dto_1 = require("./dto/update-Line-Items.dto");
 let LineItemsController = class LineItemsController {
     constructor(lineItemsService) {

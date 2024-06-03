@@ -17,6 +17,8 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
+import {useLocale } from 'next-intl';
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,6 +35,8 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel()
   });
+  const localActive = useLocale();
+
 
   return (
     <div>
@@ -93,7 +97,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          {localActive === "en" ? "Previous" : "የቀድሞ "}
         </Button>
         <Button
           variant="outline"
@@ -101,7 +105,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          {localActive === "en" ? "Next" : "ቀጣይ"}
         </Button>
       </div>
     </div>

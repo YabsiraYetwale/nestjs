@@ -1,33 +1,27 @@
 /// <reference types="passport" />
-import { RegisterUserDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
+import { ActivationAccountDto } from './dto/activation.account.dto';
+import { SigninAuthDto } from './dto/signin.user.dto';
+import { Response } from 'express';
+import { ForgotPassword } from './dto/forgot.password.dto';
+import { ResetPassword } from './dto/reset.password.dto';
+import { RegistrationUserDto } from './dto/registration.dto';
 import { Request } from 'express';
-import { LoginUserDto } from './dto/login.dto';
-import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    registerUserCompany(createCompanyDto: CreateCompanyDto, request: Request): Promise<{
-        message: string;
-    }>;
-    registerUser(registerUserDto: RegisterUserDto): Promise<{
-        message: string;
-    }>;
-    loginUser(req: Request, loginUserDto: LoginUserDto): Promise<{
-        token: string;
-    }>;
     getCurrentUser(req: Request): Express.User;
-    getAllUsers(): Promise<{
-        allUsers: any;
-    }>;
-    getOneUser(id: string): Promise<{
-        user: any;
-    }>;
-    updateUser(id: string, updateUserDto: RegisterUserDto): Promise<{
+    createUser(dto: RegistrationUserDto): Promise<any>;
+    activateUser(dto: ActivationAccountDto, res: Response): Promise<void>;
+    signIn(credentials: SigninAuthDto, res: Response): Promise<any>;
+    forgotPassword(dto: ForgotPassword): Promise<{
+        success: boolean;
+        message: string;
         token: string;
+    }>;
+    resetPassword(dto: ResetPassword): Promise<{
+        success: boolean;
         message: string;
     }>;
-    deleteUser(id: string): Promise<{
-        message: string;
-    }>;
+    logout(request: Request, response: Response): Promise<void>;
 }

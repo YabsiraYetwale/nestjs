@@ -12,10 +12,8 @@ const companies_service_1 = require("./companies.service");
 const companies_controller_1 = require("./companies.controller");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
-const constants_1 = require("../auth/constants");
-const local_strategy_1 = require("../auth/strategies/local.strategy");
-const jwt_strategy_1 = require("../auth/strategies/jwt.strategy");
 const auth_service_1 = require("../auth/auth.service");
+const mailer_service_1 = require("../mailer/mailer.service");
 let CompaniesModule = class CompaniesModule {
 };
 CompaniesModule = __decorate([
@@ -23,12 +21,12 @@ CompaniesModule = __decorate([
         imports: [
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
-                secret: constants_1.jwtConstants.secret,
+                secret: 'jwtConstants.secret',
                 signOptions: { expiresIn: '1h' },
             }),
         ],
         controllers: [companies_controller_1.CompaniesController],
-        providers: [companies_service_1.CompaniesService, auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],
+        providers: [companies_service_1.CompaniesService, auth_service_1.AuthService, mailer_service_1.MailerService],
     })
 ], CompaniesModule);
 exports.CompaniesModule = CompaniesModule;

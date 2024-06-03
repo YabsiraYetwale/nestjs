@@ -14,122 +14,212 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const register_dto_1 = require("./dto/register.dto");
 const auth_service_1 = require("./auth.service");
-const jwt_guard_1 = require("./guards/jwt.guard");
-const login_dto_1 = require("./dto/login.dto");
-const create_company_dto_1 = require("../companies/dto/create-company.dto");
-const platform_express_1 = require("@nestjs/platform-express");
-const multer_1 = require("multer");
-const path_1 = require("path");
+const activation_account_dto_1 = require("./dto/activation.account.dto");
+const signin_user_dto_1 = require("./dto/signin.user.dto");
+const forgot_password_dto_1 = require("./dto/forgot.password.dto");
+const reset_password_dto_1 = require("./dto/reset.password.dto");
+const rt_guards_1 = require("./guard/rt.guards");
+const registration_dto_1 = require("./dto/registration.dto");
+const swagger_1 = require("@nestjs/swagger");
+const at_guard_1 = require("./guard/at.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    registerUserCompany(createCompanyDto, request) {
-        return this.authService.registerUserCompany(createCompanyDto, request);
-    }
-    registerUser(registerUserDto) {
-        return this.authService.registerUser(registerUserDto);
-    }
-    loginUser(req, loginUserDto) {
-        return this.authService.loginUser(loginUserDto);
-    }
     getCurrentUser(req) {
         console.log('Inside AuthController status method');
+        console.log(req.user);
         return req.user;
     }
-    getAllUsers() {
-        return this.authService.getAllUsers();
+    async createUser(dto) {
+        try {
+            return await this.authService.createUser(dto);
+        }
+        catch (err) {
+            throw new common_1.InternalServerErrorException(err);
+        }
     }
-    getOneUser(id) {
-        return this.authService.getOneUser(id);
+    async activateUser(dto, res) {
+        try {
+            const tokens = await this.authService.activationAccount(dto, res);
+            res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+            res.send({ success: true, message: 'account verified successfully' });
+        }
+        catch (err) {
+            throw new common_1.InternalServerErrorException(err);
+        }
     }
-    updateUser(id, updateUserDto) {
-        return this.authService.updateUser(id, updateUserDto);
+    signIn(credentials, res) {
+        return this.authService.signin(credentials, res);
     }
-    deleteUser(id) {
-        return this.authService.deleteUser(id);
+    forgotPassword(dto) {
+        return this.authService.forgotPassword(dto);
+    }
+    resetPassword(dto) {
+        return this.authService.resetPassword(dto);
+    }
+    logout(request, response) {
+        return this.authService.logout(request, response);
     }
 };
 __decorate([
-    (0, common_1.Post)('register'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
-        { name: 'file_name', maxCount: 1 },
-        { name: 'company_logo', maxCount: 1 }
-    ], {
-        storage: (0, multer_1.diskStorage)({
-            destination: './uploads',
-            filename: (req, file, callback) => {
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                const ext = (0, path_1.extname)(file.originalname);
-                const filename = `${uniqueSuffix}${ext}`;
-                callback(null, filename);
-            },
-        }),
-    })),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFiles)()),
-    __param(1, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_company_dto_1.CreateCompanyDto, Object]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "registerUserCompany", null);
-__decorate([
-    (0, common_1.Post)('addUser'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RegisterUserDto]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "registerUser", null);
-__decorate([
-    (0, common_1.Post)('login'),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, login_dto_1.LoginUserDto]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "loginUser", null);
-__decorate([
     (0, common_1.Get)('/user/current-user'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(at_guard_1.AtGuards),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getCurrentUser", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)('register'),
+    (0, swagger_1.ApiOperation)({ summary: 'Register a new user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'User registered successfully',
+        schema: {
+            type: 'object',
+            properties: {
+                success: {
+                    type: 'boolean',
+                    example: true,
+                },
+                message: {
+                    type: 'string',
+                    example: 'User registered successfully',
+                },
+            },
+        },
+    }),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "getAllUsers", null);
+    __metadata("design:paramtypes", [registration_dto_1.RegistrationUserDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "createUser", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Post)('activate'),
+    (0, swagger_1.ApiOperation)({ summary: 'Activate user account' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Account verified successfully',
+        schema: {
+            type: 'object',
+            properties: {
+                success: {
+                    type: 'boolean',
+                    example: true,
+                },
+                message: {
+                    type: 'string',
+                    example: 'account verified successfully',
+                },
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    (0, swagger_1.ApiBody)({ type: activation_account_dto_1.ActivationAccountDto }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "getOneUser", null);
+    __metadata("design:paramtypes", [activation_account_dto_1.ActivationAccountDto, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "activateUser", null);
 __decorate([
-    (0, common_1.Put)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
-    __param(0, (0, common_1.Param)()),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Post)('signin'),
+    (0, swagger_1.ApiOperation)({ summary: 'Sign in to user account' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Sign-in successfull',
+        schema: {
+            type: 'object',
+            properties: {
+                success: {
+                    type: 'boolean',
+                    example: true,
+                },
+                message: {
+                    type: 'string',
+                    example: 'Sign-in successfull',
+                },
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    (0, swagger_1.ApiBody)({ type: signin_user_dto_1.SigninAuthDto }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, register_dto_1.RegisterUserDto]),
+    __metadata("design:paramtypes", [signin_user_dto_1.SigninAuthDto, Object]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "updateUser", null);
+], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Post)('forgot-password'),
+    (0, swagger_1.ApiOperation)({ summary: 'Request password reset' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Password reset link sent successfully',
+        schema: {
+            type: 'object',
+            properties: {
+                success: {
+                    type: 'boolean',
+                    example: true,
+                },
+                message: {
+                    type: 'string',
+                    example: 'Password reset link sent successfully',
+                },
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    (0, swagger_1.ApiBody)({ type: forgot_password_dto_1.ForgotPassword }),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [forgot_password_dto_1.ForgotPassword]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "deleteUser", null);
+], AuthController.prototype, "forgotPassword", null);
+__decorate([
+    (0, common_1.Patch)('reset-password'),
+    (0, swagger_1.ApiOperation)({ summary: 'Reset user password' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Password reset successful',
+        schema: {
+            type: 'object',
+            properties: {
+                success: {
+                    type: 'boolean',
+                    example: true,
+                },
+                message: {
+                    type: 'string',
+                    example: 'Password reset successful',
+                },
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    (0, swagger_1.ApiBody)({ type: reset_password_dto_1.ResetPassword }),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [reset_password_dto_1.ResetPassword]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "resetPassword", null);
+__decorate([
+    (0, common_1.UseGuards)(rt_guards_1.RtGuard),
+    (0, common_1.Post)('logout'),
+    (0, swagger_1.ApiOperation)({ summary: 'Logout user' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Logout successful' }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "logout", null);
 AuthController = __decorate([
+    (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);

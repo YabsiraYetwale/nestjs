@@ -1,87 +1,190 @@
-import { Body, Controller, Delete, Get, HttpException, Param, Post, Put, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { RegisterUserDto } from './dto/register.dto';
+/* eslint-disable prettier/prettier */
+import {
+  Body,
+  Controller,
+  InternalServerErrorException,
+  Patch,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+  Get
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalGuard } from './guards/local.guard';
+import { ActivationAccountDto } from './dto/activation.account.dto';
+import { SigninAuthDto } from './dto/signin.user.dto';
+import { Response } from 'express';
+import { ForgotPassword } from './dto/forgot.password.dto';
+import { ResetPassword } from './dto/reset.password.dto';
+import { RtGuard } from './guard/rt.guards';
+import { RegistrationUserDto } from './dto/registration.dto';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { JwtAdminGuard, JwtAuthGuard } from './guards/jwt.guard';
-import { LoginUserDto } from './dto/login.dto';
-import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
-import { FileFieldsInterceptor} from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { JwtAuthGuard } from './guard/jwt.guard';
+import { AtGuards } from './guard/at.guard';
 
+
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('register')
-  @UseInterceptors(
-    FileFieldsInterceptor([
-       { name: 'file_name', maxCount: 1 },
-      { name: 'company_logo', maxCount: 1 }
-    ], {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1E9);
-          const ext = extname(file.originalname);
-          const filename = `${uniqueSuffix}${ext}`;
-          callback(null, filename);
-        },
-      }),
-    }),
-  )
- registerUserCompany(@Body() createCompanyDto: CreateCompanyDto,
- @UploadedFiles()
-//  files: {
-//    file_name?: Express.Multer.File[];
-//    company_logo?: Express.Multer.File[];
-//  },
- @Req() request: Request,
-  ){
-  return this.authService.registerUserCompany(createCompanyDto,request)
-  // return this.authService.registerUser(createCompanyDto,files.file_name,files.company_logo,request)
- }
-
- @Post('addUser')
-// @UseGuards(LocalGuard)
-registerUser(@Body() registerUserDto:RegisterUserDto){
-  return this.authService.registerUser(registerUserDto)
- }
-@Post('login')
-// @UseGuards(LocalGuard)
- loginUser(@Req() req: Request,@Body() loginUserDto:LoginUserDto){
-  return this.authService.loginUser(loginUserDto)
- }
-
-
   @Get('/user/current-user')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AtGuards)
+  // @UseGuards(JwtAuthGuard)
   getCurrentUser(@Req() req: Request) {
     console.log('Inside AuthController status method');
-    // console.log(req.user);
+    console.log(req.user);
     return req.user;
   }
-  @Get()
-  getAllUsers(){
-   return this.authService.getAllUsers()
+
+   //Create User
+   @Post('register')
+   @ApiOperation({ summary: 'Register a new user' })
+   @ApiResponse({
+     status: 201,
+     description: 'User registered successfully',
+     schema: {
+       type: 'object',
+       properties: {
+         success: {
+           type: 'boolean',
+           example: true,
+         },
+         message: {
+           type: 'string',
+           example: 'User registered successfully',
+         },
+       },
+     },
+   })
+   async createUser(@Body() dto: RegistrationUserDto) {
+     try {
+       return await this.authService.createUser(dto);
+     } catch (err: unknown) {
+       throw new InternalServerErrorException(err);
+     }
+   }
+
+
+  @Post('activate')
+  @ApiOperation({ summary: 'Activate user account' })
+  @ApiResponse({
+    status: 200,
+    description: 'Account verified successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'account verified successfully',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @ApiBody({ type: ActivationAccountDto })
+  async activateUser(@Body() dto: ActivationAccountDto, @Res() res: Response) {
+    try {
+      const tokens = await this.authService.activationAccount(dto, res);
+
+      res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+
+      res.send({ success: true, message: 'account verified successfully' });
+    } catch (err: unknown) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  getOneUser(@Param() id:string){
-   return this.authService.getOneUser(id)
+  @Post('signin')
+  @ApiOperation({ summary: 'Sign in to user account' })
+  @ApiResponse({
+    status: 200,
+    description: 'Sign-in successfull',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'Sign-in successfull',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @ApiBody({ type: SigninAuthDto })
+  signIn(@Body() credentials: SigninAuthDto, @Res() res: Response) {
+    return this.authService.signin(credentials, res);
   }
-  @Put(':id')
-  @UseGuards(JwtAdminGuard)
-  updateUser(@Param() id:string, @Body() updateUserDto:RegisterUserDto){
-   return this.authService.updateUser(id,updateUserDto)
+
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'Request password reset' })
+  @ApiResponse({
+    status: 200,
+    description: 'Password reset link sent successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'Password reset link sent successfully',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @ApiBody({ type: ForgotPassword })
+  forgotPassword(@Body() dto: ForgotPassword) {
+    return this.authService.forgotPassword(dto);
   }
-  @Delete(':id')
-  @UseGuards(JwtAdminGuard)
-  deleteUser(@Param() id:string){
-   return this.authService.deleteUser(id)
+
+  //reset password
+  @Patch('reset-password')
+  @ApiOperation({ summary: 'Reset user password' })
+  @ApiResponse({
+    status: 200,
+    description: 'Password reset successful',
+    schema: {
+      type: 'object',
+      properties: {
+        success: {
+          type: 'boolean',
+          example: true,
+        },
+        message: {
+          type: 'string',
+          example: 'Password reset successful',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @ApiBody({ type: ResetPassword })
+  resetPassword(@Body() dto: ResetPassword) {
+    return this.authService.resetPassword(dto);
   }
+
+  //logout user
+  @UseGuards(RtGuard)
+  @Post('logout')
+  @ApiOperation({ summary: 'Logout user' })
+  @ApiResponse({ status: 200, description: 'Logout successful' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  logout(@Req() request: Request, @Res() response: Response) {
+    return this.authService.logout(request, response);
+  }
+
+
 }
-

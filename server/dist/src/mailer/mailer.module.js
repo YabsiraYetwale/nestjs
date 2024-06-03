@@ -11,15 +11,13 @@ const common_1 = require("@nestjs/common");
 const mailer_service_1 = require("./mailer.service");
 const mailer_controller_1 = require("./mailer.controller");
 const config_1 = require("@nestjs/config");
-const invoices_service_1 = require("../invoices/invoices.service");
-const clients_service_1 = require("../clients/clients.service");
 let MailerModule = class MailerModule {
 };
 MailerModule = __decorate([
     (0, common_1.Module)({
         imports: [config_1.ConfigModule.forRoot()],
         controllers: [mailer_controller_1.MailerController],
-        providers: [mailer_service_1.MailerService, invoices_service_1.InvoicesService, clients_service_1.ClientsService],
+        providers: [mailer_service_1.MailerService],
     })
 ], MailerModule);
 exports.MailerModule = MailerModule;

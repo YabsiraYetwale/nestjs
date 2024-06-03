@@ -1,34 +1,39 @@
-import { RegisterUserDto } from './dto/register.dto';
-import { LoginUserDto } from './dto/login.dto';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
-import { Request } from 'express';
-import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { ActivationAccountDto } from './dto/activation.account.dto';
+import { SigninAuthDto } from './dto/signin.user.dto';
+import { ResetPassword } from './dto/reset.password.dto';
+import { ForgotPassword } from './dto/forgot.password.dto';
+import { MailerService } from 'src/mailer/mailer.service';
+import { RegistrationUserDto } from './dto/registration.dto';
 export declare class AuthService {
-    private jwtService;
-    private prismaService;
-    constructor(jwtService: JwtService, prismaService: PrismaService);
-    registerUser(registerUserDto: RegisterUserDto): Promise<{
-        message: string;
+    private prisma;
+    private jwt;
+    private configService;
+    private mailerService;
+    [x: string]: any;
+    constructor(prisma: PrismaService, jwt: JwtService, configService: ConfigService, mailerService: MailerService);
+    createActivationToken(email: string): Promise<{
+        token: string;
+        activationCode: string;
     }>;
-    registerUserCompany(registerCompanyDto: CreateCompanyDto, request: Request): Promise<{
+    forgotPassword(dto: ForgotPassword): Promise<{
+        success: boolean;
         message: string;
-    }>;
-    loginUser(loginUserDto: LoginUserDto): Promise<{
         token: string;
     }>;
-    getCurrentUser(userId: string): Promise<any>;
-    getAllUsers(): Promise<{
-        allUsers: any;
-    }>;
-    getOneUser(id: string): Promise<{
-        user: any;
-    }>;
-    updateUser(id: string, updateUserDto: RegisterUserDto): Promise<{
-        token: string;
+    activationAccount(dto: ActivationAccountDto, res: any): Promise<any>;
+    signin(dto: SigninAuthDto, res: any): Promise<any>;
+    logout(request: any, response: any): Promise<void>;
+    resetPassword(dto: ResetPassword): Promise<{
+        success: boolean;
         message: string;
     }>;
-    deleteUser(id: string): Promise<{
-        message: string;
+    refreshToken(userId: string, res: any): Promise<void>;
+    GetToken(userId: string, email: string, roles: any[], permissions: any[]): Promise<{
+        access_token: string;
+        refresh_token: string;
     }>;
+    createUser(dto: RegistrationUserDto): Promise<any>;
 }

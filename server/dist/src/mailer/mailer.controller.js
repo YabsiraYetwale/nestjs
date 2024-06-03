@@ -15,22 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailerController = void 0;
 const common_1 = require("@nestjs/common");
 const mailer_service_1 = require("./mailer.service");
+const mailer_dto_1 = require("./dto/mailer.dto");
+const swagger_1 = require("@nestjs/swagger");
 let MailerController = class MailerController {
     constructor(mailerService) {
         this.mailerService = mailerService;
     }
-    sendMail(id) {
-        return this.mailerService.sendInvoiceEmail(id);
+    sendMail(dto) {
+        return this.mailerService.sendMailer(dto);
     }
 };
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Send email' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Email sent successfully' }),
+    (0, swagger_1.ApiResponse)({ status: 500, description: 'Internal server error' }),
+    (0, swagger_1.ApiBody)({ type: mailer_dto_1.sendEmail }),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [mailer_dto_1.sendEmail]),
     __metadata("design:returntype", void 0)
 ], MailerController.prototype, "sendMail", null);
 MailerController = __decorate([
+    (0, swagger_1.ApiTags)('mailer'),
     (0, common_1.Controller)('mailer'),
     __metadata("design:paramtypes", [mailer_service_1.MailerService])
 ], MailerController);

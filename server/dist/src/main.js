@@ -11,7 +11,7 @@ async function bootstrap() {
     app.setViewEngine('ejs');
     app.setBaseViewsDir('templates');
     app.useStaticAssets('public');
-    await app.listen(3001);
+    await app.listen(3000);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

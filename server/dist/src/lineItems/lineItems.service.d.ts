@@ -1,4 +1,4 @@
-import { CreateLineItemsDto } from './dto/create-Line-Items.dto';
+import { CreateLineItemsDto } from '../invoices/dto/create-Line-Items.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdateLineItemsDto } from './dto/update-Line-Items.dto';
 export declare class LineItemsService {

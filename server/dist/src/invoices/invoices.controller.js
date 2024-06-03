@@ -14,10 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InvoicesController = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const invoices_service_1 = require("./invoices.service");
 const create_Invoice_dto_1 = require("./dto/create-Invoice.dto");
 const update_Invoice_dto_1 = require("./dto/update-Invoice.dto");
+const permission_1 = require("../decorators/permission");
+const permission_guard_1 = require("../auth/guard/permission.guard");
+const at_guard_1 = require("../auth/guard/at.guard");
 let InvoicesController = class InvoicesController {
     constructor(invoicesService) {
         this.invoicesService = invoicesService;
@@ -40,6 +42,7 @@ let InvoicesController = class InvoicesController {
     }
 };
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_invoices'),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('searchQuery')),
     __param(1, (0, common_1.Query)()),
@@ -48,6 +51,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], InvoicesController.prototype, "getAllInvoices", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_invoice'),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
@@ -55,8 +59,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InvoicesController.prototype, "getOneInvoice", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_create_invoice'),
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -64,8 +68,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InvoicesController.prototype, "createInvoice", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_update_invoice'),
     (0, common_1.Put)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -73,14 +77,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], InvoicesController.prototype, "updateInvoice", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_delete_invoice'),
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], InvoicesController.prototype, "deleteInvoice", null);
 InvoicesController = __decorate([
+    (0, common_1.UseGuards)(at_guard_1.AtGuards, permission_guard_1.PermissionGuard),
     (0, common_1.Controller)('invoices'),
     __metadata("design:paramtypes", [invoices_service_1.InvoicesService])
 ], InvoicesController);

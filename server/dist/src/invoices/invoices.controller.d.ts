@@ -19,14 +19,6 @@ export declare class InvoicesController {
             email: string;
             phone: string;
         };
-        creator: {
-            id: string;
-            username: string;
-            email: string;
-            password: string;
-            role: string;
-            company_id: string;
-        };
         line_items: {
             id: string;
             description: string;
@@ -35,6 +27,17 @@ export declare class InvoicesController {
             tax_rate: import("@prisma/client/runtime/library").Decimal;
             invoice_id: string;
         }[];
+        creator: {
+            id: string;
+            name: string;
+            email: string;
+            emailVerified: Date;
+            password: string;
+            image: string;
+            createdAt: Date;
+            updatedAt: Date;
+            company_id: string;
+        };
     } & {
         id: string;
         invoice_number: string;

@@ -25,17 +25,15 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompaniesService = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../../prisma/prisma.service");
 const update_company_dto_1 = require("./dto/update-company.dto");
 let CompaniesService = class CompaniesService {
-    constructor(jwtService, prismaService) {
-        this.jwtService = jwtService;
+    constructor(prismaService) {
         this.prismaService = prismaService;
     }
     async getAllCompanies() {
-        const companies = await this.prismaService.Company.findMany({ include: { users: true, documents: true, additional_fields: true } });
-        return { companies };
+        const allCompanies = await this.prismaService.Company.findMany({ include: { users: true, documents: true, additional_fields: true } });
+        return { allCompanies };
     }
     async getOneCompany(id) {
         const company = await this.prismaService.Company.findUnique({ where: id, include: { users: true, documents: true, additional_fields: true } });
@@ -101,8 +99,7 @@ __decorate([
 ], CompaniesService.prototype, "updateCompany", null);
 CompaniesService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], CompaniesService);
 exports.CompaniesService = CompaniesService;
 //# sourceMappingURL=companies.service.js.map

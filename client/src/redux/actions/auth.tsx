@@ -7,31 +7,70 @@ export const signUp=(user:any,router:any,localActive:any)=>async(dispatch:any)=>
         const {data}= await api.signUp(user)
         alert(data.message)
         dispatch({type:SIGNUP,payload:data})
-        router.push(`/${localActive}/sign-in`)
+        // router.push(`/${localActive}/sign-in`)
         dispatch({type:END_LOADING})
-    } catch (error) {
+    } catch (error:any) {
         console.log(error)
-        alert('register was not successful')
+        alert(error.response.data.message)
+    }
+}
+export const activateAccount=(post:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.activateAccount(post)
+        dispatch({type:LOGIN,payload:data})
+        alert(data.message)
+        
+        dispatch({type:END_LOADING})
+    } catch (error:any) {
+        console.log(error)
+        alert(error.response.data.message)
     }
 }
 export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signIn(user)
-        localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
+        // localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
         dispatch({type:LOGIN,payload:data})
-        if(data?.token){
-            router.push('/')
-        }
-        else{
-            alert (data?.message)   
-         }
+        if(data?.accessToken){
+            alert(data.message)
+            // router.push('/')
+        }      
         dispatch({type:END_LOADING})
-    } catch (error) {
+    } catch (error:any) {
         console.log(error)
-        alert('login was not successful')
+        alert(error.response.data.message)
     }
 }
+
+export const forgotPassword=(email:String,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.forgotPassword(email)
+        dispatch({type:LOGIN,payload:data})
+        alert(data.message)
+        
+        dispatch({type:END_LOADING})
+    } catch (error:any) {
+        console.log(error)
+        alert(error.response.data.message)
+    }
+}
+export const resetPassword=(post:any,router:any)=>async(dispatch:any)=>{
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.resetPassword(post)
+        dispatch({type:LOGIN,payload:data})
+        alert(data.message)
+        
+        dispatch({type:END_LOADING})
+    } catch (error:any) {
+        console.log(error)
+        alert(error.response.data.message)
+    }
+}
+
 
 
 export const fetchCurrentUser=()=>async(dispatch:any)=>{

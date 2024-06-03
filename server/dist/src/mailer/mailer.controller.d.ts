@@ -1,9 +1,9 @@
 import { MailerService } from './mailer.service';
+import { sendEmail } from './dto/mailer.dto';
 export declare class MailerController {
     private readonly mailerService;
     constructor(mailerService: MailerService);
-    sendMail(id: string): Promise<{
+    sendMail(dto: sendEmail): Promise<{
         success: string;
-        email: any;
     }>;
 }

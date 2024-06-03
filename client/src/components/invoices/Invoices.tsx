@@ -58,25 +58,37 @@ const Cell: React.FC<CellProps> = ({ row }) => {
           className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
           href={`/${localActive}/invoices/details/${id}`}
         >
-          View
+          {localActive === "en" ? "View" : "ዝርዝር"}
+          
         </Link>
       </div>
     </div>
   );
 };
 
-const columns: ColumnDef<InvoiceWithClient>[] = [
+
+
+export default function Invoices({}: Props) {
+  const [invoices, setInvoices] = useState<InvoiceWithClient[] | null>(null);
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
+ const localActive = useLocale();
+ 
+
+ const columns: ColumnDef<InvoiceWithClient>[] = [
+  
   {
     accessorKey: "invoice_number",
-    header: "Invoice Number",
+    header: (localActive === "en" ? "Invoice Number" : "የኢንቮይስ ቁጥር"),
   },
-  {
+  { 
     accessorKey: "client.name",
-    header: "Customer Name",
+    header:(localActive === "en" ? "Customer Name" : " የደንበኛ ስም"),
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: (localActive === "en" ? "Status" : "ሁኔታ"),
     cell: ({ row }: any) => {
       return (
         <div
@@ -91,9 +103,9 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
       );
     },
   },
-  {
+  {                                      
     accessorKey: "date",
-    header: "Date",
+    header: (localActive === "en" ? "Date" : "ቀን"),
     cell: ({ row }: any) => {
       const formattedDate = formatDate(row.getValue("date"));
       return <div>{formattedDate}</div>;
@@ -101,21 +113,15 @@ const columns: ColumnDef<InvoiceWithClient>[] = [
   },
   {
     accessorKey: "due_date",
-    header: "Due Date",
+    header: (localActive === "en" ? "Due Date" : "ማስረከቢያ ቀን"),
   },
   {
     accessorKey: "id",
-    header: "Manage",
+    header:(localActive === "en" ? "Manage" : "አስተዳድር"),
     cell: Cell,
   },
 ];
 
-export default function Invoices({}: Props) {
-  const [invoices, setInvoices] = useState<InvoiceWithClient[] | null>(null);
-  const [search, setSearch] = useState("");
-  const dispatch = useDispatch();
-  const router = useRouter();
- const localActive = useLocale();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,7 +156,7 @@ export default function Invoices({}: Props) {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search invoices"
+              placeholder={localActive === "en" ? "Search invoices" : "ደረሰኞችን ይፈልጉ"}
               className="border lg:w-[20rem] w-[15rem]  h-[35px]"
             />
             <Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border">

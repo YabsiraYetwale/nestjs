@@ -14,10 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientsController = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const clients_service_1 = require("./clients.service");
 const create_Client_dto_1 = require("./dto/create-Client.dto");
 const update_Client_dto_1 = require("./dto/update-Client.dto");
+const permission_1 = require("../decorators/permission");
+const permission_guard_1 = require("../auth/guard/permission.guard");
+const at_guard_1 = require("../auth/guard/at.guard");
 let ClientsController = class ClientsController {
     constructor(clientsService) {
         this.clientsService = clientsService;
@@ -39,6 +41,7 @@ let ClientsController = class ClientsController {
     }
 };
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_clients'),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('searchQuery')),
     __param(1, (0, common_1.Query)()),
@@ -47,24 +50,24 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ClientsController.prototype, "getAllClients", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_read_client'),
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "getOneClient", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_create_client'),
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_Client_dto_1.CreateClientDto]),
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "createClient", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_update_client'),
     (0, common_1.Put)(':id'),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -72,6 +75,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "updateClient", null);
 __decorate([
+    (0, permission_1.RequiredPermission)('can_delete_client'),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
@@ -79,6 +83,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClientsController.prototype, "deleteClient", null);
 ClientsController = __decorate([
+    (0, common_1.UseGuards)(at_guard_1.AtGuards, permission_guard_1.PermissionGuard),
     (0, common_1.Controller)('clients'),
     __metadata("design:paramtypes", [clients_service_1.ClientsService])
 ], ClientsController);

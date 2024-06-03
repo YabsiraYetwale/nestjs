@@ -1,7 +1,7 @@
 
 import {ArrayNotEmpty, IsDateString,IsEmpty,IsNotEmpty, IsNumber, IsOptional, MaxLength, ValidateNested} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateLineItemDto } from '../../lineItems/dto/create-Line-Items.dto';
+import { CreateLineItemDto } from './create-Line-Items.dto';
 import { Type } from 'class-transformer';
 import { CreateClientDto } from 'src/clients/dto/create-Client.dto';
 export class CreateInvoiceDto {

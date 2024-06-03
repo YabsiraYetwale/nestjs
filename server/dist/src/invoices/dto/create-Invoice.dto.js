@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateInvoiceDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
-const create_Line_Items_dto_1 = require("../../lineItems/dto/create-Line-Items.dto");
+const create_Line_Items_dto_1 = require("./create-Line-Items.dto");
 const class_transformer_1 = require("class-transformer");
 const create_Client_dto_1 = require("../../clients/dto/create-Client.dto");
 class CreateInvoiceDto {

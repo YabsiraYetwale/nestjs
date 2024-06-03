@@ -1,5 +1,5 @@
 import { LineItemsService } from './lineItems.service';
-import { CreateLineItemsDto } from './dto/create-Line-Items.dto';
+import { CreateLineItemsDto } from '../invoices/dto/create-Line-Items.dto';
 import { UpdateLineItemsDto } from './dto/update-Line-Items.dto';
 export declare class LineItemsController {
     private lineItemsService;

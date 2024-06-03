@@ -1,4 +1,4 @@
-import UserForm from '@/components/form/UserForm';
+import UserForm from '@/components/users/form/UserForm';
 import ProtectedRoute from '@/components/protectedRoute/ProtectedRoute';
 
 const page = ({params}:any) => {

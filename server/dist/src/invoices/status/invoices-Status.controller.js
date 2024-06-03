@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InvoicesStatusController = void 0;
 const common_1 = require("@nestjs/common");
 const decorators_1 = require("@nestjs/common/decorators");
-const jwt_guard_1 = require("../../auth/guards/jwt.guard");
 const invoices_Status_service_1 = require("./invoices-Status.service");
+const permission_1 = require("../../decorators/permission");
+const permission_guard_1 = require("../../auth/guard/permission.guard");
+const at_guard_1 = require("../../auth/guard/at.guard");
 let InvoicesStatusController = class InvoicesStatusController {
     constructor(invoicesStatusService) {
         this.invoicesStatusService = invoicesStatusService;
@@ -33,7 +35,6 @@ let InvoicesStatusController = class InvoicesStatusController {
 };
 __decorate([
     (0, common_1.Put)(':id/mark-as-paid'),
-    (0, decorators_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -41,7 +42,6 @@ __decorate([
 ], InvoicesStatusController.prototype, "MarkInvoicepaid", null);
 __decorate([
     (0, common_1.Put)(':id/mark-as-unpaid'),
-    (0, decorators_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -49,13 +49,14 @@ __decorate([
 ], InvoicesStatusController.prototype, "MarkInvoiceunpaid", null);
 __decorate([
     (0, common_1.Put)(':id/mark-as-read'),
-    (0, decorators_1.UseGuards)(jwt_guard_1.JwtAdminGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], InvoicesStatusController.prototype, "MarkInvoiceRead", null);
 InvoicesStatusController = __decorate([
+    (0, permission_1.RequiredPermission)('can_update_invoiceStatus'),
+    (0, decorators_1.UseGuards)(at_guard_1.AtGuards, permission_guard_1.PermissionGuard),
     (0, common_1.Controller)('invoices'),
     __metadata("design:paramtypes", [invoices_Status_service_1.InvoicesStatusService])
 ], InvoicesStatusController);

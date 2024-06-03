@@ -60,7 +60,7 @@ const CurrentUser = () => {
           </div>
         ) : (
           <Button className="bg-blue-600 hover:bg-blue-500"><Link href={`/${localActive}/sign-in`}>
-            Sign in
+           {localActive === "en" ? "Sign in" : "በመለያ ይግቡ"}
           </Link>
           </Button>
         )}
@@ -71,7 +71,8 @@ const CurrentUser = () => {
             onClick={handleLogout}
             className="sm:h-[40px] w-[80px] h-[30px] bg-red-600 hover:bg-red-500"
           >
-            Logout
+            {localActive === "en" ? "Logout" : "ይውጡ"}
+            
           </Button>
         </CardContent>
       )}

@@ -1,4 +1,4 @@
-import CustomerForm from "@/components/form/CustomerForm";
+import CustomerForm from "@/components/customers/form/CustomerForm";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
 const page = ({params}:any) => {
