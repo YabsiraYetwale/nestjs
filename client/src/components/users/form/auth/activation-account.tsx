@@ -20,7 +20,7 @@ const ActivationPage = () => {
   const activation_token = searchParams.get('token');
 
   const handleActivation = () => {
-    dispatch(activateAccount({activation_code,activation_token},router))
+    dispatch<any>(activateAccount({activation_code,activation_token},router))
   };
 
   return (
