@@ -42,7 +42,8 @@ const ResetPasswordPage = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: '',
+      password:'',
+      confirmPassword: '',
       token:token || ''
     },
   });
