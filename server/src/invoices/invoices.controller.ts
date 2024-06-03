@@ -7,12 +7,12 @@ import { RequiredPermission } from 'src/decorators/permission';
 import { PermissionGuard } from 'src/auth/guard/permission.guard';
 import { AtGuards } from 'src/auth/guard/at.guard';
 
-@UseGuards(AtGuards, PermissionGuard)
+// @UseGuards(AtGuards, PermissionGuard)
 @Controller('invoices')
 export class InvoicesController{
   constructor(private invoicesService: InvoicesService) {}
     
-@RequiredPermission('can_read_invoices')
+// @RequiredPermission('can_read_invoices')
  @Get()
 async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query: expressQuery,
 )
@@ -20,26 +20,26 @@ async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query:
   return this.invoicesService.getAllInvoices(searchQuery,query);
 }
 
-@RequiredPermission('can_read_invoice')
+// @RequiredPermission('can_read_invoice')
  @Get(':id')
  getOneInvoice(@Param() id:string){
   return this.invoicesService.getOneInvoice(id);
  }
 
- @RequiredPermission('can_create_invoice')
+//  @RequiredPermission('can_create_invoice')
  @Post()
  createInvoice(@Body() createInvoiceDto: CreateInvoiceDto, @Request() request) {
    const validatedUser = request.user; 
    return this.invoicesService.createInvoice(createInvoiceDto, validatedUser);
  }
 
- @RequiredPermission('can_update_invoice')
+//  @RequiredPermission('can_update_invoice')
  @Put(':id')
  updateInvoice(@Param() id:string, @Body() updateInvoiceDto:UpdateInvoiceDto){
   return this.invoicesService.updateInvoice(id,updateInvoiceDto)
  }
 
- @RequiredPermission('can_delete_invoice')
+//  @RequiredPermission('can_delete_invoice')
  @Delete(':id')
  deleteInvoice(@Param() id:string){
   return this.invoicesService.deleteInvoice(id)

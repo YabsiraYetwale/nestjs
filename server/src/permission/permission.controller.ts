@@ -27,11 +27,11 @@ import {
 
 @ApiTags('permission')
 @Controller('permission')
-@UseGuards(AtGuards, PermissionGuard)
+// @UseGuards(AtGuards, PermissionGuard)
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
-  @RequiredPermission('can_create_permission')
+  // @RequiredPermission('can_create_permission')
   @Post()
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiResponse({
@@ -51,7 +51,7 @@ export class PermissionController {
     }
   }
 
-  @RequiredPermission('can_read_permissions')
+  // @RequiredPermission('can_read_permissions')
   @Get()
   @ApiOperation({ summary: 'Get all permissions' })
   @ApiResponse({
@@ -70,7 +70,7 @@ export class PermissionController {
     }
   }
 
-  @RequiredPermission('can_read_permission')
+  // @RequiredPermission('can_read_permission')
   @Get(':id')
   @ApiOperation({ summary: 'Get a permission by ID' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -95,7 +95,7 @@ export class PermissionController {
     }
   }
 
-  @RequiredPermission('can_update_permission')
+  // @RequiredPermission('can_update_permission')
   @Patch(':id')
   @ApiOperation({ summary: 'Update a permission by ID' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -120,7 +120,7 @@ export class PermissionController {
     }
   }
 
-  @RequiredPermission('can_delete_permission')
+  // @RequiredPermission('can_delete_permission')
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a permission by ID' })
   @ApiParam({ name: 'id', description: 'Permission ID' })

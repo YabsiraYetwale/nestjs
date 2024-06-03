@@ -25,13 +25,13 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 
-@UseGuards(AtGuards, PermissionGuard)
+// @UseGuards(AtGuards, PermissionGuard)
 @ApiTags('role')
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @RequiredPermission('can_create_role')
+  // @RequiredPermission('can_create_role')
   @Post()
   @ApiOperation({ summary: 'Create a new role' })
   @ApiResponse({
@@ -51,7 +51,7 @@ export class RoleController {
     }
   }
 
-  @RequiredPermission('can_read_roles')
+  // @RequiredPermission('can_read_roles')
   @Get()
   @ApiOperation({ summary: 'Get all roles' })
   @ApiResponse({ status: 200, description: 'Return the list of all roles' })
@@ -67,7 +67,7 @@ export class RoleController {
     }
   }
 
-  @RequiredPermission('can_read_role')
+  // @RequiredPermission('can_read_role')
   @Get(':id')
   @ApiOperation({ summary: 'Get a role by ID' })
   @ApiParam({ name: 'id', description: 'Role ID' })
@@ -85,7 +85,7 @@ export class RoleController {
     }
   }
 
-  @RequiredPermission('can_update_role')
+  // @RequiredPermission('can_update_role')
   @Patch(':id')
   @ApiOperation({ summary: 'Update a role by ID' })
   @ApiParam({ name: 'id', description: 'Role ID' })
@@ -107,7 +107,7 @@ export class RoleController {
     }
   }
 
-  @RequiredPermission('can_delete_role')
+  // @RequiredPermission('can_delete_role')
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a role by ID' })
   @ApiParam({ name: 'id', description: 'Role ID' })

@@ -21,24 +21,24 @@ import { RequiredPermission } from 'src/decorators/permission';
 import { PermissionGuard } from 'src/auth/guard/permission.guard';
 import { AtGuards } from 'src/auth/guard/at.guard';
 
-@UseGuards(AtGuards, PermissionGuard)
+// @UseGuards(AtGuards, PermissionGuard)
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
-  @RequiredPermission('can_read_companies')
+  // @RequiredPermission('can_read_companies')
   @Get()
   getAllCompanies() {
     return this.companiesService.getAllCompanies();
   }
 
-  @RequiredPermission('can_read_company')
+  // @RequiredPermission('can_read_company')
   @Get(':id')
   getOneCompany(@Param() id: string) {
     return this.companiesService.getOneCompany(id);
   }
 
-  @RequiredPermission('can_update_company')
+  // @RequiredPermission('can_update_company')
   @Patch(':id')
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -80,7 +80,7 @@ export class CompaniesController {
     );
   }
 
-  @RequiredPermission('can_delete_company')
+  // @RequiredPermission('can_delete_company')
   @Delete(':id')
   deleteCompany(@Param() id: string) {
     return this.companiesService.deleteCompany(id);
