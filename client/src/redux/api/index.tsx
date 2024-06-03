@@ -35,7 +35,7 @@ export const signUp = (user:any) => API.post("/auth/register", user);
 export const activateAccount = (post:any) => API.post("/auth/activate", post);
 export const signIn = (user:any) => API.post("/auth/signin", user);
 // export const signIn = (user:any) => API.post("/auth/login", user);
-export const forgotPassword = (email:String) => API.post("/auth/forgot-password", email);
+export const forgotPassword = (email:any) => API.post("/auth/forgot-password", email);
 export const resetPassword = (post:any) => API.patch("/auth/reset-password", post);
 export const addUser = (user:any) => API.post("/auth/addUser", user);
 

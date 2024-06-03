@@ -44,7 +44,7 @@ export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
     }
 }
 
-export const forgotPassword=(email:String,router:any)=>async(dispatch:any)=>{
+export const forgotPassword=(email:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.forgotPassword(email)
