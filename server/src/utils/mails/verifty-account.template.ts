@@ -47,7 +47,7 @@ const html = `
       <h1>Email Verification</h1>
       <p>Thank you for signing up! To complete your registration, please use the code below to verify your email address:</p>
       <div class="code">copy this code ${activationCode}</div>
-      <a href="http://localhost:3001/amh/activation-account?token=${token}">Click Here to Verify our Account</a>
+      <a href="http://localhost:3000/amh/activation-account?token=${token}">Click Here to Verify our Account</a>
       <p>If you didn't create an account with us, you can safely ignore this email.</p>
     </div>
  </body>

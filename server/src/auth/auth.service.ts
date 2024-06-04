@@ -118,7 +118,7 @@ export class AuthService {
       );
 
       const html = resetPasswordTemplate(
-        `http://localhost:3001/amh/resetPassword?token=${token}`,
+        `http://localhost:3000/amh/resetPassword?token=${token}`,
       );
 
       const mailerOptions: Mail.Options = {

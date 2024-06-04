@@ -15,7 +15,7 @@ function Redirect () {
     }, [router]);
   return (<div>Redirecting</div>);};
   type userProps= {
-    username:string
+    name:string
   }
   export default function ProtectedRoute({ children}:any){
 
