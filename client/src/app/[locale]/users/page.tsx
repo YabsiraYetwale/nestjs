@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {useTranslations,useLocale } from 'next-intl';
 import Goup from "@/components/users/Goup";
 import Users from "@/components/users/Users";
+import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
 
 export default function UsersPage() {
@@ -15,6 +16,7 @@ export default function UsersPage() {
  
   return (
     <>
+    <ProtectedRoute>
     <div className="flex justify-evenly">
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title={tr('title')} />
@@ -28,6 +30,7 @@ export default function UsersPage() {
     </div>
     <Users/>
     <Goup/>
+    </ProtectedRoute>
  </>
   );
 }

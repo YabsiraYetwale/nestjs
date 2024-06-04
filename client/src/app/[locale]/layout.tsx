@@ -5,6 +5,8 @@ import { cn } from "../../lib/utils";
 import SideNavbar from "@/components/SideNavbar";
 import Navbar from "@/components/header/Navbar";
 import { ReduxProvider } from "@/redux/Provider";
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,7 +47,10 @@ interface RootLayoutProps {
         <SideNavbar />
         </div>
         </div>
-        <div className="p-8 mt-[50px] w-full">{children}</div>
+        <div className="p-8 mt-[50px] w-full">
+          {children}
+        </div>
+        <ToastContainer/>
       </ReduxProvider>
       </body>
     </html>

@@ -37,7 +37,8 @@ export class AuthController {
     console.log(req.user);
     return req.user;
   }
-
+ 
+  
    //Create User
    @Post('register')
    @ApiOperation({ summary: 'Register a new user' })

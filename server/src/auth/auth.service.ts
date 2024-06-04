@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ForbiddenException, Injectable} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -25,7 +25,7 @@ export class AuthService {
     private mailerService: MailerService,
   ) {}
 
-   // CREATE USER
+  // CREATE USER
 
   async createUser(dto: RegistrationUserDto): Promise<any> {
     try {
@@ -297,6 +297,7 @@ export class AuthService {
       const isMatch = await bcrypt.compare(dto.password, user.password);
 
       if (!isMatch) throw new ForbiddenException('Credentials are not valid');
+
       user.roles.forEach((role) => {
         role.role.permissions.forEach((permission) => {
           if (
@@ -324,16 +325,33 @@ export class AuthService {
         },
       });
 
+      // Retrieve the selected company
+      const company = await this.prisma.Company.findUnique({
+        where: {
+          id: dto.companyId,
+        },
+      });
+
+      if (!company)
+        throw new ForbiddenException('Selected company not found');
+
       res.cookie('refreshToken', tokens.refresh_token, {
         httpOnly: true,
         sameSite: 'None',
         secure: true,
       });
-      const {emailVerified,password,image,createdAt,updatedAt,company_id,...otherFields}=user
+      const {
+        emailVerified,
+        password,
+        image,
+        createdAt,
+        updatedAt,
+        ...otherFields
+      } = user;
       res.send({
         message: 'Sign in successful',
-        accessToken: this.jwt.sign({ ...otherFields }),
-        // accessToken: tokens.access_token,
+        accessToken: this.jwt.sign({...otherFields,company }),
+        company,
       });
     } catch (err) {
       throw new ForbiddenException('Invalid Credentials');

@@ -72,7 +72,7 @@ async getAllInvoices(searchQuery: string, query: Query) {
      validatedUser: ValidatedUser
      ) {
     const { total_amount, line_items, client, creator, company, ...post } = createInvoiceDto;
-  
+
     const totalAmount = line_items?.reduce((total, item) => {
       return total + item.quantity * item.unit_price;
     }, 0);
@@ -127,12 +127,13 @@ async getAllInvoices(searchQuery: string, query: Query) {
         },
         creator: {
           connect: {
-            id: validatedUser.id,
+            id: validatedUser?.id,
           },
         },
         company: {
           connect: {
-            id: validatedUser.company.id,
+            id:validatedUser?.company?.id,
+            // id:validatedUser?.company?.id,
           },
         },
         line_items: {

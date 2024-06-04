@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SigninAuthDto {
@@ -18,4 +18,7 @@ export class SigninAuthDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+  @IsString()
+  @IsOptional()
+  companyId: string;
 }

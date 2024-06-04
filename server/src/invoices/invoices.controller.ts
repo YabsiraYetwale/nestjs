@@ -27,6 +27,7 @@ async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query:
  }
 
 //  @RequiredPermission('can_create_invoice')
+@UseGuards(AtGuards, PermissionGuard)
  @Post()
  createInvoice(@Body() createInvoiceDto: CreateInvoiceDto, @Request() request) {
    const validatedUser = request.user; 

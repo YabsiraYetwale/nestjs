@@ -1,22 +1,5 @@
 /* eslint-disable prettier/prettier */
-// import { PassportStrategy } from '@nestjs/passport';
-// import { ExtractJwt, Strategy } from 'passport-jwt';
-// import { Injectable } from '@nestjs/common';
-// import { JwtPayload } from '../types/jwtPayload.types';
 
-// @Injectable()
-// export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
-//   constructor() {
-//     super({
-//       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//       secretOrKey: 'accesssecrettoken',
-//     });
-//   }
-
-//   validate(payload: JwtPayload) {
-//     return payload;
-//   }
-// }
 
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
@@ -38,3 +21,49 @@ export class AtStrategy extends PassportStrategy(Strategy) {
     return payload;
   }
   }
+
+
+
+
+
+
+/* eslint-disable prettier/prettier */
+// import { Injectable } from '@nestjs/common';
+// import { PassportStrategy } from '@nestjs/passport';
+// import { Company, CompanyUser, User } from '@prisma/client';
+// import { ExtractJwt, Strategy } from 'passport-jwt';
+// import { PrismaClient } from '@prisma/client'; // Import the Prisma client
+
+// const prisma = new PrismaClient();
+
+
+// interface ValidatedUser extends User {}
+
+// @Injectable()
+// export class AtStrategy extends PassportStrategy(Strategy) {
+//   constructor() {
+//     super({
+//       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//       ignoreExpiration: false,
+//       secretOrKey: 'accesssecrettoken',
+//     });
+//   }
+
+//   async validate(payload: User): Promise<ValidatedUser> {
+//     console.log('Inside JWT Strategy Validate');
+
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         id: payload.id,
+//       },
+//     });
+
+
+//     const validatedUser: ValidatedUser = {
+//       ...user,
+//     };
+
+//     return validatedUser;
+//   }
+  
+// }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslations, useLocale } from "next-intl";
 import Goup from "@/components/customers/Goup";
 import Invoices from "@/components/invoices/Invoices";
+import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
 export default function CustomersPage() {
   const t = useTranslations("Navigation");
@@ -14,6 +15,7 @@ export default function CustomersPage() {
 
   return (
     <>
+    <ProtectedRoute>
       <div className="flex flex-col justify-evenly">
         <div className="flex sm:gap-[9rem] gap-[15rem]">
           <PageTitle title={tr("title")} />
@@ -24,6 +26,7 @@ export default function CustomersPage() {
         <Invoices/>
       </div>
       <Goup />
+    </ProtectedRoute>
     </>
   );
 }

@@ -1,17 +1,19 @@
 import {DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_USER, LOGIN, SIGNUP, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
+import {toast } from 'react-toastify';
+
 
 export const signUp=(user:any,router:any,localActive:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
-        alert(data.message)
+        toast.success(data.message)
         dispatch({type:SIGNUP,payload:data})
         // router.push(`/${localActive}/sign-in`)
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
     }
 }
 export const activateAccount=(post:any,router:any)=>async(dispatch:any)=>{
@@ -19,28 +21,28 @@ export const activateAccount=(post:any,router:any)=>async(dispatch:any)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.activateAccount(post)
         dispatch({type:LOGIN,payload:data})
-        alert(data.message)
+        toast.success(data.message)
         
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
     }
 }
 export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signIn(user)
-        // localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
+        localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
         dispatch({type:LOGIN,payload:data})
         if(data?.accessToken){
-            alert(data.message)
-            // router.push('/')
+            toast.success(data.message)
+            router.push('/')
         }      
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
     }
 }
 
@@ -49,12 +51,12 @@ export const forgotPassword=(email:any,router:any)=>async(dispatch:any)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.forgotPassword(email)
         dispatch({type:LOGIN,payload:data})
-        alert(data.message)
+        toast.success(data.message)
         
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
     }
 }
 export const resetPassword=(post:any,router:any)=>async(dispatch:any)=>{
@@ -62,12 +64,12 @@ export const resetPassword=(post:any,router:any)=>async(dispatch:any)=>{
         dispatch({type:START_LOADING})
         const {data}= await api.resetPassword(post)
         dispatch({type:LOGIN,payload:data})
-        alert(data.message)
+        toast.success(data.message)
         
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
     }
 }
 
@@ -108,13 +110,13 @@ export const createUser=(user:any,router:any,localActive:any)=>async(dispatch:an
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.addUser(user)
-        alert(data.message)
+        toast.success(data.message)
         dispatch({type:SIGNUP,payload:data})
         router.push(`/${localActive}/users`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
-        // alert('create user was not successful')
+        // toast('create user was not successful')
     }
 }
 export const updateUser=(id:String,user:any,router:any,localActive:any)=>async(dispatch:any)=>{

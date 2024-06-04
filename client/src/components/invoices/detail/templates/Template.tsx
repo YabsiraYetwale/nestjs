@@ -28,6 +28,7 @@ import {
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useLocale } from 'next-intl';
+import {toast } from 'react-toastify';
 
 const FormSchema = z.object({
   templateVersion:z.string().optional()
@@ -68,7 +69,7 @@ export default function Template({ params }: any) {
     axios
       .get(`https://invoicesystm-app.onrender.com/api/mailer/${id}`)
       .then((response: { data: React.SetStateAction<string> }) => {
-        alert("email send successfully!");
+        toast.success("email send successfully!");
         setEmail(response.data);
         console.log(response.data);
       })
