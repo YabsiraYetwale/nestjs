@@ -13,6 +13,6 @@ async function bootstrap() {
   app.setBaseViewsDir('templates');
   app.useStaticAssets('public');
   
-  await app.listen(3001);
+  await app.listen(3001)
 }
 bootstrap();

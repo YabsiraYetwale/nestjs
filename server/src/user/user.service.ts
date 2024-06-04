@@ -8,7 +8,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async myProfile(userId: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.User.findUnique({
       where: { id: userId },
       include: {
         roles: true,
@@ -34,7 +34,7 @@ export class UserService {
   }
 
   async getAllUsers() {
-    const users = await this.prisma.user.findMany({
+    const users = await this.prisma.User.findMany({
       include: { 
         companies: {
         select:{
@@ -51,7 +51,7 @@ export class UserService {
   //   try {
   //     const thirtyDaysAgo = addDays(new Date(), -30);
 
-  //     const unverifiedUsers = await this.prisma.user.findMany({
+  //     const unverifiedUsers = await this.prisma.User.findMany({
   //       where: {
   //         emailVerified: null,
   //         createdAt: {
@@ -61,7 +61,7 @@ export class UserService {
   //     });
 
   //     for (const user of unverifiedUsers) {
-  //       await this.prisma.user.delete({
+  //       await this.prisma.User.delete({
   //         where: {
   //           id: user.id,
   //         },
