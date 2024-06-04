@@ -10,6 +10,7 @@ import {
   UploadedFiles,
   Req,
   UseGuards,
+  Post,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -20,6 +21,7 @@ import { Request } from 'express';
 import { RequiredPermission } from 'src/decorators/permission';
 import { PermissionGuard } from 'src/auth/guard/permission.guard';
 import { AtGuards } from 'src/auth/guard/at.guard';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 // @UseGuards(AtGuards, PermissionGuard)
 @Controller('companies')
@@ -36,6 +38,11 @@ export class CompaniesController {
   @Get(':id')
   getOneCompany(@Param() id: string) {
     return this.companiesService.getOneCompany(id);
+  }
+
+  @Post()
+  createCompany(@Body() createCompanyDto:CreateCompanyDto){
+   return this.companiesService.createCompany(createCompanyDto)
   }
 
   // @RequiredPermission('can_update_company')
@@ -74,8 +81,8 @@ export class CompaniesController {
     return this.companiesService.updateCompany(
       id,
       updateCompanyDto,
-      files.file_name,
-      files.company_logo,
+      files?.file_name,
+      files?.company_logo,
       request,
     );
   }

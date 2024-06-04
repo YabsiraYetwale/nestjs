@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -160,13 +162,14 @@ export class CreateCompanyDto {
   @IsOptional()
   additional_fields: any;
 
+ 
   @ApiProperty({
-    description: 'List of users associated with the company',
-    type: [RegistrationUserDto],
+    description: 'id of user',
   })
-  @ValidateNested({ each: true })
-  @Type(() => RegistrationUserDto)
-  users: RegistrationUserDto[];
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNotEmpty()
+  userId:string[]
 
   @ApiProperty({
     description: 'List of documents related to the company',

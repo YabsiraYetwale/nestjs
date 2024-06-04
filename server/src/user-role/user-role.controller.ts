@@ -96,7 +96,7 @@ export class UserRoleController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-  }
+  };
 
   // @RequiredPermission('can_delete_userRole')
   @Delete(':id')

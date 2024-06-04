@@ -1,28 +1,11 @@
 import axios from "axios";
-const API = axios.create({ baseURL:"http://localhost:3000/api"});
-// const API = axios.create({ baseURL:"https://invoicesystm-app.onrender.com/api"});
+const API = axios.create({ baseURL:"http://localhost:3001/api"});
+// const API = axios.create({ baseURL:"https://invoicesystm-api.onrender.com/api"});
 
-// API.interceptors.request.use((req:any) => {
-//   const authData = localStorage.getItem("InvoiceAuth");
-//   if (authData && typeof authData === "string") {
-//     const token = JSON.parse(authData).data.token;
-//     req.headers = {
-//       ...req.headers,
-//       Authorization: `Bearer ${token}`,
-//     };
-//   }
-//   return req;
-// });
-
-API.interceptors.request.use((req: { headers: any; }) => {
-  const token = document.cookie
-    // .split('; ')
-    // .find((row) => row.startsWith('refreshToken='))
-    // ?.split('=')[1];
-
-  console.log('Token:', token);
-
-  if (token) {
+API.interceptors.request.use((req:any) => {
+  const authData = localStorage.getItem("InvoiceAuth");
+  if (authData && typeof authData === "string") {
+    const token = JSON.parse(authData).data.accessToken;
     req.headers = {
       ...req.headers,
       Authorization: `Bearer ${token}`,
@@ -30,6 +13,23 @@ API.interceptors.request.use((req: { headers: any; }) => {
   }
   return req;
 });
+
+// API.interceptors.request.use((req: { headers: any; }) => {
+//   const token = document.cookie
+//     // .split('; ')
+//     // .find((row) => row.startsWith('refreshToken='))
+//     // ?.split('=')[1];
+
+//   console.log('Token:', token);
+
+//   if (token) {
+//     req.headers = {
+//       ...req.headers,
+//       Authorization: `Bearer ${token}`,
+//     };
+//   }
+//   return req;
+// });
 // Auth
 export const signUp = (user:any) => API.post("/auth/register", user);
 export const activateAccount = (post:any) => API.post("/auth/activate", post);

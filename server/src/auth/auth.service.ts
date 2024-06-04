@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable} from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -15,8 +15,6 @@ import { mailerOption } from 'src/utils/account.verification';
 import { MailerService } from 'src/mailer/mailer.service';
 import { RegistrationUserDto } from './dto/registration.dto';
 
-import { Request } from 'express';
-
 @Injectable()
 export class AuthService {
   [x: string]: any;
@@ -26,6 +24,71 @@ export class AuthService {
     private configService: ConfigService,
     private mailerService: MailerService,
   ) {}
+
+   // CREATE USER
+
+  async createUser(dto: RegistrationUserDto): Promise<any> {
+    try {
+      const existingUser = await this.prisma.User.findFirst({
+        where: { email: dto.email },
+      });
+
+      if (existingUser && existingUser.emailVerified) {
+        throw new ForbiddenException('Email is already taken');
+      }
+
+      if (dto.password !== dto.retypePassword) {
+        throw new ForbiddenException('password not match');
+      }
+
+      const transporter = this.mailerService.mailTransport();
+      const activationToken = await this.createActivationToken(dto.email);
+
+      if (existingUser && !existingUser.emailVerified) {
+        await transporter.sendMail(
+          mailerOption(
+            dto.email,
+            activationToken.activationCode,
+            activationToken.token,
+          ),
+        );
+
+        return {
+          success: true,
+          // message: `Account not Verify! Please check your email ${dto.email} to verify `,
+          message: `Account not Verify! Please check your email ${dto.email} to verify and ${activationToken.activationCode}`,
+          activationToken: activationToken.token,
+        };
+      } else {
+        const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+        await this.prisma.User.create({
+          data: {
+            name: dto.name,
+            email: dto.email,
+            password: hashedPassword,
+          },
+        });
+        await transporter.sendMail(
+          mailerOption(
+            dto.email,
+            activationToken.activationCode,
+            activationToken.token,
+          ),
+        );
+
+        return {
+          success: true,
+          message: `Acount Create Success! Please check your email  to verify`,
+          // message: `Acount Create Success! Please check your email  to verify${dto.email} and ${activationToken.activationCode}`,
+          activationToken: activationToken.token,
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 
   async createActivationToken(email: string) {
     const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -40,7 +103,6 @@ export class AuthService {
   }
 
   // forgot password
-  
 
   async forgotPassword(dto: ForgotPassword) {
     const transporter = this.mailerService.mailTransport();
@@ -441,72 +503,4 @@ export class AuthService {
       refresh_token: rt,
     };
   }
-
-  // CREATE USER
-
-  async createUser(dto: RegistrationUserDto): Promise<any> {
-    try {
-      const existingUser = await this.prisma.User.findFirst({
-        where: { email: dto.email },
-      });
-
-      if (existingUser && existingUser.emailVerified) {
-        throw new ForbiddenException('Email is already taken');
-      }
-
-      if (dto.password !== dto.retypePassword) {
-        throw new ForbiddenException('password not match');
-      }
-
-      const transporter = this.mailerService.mailTransport();
-      const activationToken = await this.createActivationToken(dto.email);
-
-      if (existingUser && !existingUser.emailVerified) {
-        await transporter.sendMail(
-          mailerOption(
-            dto.email,
-            activationToken.activationCode,
-            activationToken.token,
-          ),
-        );
-
-        return {
-          success: true,
-          // message: `Account not Verify! Please check your email ${dto.email} to verify `,
-          message: `Account not Verify! Please check your email ${dto.email} to verify and ${activationToken.activationCode}`,
-          activationToken: activationToken.token,
-        };
-      } else {
-        const hashedPassword = await bcrypt.hash(dto.password, 10);
-
-        await this.prisma.User.create({
-          data: {
-            name: dto.name,
-            email: dto.email,
-            password: hashedPassword,
-          },
-        });
-        await transporter.sendMail(
-          mailerOption(
-            dto.email,
-            activationToken.activationCode,
-            activationToken.token,
-          ),
-        );
-
-        return {
-          success: true,
-          message: `Acount Create Success! Please check your email  to verify`,
-          // message: `Acount Create Success! Please check your email  to verify${dto.email} and ${activationToken.activationCode}`,
-          activationToken: activationToken.token,
-        };
-      }
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
-
-
-
 }

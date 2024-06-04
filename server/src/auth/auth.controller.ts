@@ -65,6 +65,7 @@ export class AuthController {
        throw new InternalServerErrorException(err);
      }
    }
+  
 
 
   @Post('activate')

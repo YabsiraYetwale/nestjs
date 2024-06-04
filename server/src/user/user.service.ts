@@ -10,18 +10,23 @@ export class UserService {
   async myProfile(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      // include: {
-      //   // roles: true,
-      //   // permissions: {
-      //   //   select: {
-      //   //     role: {
-      //   //       select: {
-      //   //         action: true,
-      //   //       },
-      //   //     },
-      //   //   },
-      //   // },
-      // },
+      include: {
+        roles: true,
+        permissions: {
+          select: {
+            role: {
+              select: {
+                action: true,
+              },
+            },
+          },
+        },
+        companies:{
+          select:{
+            company:true
+          }
+        }
+      },
     });
     delete user.password;
 
@@ -29,7 +34,14 @@ export class UserService {
   }
 
   async getAllUsers() {
-    const users = await this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({
+      include: { 
+        companies: {
+        select:{
+          company:true
+        }
+      }
+    }});
     return users;
   }
 

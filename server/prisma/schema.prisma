@@ -20,8 +20,7 @@ model User {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   token           RefreshToken[]
-  company_id String?
-  company    Company? @relation("usercompany", fields: [company_id], references: [id], onDelete: Cascade)
+  companies       CompanyUser[] @relation("userCompanies")
   invoices   Invoices[]  @relation("userInvoices")
 }
 
@@ -104,11 +103,21 @@ model Company {
   woreda               String
   kebele               String
   description          String?
-  users                User[]     @relation("usercompany")
+  users                CompanyUser[] @relation("userCompanies")
   documents            Document[] @relation("documentcompany")
   invoices             Invoices[]   @relation("companyInvoices")
   additional_fields      AdditionalFieldS[]   @relation("additional_field_Company")
 
+}
+
+model CompanyUser {
+  createdAt DateTime @default(now())
+  userId    String
+  companyId String
+  user      User   @relation("userCompanies", fields: [userId], references: [id])
+  company   Company @relation("userCompanies", fields: [companyId], references: [id])
+
+  @@id([userId,companyId])
 }
 
 model Document {

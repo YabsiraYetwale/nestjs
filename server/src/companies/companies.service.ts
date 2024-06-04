@@ -2,6 +2,7 @@ import { HttpException, Injectable, Req } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Request } from 'express';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Injectable()
 export class CompaniesService {
@@ -10,12 +11,24 @@ export class CompaniesService {
     ) {}
     
   async getAllCompanies(){
-    const allCompanies = await this.prismaService.Company.findMany({include: {users: true,documents:true,additional_fields:true  }})
+    const allCompanies = await this.prismaService.Company.findMany({include: {
+      users: {
+      select:{
+        user:true
+      }
+    },
+    documents:true,
+    additional_fields:true  
+  }})
     return {allCompanies}
   }
 
   async getOneCompany(id:string){
-    const company = await this.prismaService.Company.findUnique({ where:id,include: {users: true ,documents:true,additional_fields:true }})
+    const company = await this.prismaService.Company.findUnique({ where:id,include: { 
+      users: {
+      select:{
+        user:true
+      }} ,documents:true,additional_fields:true }})
     if (!company) {
       throw new HttpException("Company doesn't exist",404)
     }
@@ -24,7 +37,18 @@ export class CompaniesService {
     }
   }
 
+  async createCompany(createCompanyDto:CreateCompanyDto){
+  
+    const {userId,...post} = createCompanyDto
+    const company = await this.prismaService.Company.create({data:{
+      ...post,
+      users:{
 
+        create:userId.map(userId=>({userId}))
+      }
+    }})
+  return {...company}
+  }
 
   async updateCompany(id: string, updateCompanyDto: UpdateCompanyDto,
     file_name: Express.Multer.File[],
@@ -37,8 +61,7 @@ export class CompaniesService {
       const host = request.get('host');
       const company_logo_url = company_logo ? `${protocol}://${host}/${company_logo[0].filename}` : null;
   
-    const { additional_fields,users,documents, ...post } = updateCompanyDto;
-    // const hashedPassword = await bcrypt.hash(users.password, 10);
+    const { additional_fields,documents, ...post } = updateCompanyDto;
   
     const existingCompany = await this.prismaService.Company.findUnique({ where: id ,
       include: { documents: true,additional_fields:true },
@@ -61,21 +84,12 @@ export class CompaniesService {
     const updatedCompany = await this.prismaService.Company.update({
       where: id ,
       data: {
+       
         additional_fields: {
           create: additional_fields, 
         },
         company_logo:company_logo_url,
         ...post,
-        // users: {
-        //   update: {
-        //     where: { email: users?.email },
-        //     data: {
-        //       username: users?.username,
-        //       // password: hashedPassword,
-        //       role: users?.role,
-        //     }
-        //   },
-        // },
         documents: newDocuments,
       },
     });
@@ -84,15 +98,8 @@ export class CompaniesService {
       throw new Error("Failed to update Company");
     }
   
-    // const token = this.jwtService.sign({
-    //   username: users.username,
-    //   email: users.email,
-    //   role: users.role,
-    // });
-  
     return { ...updatedCompany,message:"Company updated successfully!" };
-    // return {message:"Company updated successfully!" };
-    // return {...updatedCompany};
+
   }
   async deleteCompany(id: string) {
     const existingCompany = await this.prismaService.Company.findUnique({where:id});
