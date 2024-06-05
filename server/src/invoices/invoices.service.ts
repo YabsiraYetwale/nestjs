@@ -121,7 +121,11 @@ async getAllInvoices(searchQuery: string, query: Query) {
         invoice_number: invoiceNumber,
         total_amount: totalAmount,
         ...post,
-       
+        recipient_company:{
+          connect: {
+            id: createInvoiceDto?.recipient_company?.id,
+          },
+        },
         client: {
           connect: createdClient ? { id: createdClient.id } : undefined,
         },
@@ -133,7 +137,6 @@ async getAllInvoices(searchQuery: string, query: Query) {
         company: {
           connect: {
             id:validatedUser?.company?.id,
-            // id:validatedUser?.company?.id,
           },
         },
         line_items: {

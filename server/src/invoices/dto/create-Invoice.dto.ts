@@ -47,6 +47,10 @@ export class CreateInvoiceDto {
 
     @ApiProperty()
     @IsOptional()
+    recipient_company :any;
+    
+    @ApiProperty()
+    @IsOptional()
     templateVersion :string;
 
     @ApiProperty({ type: [CreateLineItemDto] })

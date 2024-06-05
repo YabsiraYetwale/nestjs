@@ -106,8 +106,8 @@ model Company {
   users                CompanyUser[] @relation("userCompanies")
   documents            Document[] @relation("documentcompany")
   invoices             Invoices[]   @relation("companyInvoices")
+  recipient_invoices   Invoices[]   @relation("recipientCompanyInvoices")
   additional_fields      AdditionalFieldS[]   @relation("additional_field_Company")
-
 }
 
 model CompanyUser {
@@ -166,6 +166,8 @@ model Invoices {
   creator        User? @relation("userInvoices", fields: [creator_id], references: [id], onDelete: Cascade)
   company_id     String?
   company        Company?   @relation("companyInvoices", fields: [company_id], references: [id], onDelete: Cascade)
+  recipient_company_id String?
+  recipient_company Company?   @relation("recipientCompanyInvoices", fields: [recipient_company_id], references: [id], onDelete: Cascade)
   templateVersion TemplateVersion?   @default(v1)
 }
 

@@ -28,7 +28,26 @@ export class CompaniesService {
       users: {
       select:{
         user:true
-      }} ,documents:true,additional_fields:true }})
+      }} ,
+      recipient_invoices:{
+        include:{
+          company:{
+          select:{
+          company_logo:true,
+          name:true,
+          general_manager_name:true,
+          company_number:true,
+          vat_reg_number:true,
+          house_no:true,
+          po_box:true,
+          fax :true,
+          email:true,
+          tel1:true,
+          tel2:true,
+        }}}
+      },
+      documents:true,
+      additional_fields:true }})
     if (!company) {
       throw new HttpException("Company doesn't exist",404)
     }

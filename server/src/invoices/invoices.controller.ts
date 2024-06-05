@@ -7,7 +7,7 @@ import { RequiredPermission } from 'src/decorators/permission';
 import { PermissionGuard } from 'src/auth/guard/permission.guard';
 import { AtGuards } from 'src/auth/guard/at.guard';
 
-// @UseGuards(AtGuards, PermissionGuard)
+@UseGuards(AtGuards, PermissionGuard)
 @Controller('invoices')
 export class InvoicesController{
   constructor(private invoicesService: InvoicesService) {}

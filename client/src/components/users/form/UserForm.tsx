@@ -19,8 +19,8 @@ import { useRouter } from 'next/navigation';
 import { createUser, fetchUser, updateUser } from '@/redux/actions/auth';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { fetchCompanies } from '@/redux/actions/items';
-import { Company } from '../../schemas/companyProps';
+import { fetchCompanies } from '@/redux/actions/companies';
+import { CompanyProps } from '../../schemas/companyProps';
 import {useLocale } from 'next-intl';
 
 const FormSchema = z
@@ -51,7 +51,7 @@ const UserForm = ({params}:any) => {
     },
   });
 
-  const [companies, setCompanies] = useState<Company[] | null>(null);
+  const [companies, setCompanies] = useState<CompanyProps[] | null>(null);
 
 useEffect(() => {
   const fetchData = async () => {

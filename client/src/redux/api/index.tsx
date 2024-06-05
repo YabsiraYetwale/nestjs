@@ -1,6 +1,6 @@
 import axios from "axios";
-// const API = axios.create({ baseURL:"http://localhost:3001/api"});
-const API = axios.create({ baseURL:"https://nextjs-nestjs-invoicesystm-api.onrender.com/api"});
+const API = axios.create({ baseURL:"http://localhost:3001/api"});
+// const API = axios.create({ baseURL:"https://nextjs-nestjs-invoicesystm-api.onrender.com/api"});
 
 API.interceptors.request.use((req:any) => {
   const authData = localStorage.getItem("InvoiceAuth");
@@ -63,7 +63,7 @@ export const createCompany = (company:any) => API.post('/companies',company);
 export const fetchCompanies = () => API.get('/companies');
 export const fetchCompany = (id:String) => API.get(`/companies/${id}`);
 export const updateCompany = (id:String,company:any) => API.patch(`/companies/${id}`, company);
-export const deleteCompany = (id:String) => API.deete(`/companies/${id}`);
+export const deleteCompany = (id:String) => API.delete(`/companies/${id}`);
 
 
 // AdditionalFields
