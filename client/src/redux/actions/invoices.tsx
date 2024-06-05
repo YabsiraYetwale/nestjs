@@ -1,5 +1,7 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, FETCH_BY_SEARCH, PAID, READ, START_LOADING, UNPAID, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
+import {toast } from 'react-toastify';
+
 export const createInvoice=(invoice:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
@@ -27,6 +29,7 @@ export const fetchInvoice=(id:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
+
 
 export const fetchInvoicesBySearch=(searchQuery:any,router:any,localActive:any)=>async(dispatch:any)=>{
   
@@ -116,6 +119,16 @@ export const deleteInvoice=(id:String,router:any,localActive:any)=>async(dispatc
         dispatch({type:DELETE,payload:id})
         router.push(`/${localActive}/invoices`)
         dispatch({type:END_LOADING})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const sendInvoice=(id:any)=>async(dispatch:any)=>{
+    try {
+        const {data}= await api.sendInvoice(id)
+        toast.success("email send successfully!");
     } catch (error) {
         console.log(error)
     }

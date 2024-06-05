@@ -19,6 +19,11 @@ import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/redux/actions/auth';
 import {useLocale } from 'next-intl';
+import {useState,useEffect } from 'react';
+import { CompanyProps } from "../../schemas/companyProps";
+import { fetchCompanies } from "@/redux/actions/companies";
+
+
 
 
 const FormSchema = z.object({
@@ -27,6 +32,7 @@ const FormSchema = z.object({
     .string()
     .min(1, 'Password is required')
     .min(8, 'Password must have than 8 characters'),
+    companyId:z.string().optional(),
 });
 
 const SignInForm = () => {
@@ -39,8 +45,24 @@ const SignInForm = () => {
     defaultValues: {
       email: '',
       password: '',
+      companyId:''
     },
   });
+
+  const [companies, setCompanies] = useState<CompanyProps[] | null>(null);
+  const [existingCompany, setExistingCompany] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch<any>(fetchCompanies());
+        setCompanies(response);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     dispatch<any>(signIn(values,router))
 
@@ -80,6 +102,37 @@ const SignInForm = () => {
               </FormItem>
             )}
           />
+            {!existingCompany && (
+                          <p
+                            onClick={() => setExistingCompany(true)}
+                            className="text-blue-600 hover:text-blue-400  cursor-pointer"
+                          >
+                            {localActive === "en" ? "If you have a registed company click here" : "If you have a registed company click here"}
+                          </p>
+                        )}
+            {existingCompany && (
+
+                        <FormField
+                          control={form.control}
+                          name="companyId"
+                          render={({ field }: any) => (
+                            <FormItem>
+                              <FormControl>
+                                <select
+                                  className="flex gap-5 border"
+                                  {...field}
+                                >
+                                  <option> --{localActive === "en" ? "choose company" : "company ይምረጡ"} --</option>
+                                  {companies?.map((i, index) => (
+                                    <option key={index} value={i?.id}>{i?.name}</option>
+                                  ))}
+                                </select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                       )} 
         </div>
         <Button className='w-full mt-6 bg-blue-600 hover:bg-blue-500' type='submit'>
           {localActive === "en" ? "Sign in" : "ይግቡ"}

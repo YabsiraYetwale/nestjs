@@ -14,22 +14,6 @@ API.interceptors.request.use((req:any) => {
   return req;
 });
 
-// API.interceptors.request.use((req: { headers: any; }) => {
-//   const token = document.cookie
-//     // .split('; ')
-//     // .find((row) => row.startsWith('refreshToken='))
-//     // ?.split('=')[1];
-
-//   console.log('Token:', token);
-
-//   if (token) {
-//     req.headers = {
-//       ...req.headers,
-//       Authorization: `Bearer ${token}`,
-//     };
-//   }
-//   return req;
-// });
 // Auth
 export const signUp = (user:any) => API.post("/auth/register", user);
 export const activateAccount = (post:any) => API.post("/auth/activate", post);
@@ -67,13 +51,20 @@ export const markInvoiceStatusPaid =   (id:String) => API.put(`/invoices/${id}/m
 export const markInvoiceStatusUnPaid = (id:String) => API.put(`/invoices/${id}/mark-as-unpaid`);
 export const markInvoiceStatusRead =   (id:String) => API.put(`/invoices/${id}/mark-as-read`);
 
+// send invoice via email
+export const sendInvoice = (id:String) => API.get(`/mailer/${id}`);
+
 // Item
 export const createItem = (item:any) => API.post("/items", item);
 export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);
 
 // Company
+export const createCompany = (company:any) => API.post('/companies',company);
 export const fetchCompanies = () => API.get('/companies');
+export const fetchCompany = (id:String) => API.get(`/companies/${id}`);
 export const updateCompany = (id:String,company:any) => API.patch(`/companies/${id}`, company);
+export const deleteCompany = (id:String) => API.deete(`/companies/${id}`);
+
 
 // AdditionalFields
 export const createAdditionalFields= (additionalFields:any) => API.post('/items/custom',additionalFields);

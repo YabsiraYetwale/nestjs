@@ -35,7 +35,7 @@ function CustomFieldsForm2({ params }: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
+        const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company?.id));
         const { additionalFields } = response;
       
         const initialFields: Field[] = [];
@@ -45,7 +45,7 @@ function CustomFieldsForm2({ params }: any) {
             const fieldObj = item.additional_fields;
   
             Object.entries(fieldObj).forEach(([name, value]: [string, unknown]) => {
-              if (name !== 'additional_fields' && name !== 'company_id' && typeof value === 'string') {
+              if (name !== 'additional_fields'  && typeof value === 'string') {
                 initialFields.push({ name, value });
               }
             });
@@ -57,7 +57,7 @@ function CustomFieldsForm2({ params }: any) {
       }
     };
     fetchData();
-  }, [invoice?.company.id, dispatch]);
+  }, [invoice?.company?.id, dispatch]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,12 +71,12 @@ function CustomFieldsForm2({ params }: any) {
 
       const payload = {
         additional_fields: transformedFields,
-        company_id:invoice?.company.id,
+        company_id:invoice?.company?.id,
         position:'2',
       };
       dispatch<any>(createAdditionalFields( payload,router));
         // Fetch the updated template data and update the fields
-        const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company.id));
+        const response = await dispatch<any>( fetchAdditionalFieldsByCompanyId(invoice?.company?.id));
         const { additionalFields } = response;
         const initialFields: Field[] = [];
   

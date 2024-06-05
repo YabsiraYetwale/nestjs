@@ -3,9 +3,8 @@ import { ReactToPrint } from "react-to-print";
 import { useEffect, useState, useRef } from "react";
 import { ArrowUp} from "lucide-react";
 import { useDispatch } from "react-redux";
-import { fetchInvoice, updateInvoice, updateInvoiceTemplate } from "@/redux/actions/invoices";
+import { fetchInvoice, updateInvoice, updateInvoiceTemplate,sendInvoice } from "@/redux/actions/invoices";
 import { CardContent } from "@/components/Card";
-import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import InvoiceTemplateV1 from "./invoice-template-v1";
@@ -28,7 +27,6 @@ import {
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useLocale } from 'next-intl';
-import {toast } from 'react-toastify';
 
 const FormSchema = z.object({
   templateVersion:z.string().optional()
@@ -40,8 +38,6 @@ export default function Template({ params }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
   const localActive = useLocale();
-
-  const [email, setEmail] = useState("");
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -49,7 +45,6 @@ export default function Template({ params }: any) {
     defaultValues: {
       templateVersion:"",
     },
-    
   });
 
   useEffect(() => {
@@ -66,16 +61,7 @@ export default function Template({ params }: any) {
 
 
   const handleSendEmail = () => {
-    axios
-      .get(`https://invoicesystm-app.onrender.com/api/mailer/${id}`)
-      .then((response: { data: React.SetStateAction<string> }) => {
-        toast.success("email send successfully!");
-        setEmail(response.data);
-        console.log(response.data);
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
+    dispatch<any>(sendInvoice(id));
   };
 
 const onSubmit = async (values: z.infer<typeof FormSchema>) => {

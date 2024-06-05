@@ -12,6 +12,7 @@ import {useLocale } from 'next-intl';
 
 type userProps = {
   name: string;
+  company: any;
 };
 const CurrentUser = () => {
   const [user, setUser] = useState<userProps | null>(null);
@@ -67,7 +68,10 @@ const CurrentUser = () => {
       </div>
       {isPopUp && user && (
         <CardContent className="flex flex-col justify-center items-center rounded-0 w-[200px] absolute top-[4rem] right-[0rem]">
-          <p className="sm:flex hidden font-bold text-green-400">{user?.name}</p>
+          <p className="sm:flex hidden font-bold ">{user?.name}</p>
+         <p className="sm:flex hidden ">
+          {user?.company?(user?.company?.name):'(no company)'}
+         </p>
           <Button
             onClick={handleLogout}
             className="sm:h-[40px] w-[80px] h-[30px] bg-red-600 hover:bg-red-500"

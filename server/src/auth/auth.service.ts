@@ -325,15 +325,31 @@ export class AuthService {
         },
       });
 
-      // Retrieve the selected company
-      const company = await this.prisma.Company.findUnique({
-        where: {
-          id: dto.companyId,
-        },
-      });
+  // Check if companyId is provided, otherwise make it optional
+ const companyId = dto.companyId || null;
 
-      if (!company)
-        throw new ForbiddenException('Selected company not found');
+// Retrieve the selected company if companyId is provided
+let company = null;
+if (companyId) {
+  company = await this.prisma.Company.findUnique({
+    where: {
+      id: companyId,
+    },
+    include: {
+      users: true,
+    },
+  });
+
+  if (!company)
+    throw new ForbiddenException('Selected company not found');
+}
+
+// Check if user is a member of the selected company
+const userInCompany = company && company.users.find((userObj) => userObj.userId === user.id);
+if (companyId && !userInCompany) {
+  throw new ForbiddenException('User is not a member of the selected company');
+}
+
 
       res.cookie('refreshToken', tokens.refresh_token, {
         httpOnly: true,

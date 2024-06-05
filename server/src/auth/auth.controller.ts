@@ -31,10 +31,9 @@ export class AuthController {
 
   @Get('/user/current-user')
   @UseGuards(AtGuards)
-  // @UseGuards(JwtAuthGuard)
   getCurrentUser(@Req() req: Request) {
     console.log('Inside AuthController status method');
-    console.log(req.user);
+    // console.log(req.user);
     return req.user;
   }
  
