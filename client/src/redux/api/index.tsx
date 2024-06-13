@@ -1,11 +1,11 @@
 import axios from "axios";
 const API = axios.create({ baseURL:"http://localhost:3001/api"});
-// const API = axios.create({ baseURL:"https://nextjs-nestjs-invoicesystm-api.onrender.com/api"});
+// const API = axios.create({ baseURL:"https://invoicesystm-api.onrender.com/api"});
 
 API.interceptors.request.use((req:any) => {
   const authData = localStorage.getItem("InvoiceAuth");
   if (authData && typeof authData === "string") {
-    const token = JSON.parse(authData).data.accessToken;
+    const token = JSON.parse(authData).data.token;
     req.headers = {
       ...req.headers,
       Authorization: `Bearer ${token}`,
@@ -13,23 +13,33 @@ API.interceptors.request.use((req:any) => {
   }
   return req;
 });
+// API.interceptors.request.use((req:any) => {
+//   const authData = localStorage.getItem("InvoiceAuth");
+//   if (authData && typeof authData === "string") {
+//     const token = JSON.parse(authData).data.accessToken;
+//     req.headers = {
+//       ...req.headers,
+//       Authorization: `Bearer ${token}`,
+//     };
+//   }
+//   return req;
+// });
 
 // Auth
 export const signUp = (user:any) => API.post("/auth/register", user);
 export const activateAccount = (post:any) => API.post("/auth/activate", post);
-export const signIn = (user:any) => API.post("/auth/signin", user);
-// export const signIn = (user:any) => API.post("/auth/login", user);
+// export const signIn = (user:any) => API.post("/auth/signin", user);
+export const signIn = (user:any) => API.post("/auth/login", user);
 export const forgotPassword = (email:any) => API.post("/auth/forgot-password", email);
 export const resetPassword = (post:any) => API.patch("/auth/reset-password", post);
 export const addUser = (user:any) => API.post("/auth/addUser", user);
 
-
 // user profile
 export const fetchCurrentUser = () => API.get("/auth/user/current-user");
-export const fetchUsers = () => API.get("/auth");
-export const fetchUser = (id:String) => API.get(`/auth/${id}`);
-export const updateUser = (id:String, user:any) => API.put(`/auth/${id}`, user);
-export const deleteUser = (id:String) => API.delete(`/auth/${id}`);
+export const fetchUsers = () => API.get("/user");
+export const fetchUser = (id:String) => API.get(`/user/${id}`);
+export const updateUser = (id:String, user:any) => API.put(`/user/${id}`, user);
+export const deleteUser = (id:String) => API.delete(`/user/${id}`);
 
 // customer
 export const createCustomer = (customer:any) => API.post("/clients", customer);

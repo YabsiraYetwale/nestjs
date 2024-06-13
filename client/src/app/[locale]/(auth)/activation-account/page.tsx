@@ -3,7 +3,10 @@ import ActivationAccount from '@/components/users/form/auth/activation-account'
 import React from 'react'
 
 const ActivationAccountPage = () => {
-  return (<CenterContainer><ActivationAccount/></CenterContainer>
+  return (
+  <CenterContainer>
+    <ActivationAccount/>
+    </CenterContainer>
   )
 }
 

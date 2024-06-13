@@ -30,8 +30,8 @@ const FormSchema = z
       .min(8, 'Password must have than 8 characters'),
       retypePassword:z
       .string()
-      .min(1, 'retypePassword is required')
-      .min(8, 'retypePassword must have than 8 characters'),
+      .min(1, 'confirmPassword is required')
+      .min(8, 'confirmPassword must have than 8 characters'),
   })
 
 const SignUpForm = () => {
@@ -55,62 +55,141 @@ const SignUpForm = () => {
   };
 
   return (
+    // <Form {...form}>
+    //   <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+    //     <div className='space-y-2'>
+    //       <FormField
+    //         control={form.control}
+    //         name='name'
+    //         render={({ field }:any) => (
+    //           <FormItem>
+    //             <FormLabel>{localActive === "en" ? "Username" : "መለያ ስም"}</FormLabel>
+    //             <FormControl>
+    //               <Input placeholder='johndoe' {...field} />
+    //             </FormControl>
+    //             <FormMessage />
+    //           </FormItem>
+    //         )}
+    //       />
+    //       <FormField
+    //         control={form.control}
+    //         name='email'
+    //         render={({ field }:any) => (
+    //           <FormItem>
+    //             <FormLabel> {localActive === "en" ? "Email" : "ኢሜይል"}</FormLabel>
+    //             <FormControl>
+    //               <Input placeholder='mail@example.com' {...field} />
+    //             </FormControl>
+    //             <FormMessage />
+    //           </FormItem>
+    //         )}
+    //       />
+    //       <FormField
+    //         control={form.control}
+    //         name='password'
+    //         render={({ field }:any) => (
+    //           <FormItem>
+    //             <FormLabel>{localActive === "en" ? "Password" : "የይለፍ ቃል"}</FormLabel>
+    //             <FormControl>
+    //               <Input
+    //                 type='password'
+    //                 placeholder='Enter your password'
+    //                 {...field}
+    //               />
+    //             </FormControl>
+    //             <FormMessage />
+    //           </FormItem>
+    //         )}
+    //       />
+          // <FormField
+          //   control={form.control}
+          //   name='retypePassword'
+          //   render={({ field }:any) => (
+          //     <FormItem>
+          //       <FormLabel>{localActive === "en" ? "confirm password" : "የይለፍ ቃል"}</FormLabel>
+          //       <FormControl>
+          //         <Input
+          //           type='password'
+          //           placeholder='Enter confirm password'
+          //           {...field}
+          //         />
+          //       </FormControl>
+          //       <FormMessage />
+          //     </FormItem>
+          //   )}
+          // />
+    //     </div>
+    //     <Button className='w-full mt-6 bg-blue-600 hover:bg-blue-500' type='submit'>
+    //       {localActive === "en" ? "Sign up" : "ይመዝገቡ"}
+    //     </Button>
+    //   </form>
+    //   <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
+    //   {localActive === "en" ? "or" : "ወይም"}
+    //   </div>
+    //   <GoogleSignInButton>{localActive === "en" ? "Sign up with Google" : "በGoogle ይመዝገቡ"}</GoogleSignInButton>
+    //   <p className='text-center text-sm text-gray-600 mt-2'>
+    //   {localActive === "en" ? "If you have an account, please" : "አካውንት ካለዎት እባክዎ"}&nbsp;
+    //     <Link className='text-blue-500 hover:underline' href={`/${localActive}/sign-in`}>
+    //     {localActive === "en" ? "Sign in" : "ይግቡ"}
+    //     </Link>
+    //   </p>
+    // </Form>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormLabel>{localActive === "en" ? "Username" : "መለያ ስም"}</FormLabel>
-                <FormControl>
-                  <Input placeholder='johndoe' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormLabel> {localActive === "en" ? "Email" : "ኢሜይል"}</FormLabel>
-                <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }:any) => (
-              <FormItem>
-                <FormLabel>{localActive === "en" ? "Password" : "የይለፍ ቃል"}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Enter your password'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
+    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+      <div className="space-y-2">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }: any) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="johndoe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }: any) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="mail@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }: any) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
             control={form.control}
             name='retypePassword'
             render={({ field }:any) => (
               <FormItem>
-                <FormLabel>{localActive === "en" ? "retypePassword" : "የይለፍ ቃል"}</FormLabel>
+                <FormLabel>{localActive === "en" ? "confirm password" : "የይለፍ ቃል"}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Enter retypePassword'
+                    placeholder='Enter confirm password'
                     {...field}
                   />
                 </FormControl>
@@ -118,22 +197,25 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-        </div>
-        <Button className='w-full mt-6 bg-blue-600 hover:bg-blue-500' type='submit'>
-          {localActive === "en" ? "Sign up" : "ይመዝገቡ"}
-        </Button>
-      </form>
-      <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-      {localActive === "en" ? "or" : "ወይም"}
       </div>
-      <GoogleSignInButton>{localActive === "en" ? "Sign up with Google" : "በGoogle ይመዝገቡ"}</GoogleSignInButton>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-      {localActive === "en" ? "If you have an account, please" : "አካውንት ካለዎት እባክዎ"}&nbsp;
-        <Link className='text-blue-500 hover:underline' href={`/${localActive}/sign-in`}>
-        {localActive === "en" ? "Sign in" : "ይግቡ"}
-        </Link>
-      </p>
-    </Form>
+      <Button
+        className="w-full mt-6 bg-blue-600 hover:bg-blue-500"
+        type="submit"
+      >
+        Sign up
+      </Button>
+    </form>
+    <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
+      or
+    </div>
+    <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+    <p className="text-center text-sm text-gray-600 mt-2">
+      If you have an account, please&nbsp;
+      <Link className="text-blue-500 hover:underline" href={`/${localActive}/sign-in`}>
+        Sign in
+      </Link>
+    </p>
+  </Form>
   );
 };
 

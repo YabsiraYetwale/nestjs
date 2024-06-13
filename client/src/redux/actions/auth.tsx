@@ -35,7 +35,8 @@ export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
         const {data}= await api.signIn(user)
         localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
         dispatch({type:LOGIN,payload:data})
-        if(data?.accessToken){
+        // if(data?.accessToken){
+        if(data?.token){
             toast.success(data.message)
             router.push('/')
         }      

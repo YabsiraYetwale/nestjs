@@ -129,7 +129,7 @@ export default function CustomerDetail({ params }: any) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/${localActive}/customers/edit/${id}`}>
+        <Link href={`/${localActive}/dashboard/customers/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
             {localActive === "en" ? "Edit" : "አሻሽል"}
           </Button>

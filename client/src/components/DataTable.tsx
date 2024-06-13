@@ -5,7 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 
 import {
@@ -14,11 +14,9 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
-import {useLocale } from 'next-intl';
-
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,19 +25,17 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    getPaginationRowModel: getPaginationRowModel(),
   });
-  const localActive = useLocale();
-
 
   return (
-    <div>
+    <div className="w-full">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -97,7 +93,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          {localActive === "en" ? "Previous" : "የቀድሞ "}
+          Previous
         </Button>
         <Button
           variant="outline"
@@ -105,7 +101,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          {localActive === "en" ? "Next" : "ቀጣይ"}
+          Next
         </Button>
       </div>
     </div>

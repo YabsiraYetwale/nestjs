@@ -78,11 +78,11 @@ const ResetPasswordPage = () => {
             name='confirmPassword'
             render={({ field }:any) => (
               <FormItem>
-                <FormLabel>{localActive === "en" ? "ConfirmPassword" : "የይለፍ ቃል"}</FormLabel>
+                <FormLabel>{localActive === "en" ? "Confirm Password" : "የይለፍ ቃል"}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Enter confirmPassword'
+                    placeholder='Confirm your password'
                     {...field}
                   />
                 </FormControl>

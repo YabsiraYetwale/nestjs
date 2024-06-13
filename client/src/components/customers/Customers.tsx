@@ -27,7 +27,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
     <div className="flex gap-2 items-center">
       <Link
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-        href={`/${localActive}/customers/details/${id}`}
+        href={`/${localActive}/dashboard/customers/details/${id}`}
       >
       {localActive === "en" ? "View" : "ዝርዝር"}
       </Link>

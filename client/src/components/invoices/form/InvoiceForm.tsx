@@ -119,11 +119,11 @@ const InvoiceForm = ({ params }: any) => {
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
       dispatch<any>(updateInvoice(id, values, router, localActive));
-      router.push(`/${localActive}/invoices/details/${id}`);
+      router.push(`/${localActive}/dashboard/invoices/details/${id}`);
       console.log("valuess", values);
     } else {
       dispatch<any>(createInvoice(values, router));
-      router.push(`/${localActive}/invoices`);
+      router.push(`/${localActive}/dashboard/invoices`);
     }
   };
   const removeLineItem = (index: number) => {
@@ -586,7 +586,7 @@ const InvoiceForm = ({ params }: any) => {
               {localActive === "en" ? "Save" : "አስቀምጥ"}
             </Button>
             <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
-              <Link href={`/${localActive}/invoices`}>
+              <Link href={`/${localActive}/dashboard/invoices`}>
                 {localActive === "en" ? "Cancel" : "ሰርዝ"}
               </Link>
             </Button>
