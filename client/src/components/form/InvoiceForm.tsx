@@ -22,9 +22,10 @@ import {
 } from "@/redux/actions/invoices";
 import { useEffect, useState } from "react";
 import { fetchCustomers } from "@/redux/actions/customers";
-import { Customers } from "@/app/dashboard/customers/page";
 import Link from "next/link";
+import {useLocale } from 'next-intl';
 import { CardContent } from "../Card";
+import { CustomersProps } from "../schemas/customerProps";
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
@@ -54,6 +55,7 @@ const FormSchema = z.object({
 const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -79,11 +81,12 @@ const InvoiceForm = ({ params }: any) => {
     }
   }, [id, dispatch, form]);
 
-  const [customer, setCustomer] = useState<Customers[] | null>(null);
+  const [customer, setCustomer] = useState<CustomersProps[] | null>(null);
+  const search = ''
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>(fetchCustomers());
+        const response = await dispatch<any>(fetchCustomers(search));
         setCustomer(response);
       } catch (error) {
         console.error("Error:", error);
@@ -94,7 +97,7 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router));
+      dispatch<any>(updateInvoice(id, values, router,localActive));
       router.push(`/invoices/details/${id}`);
       console.log("valuess", values);
     } else {
