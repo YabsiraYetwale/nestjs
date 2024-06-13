@@ -15,6 +15,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import {useLocale } from 'next-intl';
+
 import {
   createCustomer,
   fetchCustomer,
@@ -40,6 +42,7 @@ const CustomerForm = ({ params }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const id = params.id as string;
+  const localActive = useLocale();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -72,9 +75,9 @@ const CustomerForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateCustomer(id, values, router));
+      dispatch<any>(updateCustomer(id, values, router,localActive));
     } else {
-      dispatch<any>(createCustomer(values, router));
+      dispatch<any>(createCustomer(values, router,localActive));
     }
   };
 
