@@ -7,7 +7,7 @@ import { RequiredPermission } from 'src/decorators/permission';
 import { PermissionGuard } from 'src/auth/guard/permission.guard';
 import { AtGuards } from 'src/auth/guard/at.guard';
 
-@UseGuards(AtGuards, PermissionGuard)
+// @UseGuards(AtGuards, PermissionGuard)
 @Controller('invoices')
 export class InvoicesController{
   constructor(private invoicesService: InvoicesService) {}
@@ -24,6 +24,10 @@ async getAllInvoices(  @Query('searchQuery') searchQuery: string,@Query() query:
  @Get(':id')
  getOneInvoice(@Param() id:string){
   return this.invoicesService.getOneInvoice(id);
+ }
+ @Get('company/:company_id')
+ async getInvoicesByCompanyId(@Param('company_id') companyId: string) {
+   return  this.invoicesService.getInvoicesByCompanyId(companyId);
  }
 
 //  @RequiredPermission('can_create_invoice')

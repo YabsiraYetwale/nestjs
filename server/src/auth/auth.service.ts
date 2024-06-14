@@ -55,8 +55,8 @@ export class AuthService {
 
         return {
           success: true,
-          message: `Account not Verify! Please check your email ${dto.email} to verify `,
-          // message: `Account not Verify! Please check your email ${dto.email} to verify and ${activationToken.activationCode}`,
+          // message: `Account not Verify! Please check your email ${dto.email} to verify `,
+          message: `Account not Verify! Please check your email ${dto.email} to verify and ${activationToken.activationCode}`,
           activationToken: activationToken.token,
         };
       } else {
@@ -118,7 +118,7 @@ export class AuthService {
       );
 
       const html = resetPasswordTemplate(
-        `http://localhost:3000/en/resetPassword?token=${token}`,
+        `https://invoice-frontend-blue.vercel.app/resetPassword?token=${token}`,
       );
 
       const mailerOptions: Mail.Options = {

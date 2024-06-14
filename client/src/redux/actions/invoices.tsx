@@ -16,7 +16,7 @@ export const createInvoice=(invoice:any,router:any)=>async(dispatch:any)=>{
 export const fetchInvoices=()=>async(dispatch:any)=>{
     try {
         const {data}= await api.fetchInvoices()
-        return data
+        return data.invoices
     } catch (error) {
         console.log(error)
     }

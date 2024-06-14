@@ -1,11 +1,12 @@
 import axios from "axios";
-const API = axios.create({ baseURL:"http://localhost:3001/api"});
-// const API = axios.create({ baseURL:"https://invoicesystm-api.onrender.com/api"});
+// const API = axios.create({ baseURL:"http://localhost:3001/api"});
+const API = axios.create({ baseURL:"https://invoicesystm-api.onrender.com/api"});
+
 
 API.interceptors.request.use((req:any) => {
   const authData = localStorage.getItem("InvoiceAuth");
   if (authData && typeof authData === "string") {
-    const token = JSON.parse(authData).data.token;
+    const token = JSON.parse(authData).data.accessToken;
     req.headers = {
       ...req.headers,
       Authorization: `Bearer ${token}`,
@@ -13,23 +14,12 @@ API.interceptors.request.use((req:any) => {
   }
   return req;
 });
-// API.interceptors.request.use((req:any) => {
-//   const authData = localStorage.getItem("InvoiceAuth");
-//   if (authData && typeof authData === "string") {
-//     const token = JSON.parse(authData).data.accessToken;
-//     req.headers = {
-//       ...req.headers,
-//       Authorization: `Bearer ${token}`,
-//     };
-//   }
-//   return req;
-// });
 
 // Auth
 export const signUp = (user:any) => API.post("/auth/register", user);
 export const activateAccount = (post:any) => API.post("/auth/activate", post);
-// export const signIn = (user:any) => API.post("/auth/signin", user);
-export const signIn = (user:any) => API.post("/auth/login", user);
+export const signIn = (user:any) => API.post("/auth/signin", user);
+// export const signIn = (user:any) => API.post("/auth/login", user);
 export const forgotPassword = (email:any) => API.post("/auth/forgot-password", email);
 export const resetPassword = (post:any) => API.patch("/auth/reset-password", post);
 export const addUser = (user:any) => API.post("/auth/addUser", user);

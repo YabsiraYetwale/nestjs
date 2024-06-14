@@ -5,13 +5,21 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { addDays } from 'date-fns';
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {};
 
   async myProfile(userId: string) {
     const user = await this.prisma.User.findUnique({
       where: { id: userId },
       include: {
-        roles: true,
+        roles: {
+          select:{
+            role:{
+              select:{
+                name:true,
+              }
+            }
+          },
+        },
         permissions: {
           select: {
             role: {
@@ -89,7 +97,7 @@ export class UserService {
     if (!deletedUser) {
       throw new Error("Failed to delete user");
     } else {
-      return { message: "user deleted successfully" };
+      return { message: "user deleted successfully" }
     }
   
 }

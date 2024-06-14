@@ -51,10 +51,10 @@ async getAllInvoices(searchQuery: string, query: Query) {
   });
 
   if (!searchQuery) {
-    return invoices;
+    return {invoices}
   }
 
-  return invoices.length > 0 ? invoices : 'No matching invoices found.';
+  return invoices.length > 0 ? {invoices} : 'No matching invoices found.';
 }
   async getOneInvoice(id: string) {
     const invoice = await this.prismaService.Invoices.findUnique({
@@ -67,6 +67,15 @@ async getAllInvoices(searchQuery: string, query: Query) {
       return { invoice };
     }
   } 
+
+  async getInvoicesByCompanyId(companyId: string) {
+    const invoices = await this.prismaService.Invoices.findMany({
+      where: {
+        company_id: companyId,
+      },
+    })
+    return {invoices};
+  }
 
   async createInvoice(createInvoiceDto: CreateInvoiceDto,
      validatedUser: ValidatedUser
