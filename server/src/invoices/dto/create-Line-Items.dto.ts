@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, ArrayNotEmpty, ValidateNested, IsOptional } from 'class-validator';
+import { IsNotEmpty, ArrayNotEmpty, ValidateNested, IsOptional, IsEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateLineItemDto {
@@ -16,7 +16,7 @@ export class CreateLineItemDto {
   unit_price: number;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsEmpty()
   tax_rate: number;
 
   @ApiProperty()

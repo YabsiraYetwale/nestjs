@@ -80,12 +80,15 @@ async getAllInvoices(searchQuery: string, query: Query) {
   async createInvoice(createInvoiceDto: CreateInvoiceDto,
      validatedUser: ValidatedUser
      ) {
-    const { total_amount, line_items, client, creator, company, ...post } = createInvoiceDto;
-
-    const totalAmount = line_items?.reduce((total, item) => {
-      return total + item.quantity * item.unit_price;
-    }, 0);
+  const { total_amount, line_items, client, creator, company, ...post } = createInvoiceDto;
   
+  const totalAmount = line_items?.reduce((total, item) => {
+  const subtotal = item.quantity * item.unit_price;
+  const taxAmount = subtotal * 0.15; // Calculate the tax amount
+
+  return total + subtotal + taxAmount; // Add the tax amount to the total
+}, 0);
+
     const lastInvoice = await this.prismaService.Invoices.findFirst({
       orderBy: { invoice_number: 'desc' },
     });
@@ -143,17 +146,17 @@ async getAllInvoices(searchQuery: string, query: Query) {
             id: validatedUser?.id,
           },
         },
-        company: {
-          connect: {
-            id:validatedUser?.company?.id,
-          },
-        },
+        // company: {
+        //   connect: {
+        //     id:validatedUser?.company?.id,
+        //   },
+        // },
         line_items: {
           create: createInvoiceDto.line_items?.map((item) => ({
             description: item.description,
             quantity: item.quantity,
             unit_price: item.unit_price,
-            tax_rate: item.tax_rate,
+            tax_rate: 0.15,
           })),
         },
       },
@@ -188,7 +191,10 @@ async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
   }
 
   const totalAmount = line_items?.reduce((total, item) => {
-    return total + item.quantity * item.unit_price;
+    const subtotal = item.quantity * item.unit_price;
+    const taxAmount = subtotal * 0.15; // Calculate the tax amount
+  
+    return total + subtotal + taxAmount; // Add the tax amount to the total
   }, 0);
 
   const updatedInvoice = await this.prismaService.Invoices.update({
@@ -216,12 +222,12 @@ async updateInvoice(id: string, updateInvoiceDto: UpdateInvoiceDto) {
               description: item?.description,
               quantity: item?.quantity,
               unit_price: item?.unit_price,
-              tax_rate: item?.tax_rate,
+              tax_rate: 0.15,
             })),
           }
         : undefined,
     },
-  });
+  })
 
   if (!updatedInvoice) {
     throw new Error('Failed to update Invoice!!!');

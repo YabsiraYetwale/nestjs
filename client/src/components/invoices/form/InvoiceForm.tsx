@@ -36,7 +36,6 @@ const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
   unit_price: z.coerce.number().gte(1, "Unit Price must be 1 and above"),
-  tax_rate: z.coerce.number().gte(0, "Tax Rate must be 0 and above"),
 });
 const client = z.object({
   name: z.string().optional(),
@@ -136,7 +135,6 @@ const InvoiceForm = ({ params }: any) => {
       description: "",
       quantity: 0,
       unit_price: 0,
-      tax_rate: 0,
     };
     form.setValue("line_items", [...form.getValues().line_items, lineItem]);
   };
@@ -549,19 +547,6 @@ const InvoiceForm = ({ params }: any) => {
                           <Input
                             type="number"
                             placeholder="Unit Price"
-                            {...field}
-                          />
-                        </FormControl>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`line_items.${index}.tax_rate`}
-                      render={({ field }: any) => (
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Tax Rate"
                             {...field}
                           />
                         </FormControl>
