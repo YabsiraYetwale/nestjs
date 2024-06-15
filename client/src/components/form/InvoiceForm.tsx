@@ -85,7 +85,7 @@ const InvoiceForm = ({ params }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>(fetchCustomers());
+        const response = await dispatch<any>(fetchCustomers(''));
         setCustomers(response);
       } catch (error) {
         console.error("Error:", error);
@@ -96,7 +96,7 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router));
+      dispatch<any>(updateInvoice(id, values, router,''));
       router.push(`/invoices/details/${id}`);
       console.log("valuess", values);
     } else {

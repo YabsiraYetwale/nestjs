@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 
 const apiClient = axios.create({
-  baseURL: "https://nextjs-nestjs-invoicesystm-api.onrender.com/api",
+  baseURL: "https://invoicesystm-api.onrender.com/api",
 });
 
 apiClient.interceptors.request.use((config) => {

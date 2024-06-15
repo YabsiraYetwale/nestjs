@@ -14,7 +14,7 @@ const skeletons = [1, 2, 3, 4, 5, 6];
 
 const CompaniesPage = async () => {
   const res = await fetch(
-    "https://nextjs-nestjs-invoicesystm-api.onrender.com/api/companies",
+    "https://invoicesystm-api.onrender.com/api/companies",
     { cache: "no-cache" }
   );
   const { companies: companies }: FetchCompanies = await res.json();
