@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
 import React from "react";
-import {useLocale } from 'next-intl';
+// import {useLocale } from 'next-intl';
 import { ColumnDef,ItemDataTable } from "@/components/ItemDataTable";
 
 type Props = {
@@ -27,7 +27,7 @@ type Item = {
 const ItemsPage = ({ params }: Props) => {
   const [items, setItems] = useState<Invoice | null>(null);
   const dispatch = useDispatch();
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
   const id = params.id as string;
   const columns: ColumnDef<Item>[] = [
     {

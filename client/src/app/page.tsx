@@ -1,5 +1,6 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
+const RedirectPage = () => {
+  redirect("/dashboard");
+};
 
-export default function RootPage() {
-  redirect('/en');
-}
+export default RedirectPage;

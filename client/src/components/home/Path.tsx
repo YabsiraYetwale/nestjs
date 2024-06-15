@@ -1,34 +1,34 @@
-import { useTranslations, useLocale } from "next-intl";
+// import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { CardContent } from "@/components/Card";
 
 export default function Path() {
-  const t = useTranslations("Navigation");
-  const tr = useTranslations("Dashboard");
-  const localActive = useLocale();
+  // const t = useTranslations("Navigation");
+  // const tr = useTranslations("Dashboard");
+  const localActive = 'useLocale()';
 
   return (
     <CardContent className="flex flex-col justify-between">
       <section className="flex flex-col gap-5">
-        <h2 className="font-bold">{tr("quickaccess")}</h2>
+        <h2 className="font-bold">quickaccess</h2>
         <div className="flex flex-col gap-3 text-blue-600">
           <Link
-            href={`/${localActive}/dashboard/invoices/addInvoice`}
+            href={`/dashboard/invoices/addInvoice`}
             className="hover:underline"
           >
-            {t("newInvoice")}
+            newInvoice
           </Link>
           <Link
-            href={`/${localActive}/dashboard/customers`}
+            href={`/dashboard/customers`}
             className="hover:underline"
           >
-            {t("manageCustomers")}
+            manageCustomers
           </Link>
           <Link
-            href={`/${localActive}/dashboard/invoices`}
+            href={`/dashboard/invoices`}
             className="hover:underline"
           >
-            {t("viewStatus")}
+            viewStatus
           </Link>
         </div>
       </section>

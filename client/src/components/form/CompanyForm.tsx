@@ -3,9 +3,6 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import RiseLoader from "react-spinners/RiseLoader";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,

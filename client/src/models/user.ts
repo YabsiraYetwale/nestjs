@@ -3,10 +3,10 @@ import Permission from "./permission";
 export interface User {
   id?: string;
   username: string;
-  fullname?: string;
+  name?: string;
   email: string;
   password: string;
-  role?: "admin" | "user";
+  roles?: string[];
   company_id?: string;
   permissions?: Permission[];
 }

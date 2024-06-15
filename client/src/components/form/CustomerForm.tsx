@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -9,103 +8,80 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import * as z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import {useLocale } from 'next-intl';
+import customerSchema from "@/schemas/customer";
+import { Client } from "@/models/client";
+import OverlaySpinner from "../OverlaySpinner";
 
-import {
-  createCustomer,
-  fetchCustomer,
-  updateCustomer,
-} from "@/redux/actions/customers";
-import Link from "next/link";
-import { CardContent } from "../Card";
-const FormSchema = z.object({
-  name: z.string().min(1, "name is required").max(100),
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  billing_address: z.string().min(1, "billing_address is required"),
-  contact_person: z.string().min(1, "contact_person is required").max(100),
-  phone: z.string().min(1, "phone number is required").max(100),
+interface Props {
+  customer?: Client | null;
+  isSending: boolean;
+  onSubmit: (values: z.infer<typeof customerSchema>) => void;
+}
 
-  shipping_address: z.string().min(1, "shipping_address is required").max(20),
-  shipping_city: z.string().min(1, "shipping_city is required").max(20),
-  shipping_state: z.string().min(1, "shipping_state is required").max(20),
-  shipping_zip: z.string().min(1, "shipping_zipcode is required").max(20),
-  shipping_country: z.string().min(1, "shipping_country is required").max(20),
-});
-
-const CustomerForm = ({ params }: any) => {
-  const dispatch = useDispatch();
+const CustomerForm = ({ customer, isSending, onSubmit }: Props) => {
   const router = useRouter();
-  const id = params.id as string;
-  const localActive = useLocale();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      billing_address: "",
-      contact_person: "",
-      phone: "",
-      shipping_address: "",
-      shipping_city: "",
-      shipping_state: "",
-      shipping_zip: "",
-      shipping_country: "",
-    },
+  const form = useForm<z.infer<typeof customerSchema>>({
+    resolver: zodResolver(customerSchema),
+    defaultValues: customer
+      ? {
+          name: customer.name,
+          email: customer.email,
+          billing_address: customer.billing_address,
+          contact_person: customer.contact_person,
+          phone: customer.phone,
+          shipping_address: customer.shipping_address,
+          shipping_city: customer.shipping_city,
+          shipping_state: customer.shipping_state,
+          shipping_zip: customer.shipping_zip,
+          shipping_country: customer.shipping_country,
+        }
+      : {
+          name: "",
+          email: "",
+          billing_address: "",
+          contact_person: "",
+          phone: "",
+          shipping_address: "",
+          shipping_city: "",
+          shipping_state: "",
+          shipping_zip: "",
+          shipping_country: "",
+        },
   });
 
-  useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
-        try {
-          const response = await dispatch<any>(fetchCustomer(id));
-          form.reset(response);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [dispatch, form, id]);
-
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    if (id) {
-      dispatch<any>(updateCustomer(id, values, router,localActive));
-    } else {
-      dispatch<any>(createCustomer(values, router,localActive));
-    }
-  };
+  const onCancel = () => router.back();
 
   return (
     <div className="flex flex-col gap-5">
-      <p className="font-bold text-[30px]">{id ? "Update " : "Add "}Customer</p>
+      <p className="font-bold text-[30px]">
+        {customer ? "Update " : "Add "}Customer
+      </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-[100%] flex flex-col gap-5"
+          className="w-full  flex flex-col gap-5 items-center"
         >
-          <div className="flex gap-5">
-            <CardContent className="w-[100%] flex flex-col gap-5">
-              <p className="font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]">
+          <OverlaySpinner isLoading={isSending} />
+
+          <div className="w-full lg:w-[800px] flex flex-col gap-5 mt-10">
+            <div className="w-full flex flex-col gap-5">
+              <p className=" text-[20px] text-gray-600 ">
                 Customer Information
               </p>
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter Name"
-                          {...field}
-                        />
+                        <Input placeholder="Fullname" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -115,31 +91,23 @@ const CustomerForm = ({ params }: any) => {
                   control={form.control}
                   name="email"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="youremail@example.com"
-                          {...field}
-                        />
+                        <Input placeholder="youremail@example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <FormField
                   control={form.control}
                   name="contact_person"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter contact person "
-                          {...field}
-                        />
+                        <Input placeholder="Contact Person " {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -149,13 +117,9 @@ const CustomerForm = ({ params }: any) => {
                   control={form.control}
                   name="phone"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter phone number"
-                          {...field}
-                        />
+                        <Input placeholder="Telephone Number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -168,9 +132,8 @@ const CustomerForm = ({ params }: any) => {
                 render={({ field }: any) => (
                   <FormItem>
                     <FormControl>
-                      <textarea
-                        className="w-[100%] h-[100px] border"
-                        placeholder="Enter the billing address"
+                      <Textarea
+                        placeholder="Enter Billing Address"
                         {...field}
                       />
                     </FormControl>
@@ -178,23 +141,19 @@ const CustomerForm = ({ params }: any) => {
                   </FormItem>
                 )}
               />
-            </CardContent>
-            <CardContent className="w-[100%] flex flex-col gap-5">
-              <p className="font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]">
+            </div>
+            <div className="w-full flex flex-col gap-5">
+              <p className=" text-[20px] text-gray-600 ">
                 Shipping Information
               </p>
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter Name"
-                          {...field}
-                        />
+                        <Input placeholder="Fullname" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -204,31 +163,23 @@ const CustomerForm = ({ params }: any) => {
                   control={form.control}
                   name="shipping_address"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter shipping_address"
-                          {...field}
-                        />
+                        <Input placeholder="Shipping Address" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <FormField
                   control={form.control}
                   name="shipping_city"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter shipping city"
-                          {...field}
-                        />
+                        <Input placeholder="Shipping City" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -238,31 +189,23 @@ const CustomerForm = ({ params }: any) => {
                   control={form.control}
                   name="shipping_state"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter shipping state"
-                          {...field}
-                        />
+                        <Input placeholder="Shipping State" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <FormField
                   control={form.control}
                   name="shipping_zip"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter shipping zipcode"
-                          {...field}
-                        />
+                        <Input placeholder="Shipping Zipcode" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -272,31 +215,31 @@ const CustomerForm = ({ params }: any) => {
                   control={form.control}
                   name="shipping_country"
                   render={({ field }: any) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormControl>
-                        <Input
-                          className="w-[18vw]"
-                          placeholder="Enter shipping country"
-                          {...field}
-                        />
+                        <Input placeholder="Shipping Country" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-            </CardContent>
-          </div>
-          <div className="flex gap-5 mt-6">
-            <Button
-              className="bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500 "
-              type="submit"
-            >
-              {id ? "Update " : "Add "}Customer
-            </Button>
-            <Button className="bg-red-600 sm:h-[40px] h-[30px] hover:bg-red-500">
-              <Link href={`/customers`}>Cancel</Link>
-            </Button>
+            </div>
+            <div className="flex gap-2 mt-6">
+              <Button
+                className="bg-blue-600 w-24 hover:bg-blue-500 "
+                type="submit"
+              >
+                {customer ? "Update " : "Add "}
+              </Button>
+              <Button
+                onClick={onCancel}
+                type="button"
+                className="bg-gray-400 w-24 text-white hover:bg-gray-500"
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

@@ -10,8 +10,9 @@ import {useDispatch} from "react-redux";
 import { fetchCustomersBySearch } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {useLocale } from 'next-intl';
+// import {useLocale } from 'next-intl';
 import { CustomersProps } from "../schemas/customerProps";
+import Spinner from "../Spinner";
 
 type Props = {};
 
@@ -21,13 +22,13 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
 
   return (
     <div className="flex gap-2 items-center">
       <Link
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-        href={`/${localActive}/dashboard/customers/details/${id}`}
+        href={`/dashboard/customers/details/${id}`}
       >
       {localActive === "en" ? "View" : "ዝርዝር"}
       </Link>
@@ -40,9 +41,10 @@ const Cell: React.FC<CellProps> = ({ row }) => {
 export default function Customers({}: Props) {
   const [customer, setCustomer] = useState<CustomersProps[] | null>(null);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
   const columns: ColumnDef<CustomersProps>[] = [
   {
     accessorKey: "name",
@@ -85,11 +87,15 @@ export default function Customers({}: Props) {
 
 useEffect(() => {
   const fetchData = async () => {
+    setIsLoading(true); 
     try {
       const response = await dispatch<any>(fetchCustomersBySearch(search,router,localActive));
       setCustomer(response);
     } catch (error) {
       console.error('Error:', error);
+    }
+    finally {
+      setIsLoading(false); 
     }
   };
   fetchData();
@@ -121,6 +127,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             </Button>
           </form>
         </div>
+        {isLoading && <Spinner />}
         {customer && <DataTable columns={columns} data={customer} />}
       </div>
     </>
