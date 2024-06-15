@@ -7,7 +7,7 @@ import PageTitle from "@/components/PageTitle";
 import { fetchCustomer } from "@/redux/actions/customers";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 
 type Props = {
   params: any;
@@ -52,7 +52,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
       <div className="flex gap-2 items-center">
         <Link
           className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-          href={`/invoices/details/${id}`}
+          href={`/${localActive}/invoices/details/${id}`}
         >
           {localActive === "en" ? "View" : "ዝርዝር"}
         </Link>
@@ -67,7 +67,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
 const InvoiceCard = ({ params }: Props) => {
   const [invoice, setInvoice] = useState<Customer | null>(null);
   const dispatch = useDispatch();
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const id = params.id as string;
 
   const columns: ColumnDef<Invoice>[] = [

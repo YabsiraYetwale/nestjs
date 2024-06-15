@@ -3,7 +3,7 @@ import { CardContent, CardProps } from "@/components/Card";
 import RecentInvoiceActivitiesCard from "@/components/RecentActivitiesCard";
 import { useEffect, useState } from "react";
 import {useDispatch} from "react-redux";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 import { fetchInvoices } from "@/redux/actions/invoices";
 
 export type CustomerProps = {
@@ -17,7 +17,7 @@ export default function Recent() {
 
 const [invoices, setInvoices] = useState<CardProps[] | null>(null);
 const dispatch = useDispatch();
-const localActive = 'useLocale()';
+const localActive = useLocale();
 
 
 

@@ -1,144 +1,81 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useDispatch } from "react-redux";
 import { Bell } from "lucide-react";
+import { CardProps } from "./Card";
 import RecentInvoiceActivitiesCard from "./RecentActivitiesCard";
-
+import { fetchInvoices } from "@/redux/actions/invoices";
 import Link from "next/link";
+import {useLocale } from 'next-intl';
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import useInvoices from "@/hooks/useInvoices";
-import { invoices } from "@/redux/reducers/invoices";
-import { Invoice } from "@/models/invoice";
 
-interface Props {
-  isAdmin?: boolean;
-}
+export function NotificationPopup() {
+  const [open, setOpen] = useState(false);
+  const [invoices, setInvoices] = useState<CardProps[] | null>(null);
 
-export function NotificationPopup({ isAdmin }: Props) {
-  // const { invoices } = useInvoices();
+  const dispatch = useDispatch();
+  const localActive = useLocale();
 
-  const invoices: Invoice[] = [
-    {
-      id: "1",
-      invoice_number: "",
-      date: "",
-      due_date: "",
-      total_amount: "3",
-      status: "paid",
-      company_id: "",
-      client_id: "",
-      creator: {
-        id: "",
-        email: "",
-        company_id: "",
-      },
-      line_items: [],
-      isRead: false,
-      client: {
-        id: "",
-        name: "Mathias Wakgari",
-        email: "mathiaswakgari@gmail.com",
-        billing_address: "",
-        contact_person: "",
-        phone: "",
-        shipping_address: "",
-        shipping_city: "",
-        shipping_country: "",
-        shipping_state: "",
-        shipping_zip: "",
-      },
-    },
-    {
-      id: "2",
-      invoice_number: "",
-      date: "",
-      due_date: "",
-      total_amount: "10",
-      status: "paid",
-      company_id: "",
-      client_id: "",
-      creator: {
-        id: "",
-        email: "",
-        company_id: "",
-      },
-      line_items: [],
-      isRead: false,
-      client: {
-        id: "",
-        name: "Mathias Wakgari",
-        email: "mathiaswakgari@gmail.com",
-        billing_address: "",
-        contact_person: "",
-        phone: "",
-        shipping_address: "",
-        shipping_city: "",
-        shipping_country: "",
-        shipping_state: "",
-        shipping_zip: "",
-      },
-    },
-    {
-      id: "3",
-      invoice_number: "",
-      date: "",
-      due_date: "",
-      total_amount: "323",
-      status: "paid",
-      company_id: "",
-      client_id: "",
-      creator: {
-        id: "",
-        email: "",
-        company_id: "",
-      },
-      line_items: [],
-      isRead: false,
-      client: {
-        id: "",
-        name: "Mathias Wakgari",
-        email: "mathiaswakgari@gmail.com",
-        billing_address: "",
-        contact_person: "",
-        phone: "",
-        shipping_address: "",
-        shipping_city: "",
-        shipping_country: "",
-        shipping_state: "",
-        shipping_zip: "",
-      },
-    },
-  ];
+  const handleBellToggle = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch<any>(fetchInvoices());
+        setInvoices(response);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
-    <Popover>
-      <PopoverTrigger>
+    <>
+      <div
+        onClick={handleBellToggle}
+        className={` ${
+          invoices?.length ? "pl-2" : "pl-0"
+        } flex h-10 w-10 items-center justify-center rounded-md cursor-pointer hover:bg-gray-200 `}
+      >
         <Bell size={19} />
-      </PopoverTrigger>
-      <PopoverContent className="flex flex-col w-96 mr-5">
-        <div className="h-48 mb-5 flex flex-col gap-1 overflow-y-auto">
-          {invoices?.map((invoice) => (
-            <RecentInvoiceActivitiesCard
-              key={invoice.id}
-              email={invoice.client.email}
-              name={invoice.client.name}
-              total_amount={invoice.total_amount}
-            />
-          ))}
-        </div>
-
-        <Link
-          className="self-center text-gray-500 text-sm mb-2 hover:underline hover:text-gray-800 duration-100"
-          href={isAdmin ? "/admin/notifications" : "/dashboard/notifications"}
-        >
-          Notifications
-        </Link>
-      </PopoverContent>
-    </Popover>
+        {invoices?.length && (
+          <div
+            className={`pl-1 relative right-[8px] top-[-6px] h-[15px] w-[15px] text-white text-xs rounded-full flex justify-center items-center bg-red-600`}
+          >{invoices?.length}</div>
+        )}
+      </div>
+      {open && (
+        <>
+          <div className="absolute flex flex-col justify-between top-[66px] right-16 bg-white shadow-md w-96 h-48 rounded-b-lg">
+            <div className="flex flex-col">
+              {invoices?.slice(0, 3)?.map((invoice, index) => (
+                <div
+                  key={index}
+                  className="cursor-pointer px-5 py-1 hover:bg-white"
+                >
+                  <RecentInvoiceActivitiesCard
+                    key={index}
+                    email={invoice?.client?.email}
+                    name={invoice?.client?.name}
+                    total_amount={invoice.total_amount}
+                  />
+                </div>
+              ))}
+            </div>
+            <Link
+              onClick={() => setOpen(!open)}
+              className="self-center text-gray-500 text-sm mb-2 hover:underline hover:text-gray-800 duration-100"
+              href={`/${localActive}/dashboard/notifications`}
+            >
+              Notifications
+            </Link>
+          </div>
+        </>
+      )}
+    </>
   );
 }

@@ -2,11 +2,11 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 
 const apiClient = axios.create({
-  baseURL: "https://nextjs-nestjs-invoicesystm-api.onrender.com/api",
+  baseURL: "https://invoicesystm-api.onrender.com/api",
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token = getCookie("access-token");
+  const token = getCookie("refreshToken");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

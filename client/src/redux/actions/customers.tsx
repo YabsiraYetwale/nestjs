@@ -7,7 +7,7 @@ export const createCustomer=(customer:any,router:any,localActive:any)=>async(dis
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
         dispatch({type:CREATE,payload:data})
-        router.push(`/dashboard/customers`)
+        router.push(`/${localActive}/dashboard/customers`)
         console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
@@ -34,13 +34,13 @@ export const fetchCustomersBySearch=(searchQuery:any,router:any,localActive:any)
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
         if(searchQuery || data.clients.map((id:string)=>id)){
-            router.push(`/dashboard/customers?searchQuery=${searchQuery}`)
+            router.push(`/${localActive}/dashboard/customers?searchQuery=${searchQuery}`)
         }
         if(!searchQuery){
-            router.push(`/dashboard/customers`)
+            router.push(`/${localActive}/dashboard/customers`)
         }
        else if(data==="No matching clients found."){
-            router.push(`/dashboard/customers/no-result`)
+            router.push(`/${localActive}/dashboard/customers/no-result`)
         }
         return data.clients
     } catch (error) {
@@ -65,7 +65,7 @@ export const updateCustomer=(id:String,customer:any,router:any,localActive:any)=
         dispatch({type:START_LOADING})
         const {data}= await api.updateCustomer(id,customer)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/dashboard/customers/details/${id}`)
+        router.push(`/${localActive}/dashboard/customers/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -90,7 +90,7 @@ export const deleteCustomer=(id:String,router:any,localActive:any)=>async(dispat
         dispatch({type:START_LOADING})
         await api.deleteCustomer(id)
         dispatch({type:DELETE,payload:id})
-        router.push(`/dashboard/customers`)
+        router.push(`/${localActive}/dashboard/customers`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

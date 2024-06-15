@@ -16,7 +16,7 @@ import {
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 
 type InvoiceProps = {
   status: any;
@@ -31,7 +31,7 @@ type InvoiceProps = {
 export default function Detail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const id = params.id as string;
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
@@ -103,7 +103,7 @@ export default function Detail({ params }: any) {
         <Button
           className="sm:h-[40px] h-[30px] w-[100px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
         >
-           <Link href={`/dashboard/invoices/template/${id}`}>{localActive === "en" ? "Actions" : "ድርጊቶች"}</Link>
+           <Link href={`/${localActive}/dashboard/invoices/template/${id}`}>{localActive === "en" ? "Actions" : "ድርጊቶች"}</Link>
         </Button> 
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
@@ -127,7 +127,7 @@ export default function Detail({ params }: any) {
               } sm:grid-cols-3 grid-cols-1 lg:gap-5 gap-3`}
             >
               <Button className="bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500">
-                <Link href={`/dashboard/invoices/edit/${id}`}>{localActive === "en" ? "Edit" : "አሻሽል"}</Link>
+                <Link href={`/${localActive}/dashboard/invoices/edit/${id}`}>{localActive === "en" ? "Edit" : "አሻሽል"}</Link>
               </Button>
 
               <Button

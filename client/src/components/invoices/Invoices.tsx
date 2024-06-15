@@ -10,8 +10,7 @@ import { useDispatch } from "react-redux";
 import { fetchInvoicesBySearch } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Spinner from "../Spinner";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 
 type Props = {};
 
@@ -50,14 +49,14 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
 
   return (
     <div>
       <div className="flex gap-2 items-center">
         <Link
           className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-          href={`/dashboard/invoices/details/${id}`}
+          href={`/${localActive}/dashboard/invoices/details/${id}`}
         >
           {localActive === "en" ? "View" : "ዝርዝር"}
           
@@ -72,10 +71,9 @@ const Cell: React.FC<CellProps> = ({ row }) => {
 export default function Invoices({}: Props) {
   const [invoices, setInvoices] = useState<InvoiceWithClient[] | null>(null);
   const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
- const localActive = 'useLocale()';
+ const localActive = useLocale();
  
 
  const columns: ColumnDef<InvoiceWithClient>[] = [
@@ -127,7 +125,6 @@ export default function Invoices({}: Props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);  
       try {
         const response = await dispatch<any>(
           fetchInvoicesBySearch(search, router,localActive),
@@ -135,9 +132,6 @@ export default function Invoices({}: Props) {
         setInvoices(response);
       } catch (error) {
         console.error("Error:", error);
-      }
-      finally {
-        setIsLoading(false); 
       }
     };
     fetchData();
@@ -170,7 +164,6 @@ export default function Invoices({}: Props) {
             </Button>
           </form>
         </div>
-        {isLoading && <Spinner />}
         {invoices && <DataTable columns={columns} data={invoices} />}
       </div>
     </>

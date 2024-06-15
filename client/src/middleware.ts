@@ -1,6 +1,22 @@
-import middleware from "./middlewares/auth";
+import createMiddleware from 'next-intl/middleware';
 
-export default middleware;
+// import middleware from "./middlewares/auth";
+
+// export default middleware;
+// export const config = {
+//   matcher: ["/dashboard/:path*", "/admin/:path*"],
+// };
+
+ 
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ['en', 'amh'],
+ 
+  // Used when no locale matches
+  defaultLocale: 'en'
+});
+ 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  // Match only internationalized pathnames
+  matcher: ['/', '/(amh|en)/:path*']
 };

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 
 const FormSchema = z.object({
   templateVersion:z.string().optional()
@@ -37,7 +37,7 @@ export default function Template({ params }: any) {
   const id = params.id as string;
   const router = useRouter();
   const dispatch = useDispatch();
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({

@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 import { createCustomer, fetchCustomer, updateCustomer } from '@/redux/actions/customers';
 import Link from 'next/link';
 import { CardContent } from '../../Card';
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 
 const FormSchema = z
   .object({
@@ -38,7 +38,7 @@ const FormSchema = z
 const CustomerForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -241,7 +241,7 @@ const CustomerForm = ({params}:any) => {
           {id ? 'Update ':'Add ' }Customer
         </Button>
         <Button className="bg-red-600 sm:h-[40px] h-[30px] hover:bg-red-500">
-                <Link href={`/dashboard/customers`}>Cancel</Link>
+                <Link href={`/${localActive}/dashboard/customers`}>Cancel</Link>
               </Button>
         </div>
       </form>

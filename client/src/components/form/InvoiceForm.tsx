@@ -22,11 +22,10 @@ import {
 } from "@/redux/actions/invoices";
 import { useEffect, useState } from "react";
 import { fetchCustomers } from "@/redux/actions/customers";
-import { Client } from "@/models/client";
-
 import Link from "next/link";
+import {useLocale } from 'next-intl';
 import { CardContent } from "../Card";
-import { Textarea } from "../ui/textarea";
+import { CustomersProps } from "../schemas/customerProps";
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
@@ -56,6 +55,7 @@ const FormSchema = z.object({
 const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -81,12 +81,13 @@ const InvoiceForm = ({ params }: any) => {
     }
   }, [id, dispatch, form]);
 
-  const [customers, setCustomers] = useState<Client[] | null>(null);
+  const [customer, setCustomer] = useState<CustomersProps[] | null>(null);
+  const search = ''
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch<any>(fetchCustomers());
-        setCustomers(response);
+        const response = await dispatch<any>(fetchCustomers(search));
+        setCustomer(response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -96,7 +97,7 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router));
+      dispatch<any>(updateInvoice(id, values, router,localActive));
       router.push(`/invoices/details/${id}`);
       console.log("valuess", values);
     } else {
@@ -104,9 +105,6 @@ const InvoiceForm = ({ params }: any) => {
       router.push("/invoices");
     }
   };
-
-  const onCancel = () => router.back();
-
   const removeLineItem = (index: number) => {
     const line_items = form.getValues().line_items;
     line_items.splice(index, 1);
@@ -123,300 +121,359 @@ const InvoiceForm = ({ params }: any) => {
   };
   return (
     <div className="flex flex-col gap-5 text-gray-600">
-      <p className="font-bold text-[30px]">
-        {id ? "Update " : "Create "}Invoice
+      <p className="font-bold md:text-[30px] text-[20px]">
+        {id ? "Edit " : "Create New "}Invoice
       </p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full  flex flex-col gap-5 items-center"
+          className="w-[100%] flex flex-col gap-5"
         >
-          <div className="w-full lg:w-[800px] flex flex-col gap-5 mt-10">
-            <div className="w-full  flex gap-5">
-              <FormField
-                control={form.control}
-                name="due_date"
-                render={({ field }: any) => (
-                  <FormItem className=" flex flex-col gap-[10px]">
-                    <FormLabel>Due Date</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="date"
-                        className="flex  gap-5"
-                        placeholder="Enter the due date"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }: any) => (
-                  <FormItem className="flex flex-col gap-[10px] ">
-                    <FormLabel>Status</FormLabel>
-                    <FormControl>
-                      <select
-                        {...field}
-                        className="border text-center w-[150px] h-[40px]"
-                      >
-                        <option>unpaid</option>
-                        <option>paid</option>
-                        <option>read</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="w-full flex flex-col gap-5">
-              <p className=" text-[20px] text-gray-600 ">
-                Customer Information
-              </p>
-              <div className="flex flex-col lg:flex-row gap-5">
+          <div className="flex gap-5 flex-wrap">
+            <div className="relative  lg:right-[-49rem] md:right-[-40rem] ">
+              <div className="w-[100%] flex gap-5">
                 <FormField
                   control={form.control}
-                  name="client.name"
+                  name="due_date"
                   render={({ field }: any) => (
-                    <FormItem className="w-full">
+                    <FormItem className="w-[80%] flex flex-col gap-[10px]  items-center">
+                      <FormLabel>Due Date</FormLabel>
                       <FormControl>
-                        <Input placeholder="Fullname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="client.email"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="youremail@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col lg:flex-row gap-5">
-                <FormField
-                  control={form.control}
-                  name="client.contact_person"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Contact Person " {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="client.phone"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Telephone Number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <FormField
-                control={form.control}
-                name="client.billing_address"
-                render={({ field }: any) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter Billing Address"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="w-full flex flex-col gap-5">
-              <p className=" text-[20px] text-gray-600 ">
-                Shipping Information
-              </p>
-              <div className="flex flex-col lg:flex-row gap-5">
-                <FormField
-                  control={form.control}
-                  name="client.name"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Fullname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="client.shipping_address"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Shipping Address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col lg:flex-row gap-5">
-                <FormField
-                  control={form.control}
-                  name="client.shipping_city"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Shipping City" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="client.shipping_state"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Shipping State" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col lg:flex-row gap-5">
-                <FormField
-                  control={form.control}
-                  name="client.shipping_zip"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Shipping Zipcode" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="client.shipping_country"
-                  render={({ field }: any) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input placeholder="Shipping Country" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="w-[100%] flex gap-5 flex-col">
-                <Button
-                  className="w-[150px] bg-green-600 hover:bg-green-400"
-                  onClick={addLineItem}
-                >
-                  Add Line Item
-                </Button>
-                {form
-                  .watch("line_items")
-                  ?.map((lineItem: any, index: number) => (
-                    <div
-                      key={index}
-                      className="flex gap-[10px] md:items-center"
-                    >
-                      <FormLabel>{index + 1}</FormLabel>
-                      <div className="flex md:flex-row flex-col gap-5">
-                        <FormField
-                          control={form.control}
-                          name={`line_items.${index}.description`}
-                          render={({ field }: any) => (
-                            <FormControl>
-                              <Input placeholder="Description" {...field} />
-                            </FormControl>
-                          )}
+                        <Input
+                          type="date"
+                          className="flex  gap-5"
+                          placeholder="Enter the due date"
+                          {...field}
                         />
-                        <FormField
-                          control={form.control}
-                          name={`line_items.${index}.quantity`}
-                          render={({ field }: any) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Quantity"
-                                {...field}
-                              />
-                            </FormControl>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name={`line_items.${index}.unit_price`}
-                          render={({ field }: any) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Unit Price"
-                                {...field}
-                              />
-                            </FormControl>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name={`line_items.${index}.tax_rate`}
-                          render={({ field }: any) => (
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Tax Rate"
-                                {...field}
-                              />
-                            </FormControl>
-                          )}
-                        />
-                        <Button
-                          onClick={() => removeLineItem(index)}
-                          className="bg-red-500 hover:bg-red-400"
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }: any) => (
+                    <FormItem className="flex flex-col gap-[10px]  items-center">
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <select
+                          {...field}
+                          className="border text-center w-[150px] h-[40px]"
                         >
-                          remove
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                          <option>unpaid</option>
+                          <option>paid</option>
+                          <option>read</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
-            <div className="flex gap-2 mt-6">
-              <Button
-                className="bg-blue-600 w-24 hover:bg-blue-500 "
-                type="submit"
-              >
-                {id ? "Update " : "Add "}
-              </Button>
-              <Button
-                onClick={onCancel}
-                type="button"
-                className="bg-gray-400 w-24 text-white hover:bg-gray-500"
-              >
-                Cancel
-              </Button>
+            <div className="w-[100%] flex flex-col gap-5">
+              <div className="flex md:flex-row flex-col gap-5">
+                <CardContent className="w-[100%] flex flex-col gap-5">
+                  <div className="flex md:flex-row flex-col gap-5 items-center bg-zinc-100 py-2 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]">
+                    <p className="font-bold text-[20px] text-gray-600">
+                      Customer Information
+                    </p>
+                    {/* <div className='flex'>  
+              <p className="text-blue-600 font-bold">OR Existing Customer</p> 
+              <FormField
+              control={form.control}
+              name="client_id"
+              render={({ field }: any) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormControl>
+                    <select
+                      className="flex  gap-5 border"
+                      {...field}
+                    >
+                      <option>{customer?.map((i)=>i?.email)}</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            </div> */}
+                  </div>
+                  <div className="flex gap-5">
+                    <FormField
+                      control={form.control}
+                      name="client.name"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter Name"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="client.email"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="youremail@example.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex gap-5">
+                    <FormField
+                      control={form.control}
+                      name="client.contact_person"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter contact person "
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="client.phone"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter phone number"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="client.billing_address"
+                    render={({ field }: any) => (
+                      <FormItem>
+                        <FormControl>
+                          <textarea
+                            className="w-[100%] p-5 h-[100px] border"
+                            placeholder="Enter the billing address"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+                <CardContent className="w-[100%] flex flex-col gap-5">
+                  <p className="font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]">
+                    Shipping Information
+                  </p>
+                  <div className="flex gap-5">
+                    <FormField
+                      control={form.control}
+                      name="client.name"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter Name"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="client.shipping_address"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter shipping_address"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex gap-5">
+                    <FormField
+                      control={form.control}
+                      name="client.shipping_city"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter shipping city"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="client.shipping_state"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter shipping state"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex gap-5">
+                    <FormField
+                      control={form.control}
+                      name="client.shipping_zip"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter shipping zipcode"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="client.shipping_country"
+                      render={({ field }: any) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="md:w-[18vw] w-[100%]"
+                              placeholder="Enter shipping country"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </div>
             </div>
+            <div className="w-[100%] flex gap-5 flex-col">
+              <Button
+                className="w-[150px] bg-green-600 hover:bg-green-400"
+                onClick={addLineItem}
+              >
+                Add Line Item
+              </Button>
+              {form.watch("line_items")?.map((lineItem: any, index: number) => (
+                <div key={index} className="flex gap-[10px] md:items-center">
+                  <FormLabel>{index + 1}</FormLabel>
+                  <div className="flex md:flex-row flex-col gap-5">
+                    <FormField
+                      control={form.control}
+                      name={`line_items.${index}.description`}
+                      render={({ field }: any) => (
+                        <FormControl>
+                          <Input placeholder="Description" {...field} />
+                        </FormControl>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`line_items.${index}.quantity`}
+                      render={({ field }: any) => (
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Quantity"
+                            {...field}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`line_items.${index}.unit_price`}
+                      render={({ field }: any) => (
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Unit Price"
+                            {...field}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`line_items.${index}.tax_rate`}
+                      render={({ field }: any) => (
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Tax Rate"
+                            {...field}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                    <Button
+                      onClick={() => removeLineItem(index)}
+                      className="bg-red-500 hover:bg-red-400"
+                    >
+                      remove
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-5 mt-6">
+            <Button
+              className="bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 "
+              type="submit"
+            >
+              Save
+            </Button>
+            <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
+              <Link href={`/invoices`}>Cancel</Link>
+            </Button>
           </div>
         </form>
       </Form>
