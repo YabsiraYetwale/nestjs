@@ -6,7 +6,7 @@ export const fetchCompanies=()=>async(dispatch:any)=>{
         const {data}= await api.fetchCompanies()
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
-        return data.allCompanies
+        return data.companies
     } catch (error) {
         console.log(error)
     }

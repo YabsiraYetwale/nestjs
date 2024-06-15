@@ -18,7 +18,7 @@ import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signUp } from '@/redux/actions/auth';
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 import { useState } from 'react';
 import { ClipLoader } from "react-spinners";
 
@@ -40,7 +40,7 @@ const FormSchema = z
 const SignUpForm = () => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -144,7 +144,7 @@ const SignUpForm = () => {
     <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
     <p className="text-center text-sm text-gray-600 mt-2">
       If you have an account, please&nbsp;
-      <Link className="text-blue-500 hover:underline" href={`/sign-in`}>
+      <Link className="text-blue-500 hover:underline" href={`/${localActive}/sign-in`}>
         Sign in
       </Link>
     </p>

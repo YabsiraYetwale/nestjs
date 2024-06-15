@@ -1,0 +1,40 @@
+{
+  "NotFoundPage": {
+    "title": "ገጽ አልተገኘም",
+    "description": "ኦፕስ! የሌለ ገጽ ያሰናከላችሁ ይመስላል። አትጨነቁ, የእኛ ዓለም አቀፋዊነት አስማት አሁንም በሌሎች የመተግበሪያ ክፍሎች ላይ ጠንክሮ ይሰራል. ተጨማሪ ምርምር ለማድረግ ወደ ኋላ ለመመለስ ነፃነት ይኑርህ!"
+  },
+  "Logo":{
+    "title1": "ኢንቮይስ",
+    "title2": "ሲስተም"
+  },
+  "Dashboard":{
+    "quickaccess":"ፈጣን መዳረሻ",
+    "title":"ዳሽቦርድ"
+  },
+  "Customers":{
+    "title":"ደንበኞች"
+  },
+  "Invoices":{
+    "title":"ኢንቮይስ"
+  },
+  "Users":{
+    "title":"የሲስተም ተጠቃሚዎች"
+  },
+  "Settings":{
+    "title":"ምርጫዎች"
+  },
+  "Navigation": {
+    "dashboard": "ዳሽቦርድ",
+    "invoices": "ኢንቮይስ",
+    "customers": "ደንበኞች",
+    "systemUsers": "የሲስተም ተጠቃሚዎች",
+    "settings": "ምርጫዎች",
+    "newInvoice": "አዲስ ኢንቮይስ ይፍጠሩ",
+    "manageCustomers": "ደንበኞችን ያስተዳድሩ",
+    "viewStatus": "የኢንቮይስ ሁኔታ ይመልከቱ",
+    "signUp": "ይመዝገቡ",
+    "signIn": "በመለያ ይግቡ",
+    "logout": "ይውጡ",
+    "add":"አዲስ ይፍጠሩ"
+  }
+}

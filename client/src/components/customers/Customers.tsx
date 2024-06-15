@@ -10,7 +10,7 @@ import {useDispatch} from "react-redux";
 import { fetchCustomersBySearch } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 import { CustomersProps } from "../schemas/customerProps";
 import Spinner from "../Spinner";
 
@@ -22,13 +22,13 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
 
   return (
     <div className="flex gap-2 items-center">
       <Link
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-        href={`/dashboard/customers/details/${id}`}
+        href={`/${localActive}/dashboard/customers/details/${id}`}
       >
       {localActive === "en" ? "View" : "ዝርዝር"}
       </Link>
@@ -44,7 +44,7 @@ export default function Customers({}: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
   const columns: ColumnDef<CustomersProps>[] = [
   {
     accessorKey: "name",

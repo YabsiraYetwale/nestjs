@@ -8,22 +8,24 @@ export const signUp=(user:any,router:any,localActive:any)=>async(dispatch:any)=>
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.signUp(user)
-        toast.success(data.message)
         dispatch({type:SIGNUP,payload:data})
-        // router.push(`/${localActive}/sign-in`)
+        if (data?.activationToken) {
+            toast.success(data.message)
+            router.push(`/${localActive}/activation-account?token=${data?.activationToken}`)
+        }
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
         toast.error(error.response.data.message)
     }
 }
-export const activateAccount=(post:any,router:any)=>async(dispatch:any)=>{
+export const activateAccount=(post:any,router:any,localActive: any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.activateAccount(post)
         dispatch({type:LOGIN,payload:data})
         toast.success(data.message)
-        
+        router.push(`/${localActive}/sign-in`)
         dispatch({type:END_LOADING})
     } catch (error:any) {
         console.log(error)
@@ -36,7 +38,6 @@ export const signIn=(user:any,router:any)=>async(dispatch:any)=>{
         const {data}= await api.signIn(user)
         const token = data.accessToken;
         await storeToken(token);
-        console.log('storetoken',token)
         localStorage.setItem('InvoiceAuth',JSON.stringify({data})) 
         dispatch({type:LOGIN,payload:data})
         if(data?.accessToken){
@@ -116,7 +117,7 @@ export const createUser=(user:any,router:any,localActive:any)=>async(dispatch:an
         const {data}= await api.addUser(user)
         toast.success(data.message)
         dispatch({type:SIGNUP,payload:data})
-        router.push(`/users`)
+        router.push(`/${localActive}/users`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -128,7 +129,7 @@ export const updateUser=(id:String,user:any,router:any,localActive:any)=>async(d
         dispatch({type:START_LOADING})
         const {data}= await api.updateUser(id,user)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/users/details/${id}`)
+        router.push(`/${localActive}/users/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -139,7 +140,7 @@ export const deleteUser=(id:String,router:any,localActive:any)=>async(dispatch:a
         dispatch({type:START_LOADING})
         await api.deleteUser(id)
         dispatch({type:DELETE,payload:id})
-        router.push(`/users`)
+        router.push(`/${localActive}/users`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

@@ -17,7 +17,7 @@ import Link from 'next/link';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import {resetPassword} from '@/redux/actions/auth';
-// import {useLocale } from 'next-intl';
+import {useLocale } from 'next-intl';
 import {useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
@@ -35,7 +35,7 @@ const FormSchema = z.object({
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = 'useLocale()';
+  const localActive = useLocale();
  const searchParams = useSearchParams();
  const token = searchParams.get('token');
 

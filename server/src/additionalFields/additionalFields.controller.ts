@@ -24,4 +24,4 @@ export class AdditionalFieldsController {
     return this.additionalFields.deleteCustomField(id);
    }
 
-}
+};

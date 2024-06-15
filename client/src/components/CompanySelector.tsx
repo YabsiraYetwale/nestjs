@@ -15,10 +15,12 @@ import companies from "@/data/dummy_companies";
 import useCompanyStore from "@/state-management/selected_company/store";
 
 const CompanySelector = () => {
-  const { onSelectCompany } = useCompanyStore();
-
+  const { onSelectCompany, selectedCompanyId } = useCompanyStore();
   return (
-    <Select onValueChange={(companyId) => onSelectCompany(companyId)}>
+    <Select
+    value={selectedCompanyId}
+    onValueChange={(companyId: any) => onSelectCompany(companyId)}
+  >
       <SelectTrigger className="w-[130px] focus-visible:ring-zinc-200">
         <SelectValue placeholder="Select a company" />
       </SelectTrigger>

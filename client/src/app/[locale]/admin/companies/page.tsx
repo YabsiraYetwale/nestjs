@@ -7,7 +7,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 
 interface FetchCompanies {
-  allCompanies: Company[];
+  companies: Company[];
 }
 
 const skeletons = [1, 2, 3, 4, 5, 6];
@@ -17,7 +17,7 @@ const CompaniesPage = async () => {
     "https://invoicesystm-api.onrender.com/api/companies",
     { cache: "no-cache" }
   );
-  const { allCompanies: companies }: FetchCompanies = await res.json();
+  const { companies: companies }: FetchCompanies = await res.json();
 
   return (
     <div className="flex justify-evenly">

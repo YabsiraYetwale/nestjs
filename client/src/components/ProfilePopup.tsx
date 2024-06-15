@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "./ui/label";
+import {useLocale } from 'next-intl';
 
 interface Props {
   isAdmin?: boolean;
@@ -19,10 +20,11 @@ interface Props {
 
 const ProfilePopup = ({ isAdmin }: Props) => {
   const router = useRouter();
+  const localActive = useLocale();
 
   const handleSignOut = async () => {
     await removeToken();
-    router.replace("/sign-in");
+    router.replace(`/${localActive}/sign-in`);
   };
 
   return (
