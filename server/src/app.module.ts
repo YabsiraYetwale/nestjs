@@ -18,7 +18,7 @@ import { PermissionModule } from './permission/permission.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserPermissionModule } from './user-permission/user-permission.module';
 import { MailerModule } from './mailer/mailer.module';
-import { LineItemsModule } from './lineItems/lineItems.module';
+import { AdditionalFieldsModule } from './additionalFields/additionalFields.module';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { LineItemsModule } from './lineItems/lineItems.module';
     PermissionModule,
     UserRoleModule,
     UserPermissionModule,
-    LineItemsModule,
+    AdditionalFieldsModule,
     MulterModule.register({ dest: './uploads' }),
     ServeStaticModule.forRoot({
       rootPath: `${process.cwd()}/uploads`,

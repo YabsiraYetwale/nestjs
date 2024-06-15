@@ -21,7 +21,6 @@ export class CompaniesService {
     additional_fields:true  
   }})
     return {companies}
-    // return {allCompanies}
   }
 
   async getOneCompany(id:string){

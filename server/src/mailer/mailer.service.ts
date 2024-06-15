@@ -30,7 +30,7 @@ export class MailerService {
     const transporter = this.mailTransport();
     const mailerOptions: Mail.Options = {
       from: {
-        name: 'Yabsira Yetwale',
+        name: 'Invoice System',
         address: this.configService.get<string>('SMTP_MAIL'),
       },
       to: dto.email,
@@ -68,7 +68,7 @@ export class MailerService {
       
       const mailerOptions: Mail.Options = {
         from: {
-          name: 'Yabsira Yetwale',
+          name: 'Invoice System',
           address: this.configService.get<string>('SMTP_MAIL'),
         },
         to: invoiceData.client_id,

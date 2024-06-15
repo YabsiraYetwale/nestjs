@@ -31,7 +31,7 @@ const UserForm = ({ user }: Props) => {
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      fullname: user ? user.fullname : "",
+      fullname: user ? user.name : "",
       username: user ? user.username : "",
       email: user ? user.username : "",
       password: user ? user.username : "",

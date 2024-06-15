@@ -15,52 +15,49 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
-import { signUp } from "@/redux/actions/auth";
-import useSignUpStore from "@/state-management/sign-up/store";
+import { ClipLoader } from "react-spinners";
+import signUpSchema from "@/schemas/sign-up";
 
-const FormSchema = z.object({
-  username: z.string().min(1, "Username is required").max(100),
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have than 8 characters"),
-});
+interface Props {
+  onRegister: (values: z.infer<typeof signUpSchema>) => void;
+  isRegistering: boolean;
+  onChange: () => void;
+  error: string;
+}
 
-const SignUpForm = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  const { change } = useSignUpStore();
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+const SignUpForm = ({ onRegister, isRegistering, onChange, error }: Props) => {
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       username: "",
       email: "",
       password: "",
+      retypePassword: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    // console.log(values);
-    // dispatch<any>(signUp(values,router))
-
-    change({
-      username: values.username,
-      email: values.email,
-      password: values.password,
-    });
-
-    router.push("/companies/new");
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+      <form onSubmit={form.handleSubmit(onRegister)} className="w-full">
         <div className="space-y-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Fullname</FormLabel>
+                <FormControl>
+                  <Input
+                    onChange={onChange}
+                    placeholder="John Doe"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="username"
@@ -68,7 +65,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="johndoe" {...field} />
+                  <Input onChange={onChange} placeholder="johndoe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -81,7 +78,11 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="mail@example.com" {...field} />
+                  <Input
+                    onChange={onChange}
+                    placeholder="mail@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,6 +97,25 @@ const SignUpForm = () => {
                 <FormControl>
                   <Input
                     type="password"
+                    onKeyDown={onChange}
+                    placeholder="Enter your password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="retypePassword"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    onKeyDown={onChange}
                     placeholder="Enter your password"
                     {...field}
                   />
@@ -105,11 +125,18 @@ const SignUpForm = () => {
             )}
           />
         </div>
+        {error && (
+          <div className="mt-2 bg-red-400 rounded-sm py-1 text-[14px] text-center text-white">
+            <p>{error}</p>
+          </div>
+        )}
+
         <Button
           className="w-full mt-6 bg-blue-600 hover:bg-blue-500"
           type="submit"
+          disabled={isRegistering ? true : false}
         >
-          Sign up
+          {isRegistering ? <ClipLoader color="white" size={30} /> : "Sign Up"}
         </Button>
       </form>
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">

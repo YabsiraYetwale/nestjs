@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-// import sampleLogo from "../../public/Titan_Company_Logo.png";
+import sampleLogo from "../../public/Titan_Company_Logo.png";
 import { Edit, Trash, Trash2 } from "lucide-react";
 import { Company } from "@/models/company";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ const CompanyCard = ({ company }: Props) => {
       {/* company logo avatar */}
       <div className="flex gap-5">
         <div className="h-16 w-16 rounded-md bg-white">
-          {/* <Image alt="company logo" src={sampleLogo} /> */}
+          <Image alt="company logo" src={sampleLogo} />
         </div>
         {/* company logo avatar */}
         <div className="flex flex-col gap-1 max-w-xs  justify-center">

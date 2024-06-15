@@ -33,7 +33,7 @@ export default function SideNavbar({ isAdmin }: Props) {
         <Button
           onClick={toggleSidebar}
           variant="secondary"
-          className=" rounded-full p-2"
+          className=" rounded-full hover:bg-zinc-50 bg-white border-zinc-200 border-[1px] p-2"
         >
           <ChevronRight />
         </Button>

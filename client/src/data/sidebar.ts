@@ -10,7 +10,6 @@ import {
   UsersRound,
 } from "lucide-react";
 
-
 interface Link {
   title: string;
   href: string;
@@ -27,26 +26,26 @@ export const regularLinks: Link[] = [
   },
   {
     title: "Invoices",
-    href: (`/en/dashboard/invoices`),
+    href: "/dashboard/invoices",
     icon: Activity,
     variant: "ghost",
   },
   {
     title: "Customers",
-    href:  (`/en/dashboard/customers`),
+    href: "/dashboard/customers",
     icon: UsersRound,
     variant: "ghost",
   },
 
   {
     title: "Companies",
-    href: (`/en/dashboard/companies`),
+    href: "/dashboard/companies",
     icon: Building2,
     variant: "ghost",
   },
   {
     title: "Settings",
-    href: (`/en/dashboard/settings`),
+    href: "/dashboard/settings",
     icon: Settings,
     variant: "ghost",
   },
@@ -55,31 +54,31 @@ export const regularLinks: Link[] = [
 export const adminLinks: Link[] = [
   {
     title: "Dashboard",
-    href: "/en/admin",
+    href: "/admin",
     icon: LayoutDashboard,
     variant: "default",
   },
   {
     title: "Invoices",
-    href: "/en/admin/invoices",
+    href: "/admin/invoices",
     icon: Activity,
     variant: "ghost",
   },
   {
     title: "Users",
-    href: "/en/admin/users",
+    href: "/admin/users",
     icon: Users,
     variant: "ghost",
   },
   {
     title: "Roles",
-    href: "/en/admin/roles",
+    href: "/admin/roles",
     icon: Lock,
     variant: "ghost",
   },
   {
     title: "Companies",
-    href: "/en/admin/companies",
+    href: "/admin/companies",
     icon: Building2,
     variant: "ghost",
   },

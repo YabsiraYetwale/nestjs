@@ -1,5 +1,5 @@
 import {User}from "lucide-react";
-import {useLocale } from 'next-intl';
+// import {useLocale } from 'next-intl';
 
 
 export type MiddleCardProps = {
@@ -11,7 +11,7 @@ export type MiddleCardProps = {
 };
 
 export default function MiddleCard(props: MiddleCardProps) {
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
 
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">

@@ -3,7 +3,7 @@ import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, {CardProps } from "@/components/Card";
 import { useEffect, useState } from "react";
 import {useDispatch} from "react-redux";
-import {useLocale } from 'next-intl';
+// import {useLocale } from 'next-intl';
 import { fetchInvoices } from "@/redux/actions/invoices";
 import { fetchCustomers } from "@/redux/actions/customers";
 
@@ -20,7 +20,7 @@ export default function Dash() {
   const [customers, setCustomers] = useState<CardProps[] | null>(null);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
 
 
 

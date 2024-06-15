@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteCustomer, fetchCustomer } from "@/redux/actions/customers";
 import InvoiceCard from "./invoicesCard";
-import {useLocale } from 'next-intl';
+// import {useLocale } from 'next-intl';
 
 type CustomerProps = {
   name: string;
@@ -22,7 +22,7 @@ type CustomerProps = {
 export default function CustomerDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
+  const localActive = 'useLocale()';
   const id = params.id as string;
   const [customer, setCustomer] = useState<CustomerProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
@@ -129,7 +129,7 @@ export default function CustomerDetail({ params }: any) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/${localActive}/dashboard/customers/edit/${id}`}>
+        <Link href={`dashboard/customers/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
             {localActive === "en" ? "Edit" : "አሻሽል"}
           </Button>
