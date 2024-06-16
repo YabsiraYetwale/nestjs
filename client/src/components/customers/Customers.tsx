@@ -28,7 +28,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
         href={`/dashboard/customers/details/${id}`}
       >
-      { "View" : "ዝርዝር"}
+      { "View"}
       </Link>
     </div>
   );
@@ -116,7 +116,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={ "Search customers" : "ደንበኞችን ይፈልጉ"}
+              placeholder={ "Search customers"}
               className="border lg:w-[20rem] w-[15rem]  h-[35px]"
             />
             <Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border">

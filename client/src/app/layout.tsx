@@ -18,17 +18,14 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: {
-    locale: string;
-  };
+  
 }
 
 export default function RootLayout({
   children,
-  params: { locale },
 }: Readonly<RootLayoutProps>) {
   return (
-    <html lang={locale}>
+    <html lang='en'>
       <body
         className={cn(
           "min-h-screen w-full bg-zinc-50 text-black flex overflow-y-hidden",

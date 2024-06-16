@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const authToken = cookies().get("access-token")?.value;
 
   if (authToken == null || authToken === "") {
