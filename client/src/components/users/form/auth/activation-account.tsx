@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useSearchParams } from "next/navigation";
 import {
   InputOTP,
@@ -24,6 +24,7 @@ const ActivationPage = () => {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <CardWrapper
       headerLabel="Activate Your Account"
       backButtonLabel={"Don't have an account? Sign up"}
@@ -58,6 +59,7 @@ const ActivationPage = () => {
         </form>
       </div>
     </CardWrapper>
+    </Suspense>
   );
 };
 

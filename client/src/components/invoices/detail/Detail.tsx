@@ -101,12 +101,12 @@ export default function Detail({ params }: any) {
         <Button
           className="sm:h-[40px] h-[30px] w-[100px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
         >
-           <Link href={`/dashboard/invoices/template/${id}`}>"Actions"</Link>
+           <Link href={`/dashboard/invoices/template/${id}`}>Actions</Link>
         </Button> 
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
           <section className="flex items-center gap-4">
-            <p>"Status"</p>
+            <p>Status</p>
             <p
               className={`${invoice?.status === "paid" && "text-green-400"} ${
                 invoice?.status === "unpaid" && "text-red-400"
@@ -132,7 +132,7 @@ export default function Detail({ params }: any) {
                 onClick={handleDelete}
                 className="sm:h-[40px] h-[30px] bg-red-600 hover:bg-red-500"
               >
-                "Delete
+                Delete
               </Button>
               <div className="flex absolute lg:right-[30rem] right-[3rem] top-[20rem] top-[15rem]  bg-gray-200 flex-row justify-center items-center">
                 {isDelete && (

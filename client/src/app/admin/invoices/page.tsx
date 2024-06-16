@@ -8,19 +8,16 @@ import Invoices from "@/components/invoices/Invoices";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
  function InvoicesPage() {
-  const t = useTranslations("Navigation");
-  const tr = useTranslations("Invoices");
-
-  const localActive = useLocale();
+ 
 
   return (
     <>
     {/* <ProtectedRoute> */}
       <div className="flex flex-col justify-evenly">
         <div className="flex sm:gap-[9rem] gap-[15rem]">
-          <PageTitle title={tr("title")} />
+          <PageTitle title='Invoices' />
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
-            <Link href={`/${localActive}/dashboard/invoices/addInvoice`}>{t("add")}</Link>
+            <Link href={`/dashboard/invoices/addInvoice`}>Add New</Link>
           </Button>
         </div>
         <Invoices/>

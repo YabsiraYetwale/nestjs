@@ -18,6 +18,7 @@ import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import {resetPassword} from '@/redux/actions/auth';
 import {useSearchParams } from "next/navigation";
+import { Suspense } from 'react';
 
 const FormSchema = z.object({
   password: z
@@ -51,6 +52,7 @@ const ResetPasswordPage = () => {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
         <div className='space-y-2'>
@@ -94,6 +96,7 @@ const ResetPasswordPage = () => {
         </Button>
       </form>      
     </Form>
+    </Suspense>
   );
 };
 

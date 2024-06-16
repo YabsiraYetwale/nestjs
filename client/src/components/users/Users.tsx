@@ -31,7 +31,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
         href={`/users/details/${id}`}
       >
-        {"View" : "ዝርዝር"}
+        View
       </Link>
     </div>
   );

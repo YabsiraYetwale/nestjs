@@ -136,7 +136,7 @@ export default function CustomerDetail({ params }: any) {
           onClick={handleDelete}
           className="bg-red-600 hover:bg-red-500 w-[100px]"
         >
-          {Delete" : "ሰርዝ"}
+          Delete
         </Button>
       </CardContent>
     </div>

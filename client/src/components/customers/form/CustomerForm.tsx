@@ -239,7 +239,7 @@ const CustomerForm = ({params}:any) => {
           {id ? 'Update ':'Add ' }Customer
         </Button>
         <Button className="bg-red-600 sm:h-[40px] h-[30px] hover:bg-red-500">
-                <Link href={`/${localActive}/dashboard/customers`}>Cancel</Link>
+                <Link href={`/dashboard/customers`}>Cancel</Link>
               </Button>
         </div>
       </form>
