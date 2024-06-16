@@ -3,7 +3,6 @@ import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, {CardProps } from "@/components/Card";
 import { useEffect, useState } from "react";
 import {useDispatch} from "react-redux";
-// import {useLocale } from 'next-intl';
 import { fetchInvoices } from "@/redux/actions/invoices";
 import { fetchCustomers } from "@/redux/actions/customers";
 
@@ -20,7 +19,6 @@ export default function Dash() {
   const [customers, setCustomers] = useState<CardProps[] | null>(null);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  const localActive = 'useLocale()';
 
 
 
@@ -57,13 +55,13 @@ return (
           <Card
             amount={`$${totalReveneAmount}`}
             icon={DollarSign}
-            label={localActive === "en" ? "Total Revenue" : "ጠቅላላ ገቢ"}
+            label="Total Revenue"
           />
           
           <Card
             amount={customers?.length}
             icon={Users}
-            label={localActive === "en" ? "Total Customers" : "ጠቅላላ ደንበኞች"}
+            label="Total Customers"
           />
           <Card
             amount={`$${totalOutstandingAmount}`}
@@ -75,7 +73,7 @@ return (
             status2={`${totalRevene?.length} Paid`}
             status3={`${readInvoices?.length} Read`}
             icon={Activity}
-            label={localActive === "en" ? "Status" : "ሁኔታ"}
+            label="Status"
           />
           
      </>}

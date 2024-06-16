@@ -10,19 +10,17 @@ import { Button } from "@/components/ui/button";
 import CardWrapper from "./card-wrapper";
 import {useDispatch} from "react-redux";
 import { useRouter } from 'next/navigation';
-import {useLocale } from 'next-intl';
 import { activateAccount } from '@/redux/actions/auth';
 
 const ActivationPage = () => {
   const [activation_code, setActivationCode] = useState('');
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-  const localActive = useLocale();
   const router = useRouter();
   const activation_token = searchParams.get('token');
 
   const handleActivation = () => {
-    dispatch<any>(activateAccount({activation_code,activation_token},router,localActive))
+    dispatch<any>(activateAccount({activation_code,activation_token},router))
   };
 
   return (

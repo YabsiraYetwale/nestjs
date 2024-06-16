@@ -1,7 +1,7 @@
 "use client";
 import { TrashIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { CardContent } from "../Card";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ export default function UserDetail({ params: { id } }: Props) {
       setIsLoading(true);
       apiClient
         .get<FetchUser>(`/auth/${id}`)
-        .then((res) => {
+        .then((res: { data: { user: SetStateAction<User>; }; }) => {
           setUser(res.data.user);
           setIsLoading(false);
         })

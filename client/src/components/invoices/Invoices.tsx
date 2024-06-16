@@ -11,7 +11,6 @@ import { fetchInvoicesBySearch } from "@/redux/actions/invoices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Spinner from "../Spinner";
-import {useLocale } from 'next-intl';
 
 type Props = {};
 
@@ -50,16 +49,15 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = useLocale();
 
   return (
     <div>
       <div className="flex gap-2 items-center">
         <Link
           className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-          href={`/${localActive}/dashboard/invoices/details/${id}`}
+          href={`/dashboard/invoices/details/${id}`}
         >
-          {localActive === "en" ? "View" : "ዝርዝር"}
+          {"View"}
           
         </Link>
       </div>
@@ -75,22 +73,21 @@ function Invoices({}: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
- const localActive = useLocale();
  
 
  const columns: ColumnDef<InvoiceWithClient>[] = [
   
   {
     accessorKey: "invoice_number",
-    header: (localActive === "en" ? "Invoice Number" : "የኢንቮይስ ቁጥር"),
+    header: ("Invoice Number"),
   },
   { 
     accessorKey: "client.name",
-    header:(localActive === "en" ? "Customer Name" : " የደንበኛ ስም"),
+    header:("Customer Name"),
   },
   {
     accessorKey: "status",
-    header: (localActive === "en" ? "Status" : "ሁኔታ"),
+    header: ("Status"),
     cell: ({ row }: any) => {
       return (
         <div
@@ -107,7 +104,7 @@ function Invoices({}: Props) {
   },
   {                                      
     accessorKey: "date",
-    header: (localActive === "en" ? "Date" : "ቀን"),
+    header: ("Date"),
     cell: ({ row }: any) => {
       const formattedDate = formatDate(row.getValue("date"));
       return <div>{formattedDate}</div>;
@@ -115,11 +112,11 @@ function Invoices({}: Props) {
   },
   {
     accessorKey: "due_date",
-    header: (localActive === "en" ? "Due Date" : "ማስረከቢያ ቀን"),
+    header: ("Due Date"),
   },
   {
     accessorKey: "id",
-    header:(localActive === "en" ? "Manage" : "አስተዳድር"),
+    header:("Manage"),
     cell: Cell,
   },
 ];
@@ -130,7 +127,7 @@ function Invoices({}: Props) {
       setIsLoading(true);  
       try {
         const response = await dispatch<any>(
-          fetchInvoicesBySearch(search, router,localActive),
+          fetchInvoicesBySearch(search, router),
         );
         setInvoices(response);
       } catch (error) {
@@ -146,7 +143,7 @@ function Invoices({}: Props) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await dispatch<any>(
-      fetchInvoicesBySearch(search, router,localActive)
+      fetchInvoicesBySearch(search, router)
     );
     setInvoices(response);
   };
@@ -162,7 +159,7 @@ function Invoices({}: Props) {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={localActive === "en" ? "Search invoices" : "ደረሰኞችን ይፈልጉ"}
+              placeholder={"Search invoices"}
               className="border lg:w-[20rem] w-[15rem]  h-[35px]"
             />
             <Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border">

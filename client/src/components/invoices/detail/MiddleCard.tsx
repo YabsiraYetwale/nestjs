@@ -1,5 +1,4 @@
 import {User}from "lucide-react";
-import {useLocale } from 'next-intl';
 
 
 export type MiddleCardProps = {
@@ -11,12 +10,11 @@ export type MiddleCardProps = {
 };
 
 export default function MiddleCard(props: MiddleCardProps) {
-  const localActive = useLocale();
 
   return (
     <div className="  flex flex-wrap justify-between gap-3 ">
       <section >
-      <p>{localActive === "en" ? "customer" : "ደንበኛ"}</p>
+      <p>customer</p>
         <div className="flex justify-between gap-3 ">
         <div className=" h-12 w-12 rounded-full flex justify-center items-center bg-gray-100 p-1">
           <User/>
@@ -30,19 +28,19 @@ export default function MiddleCard(props: MiddleCardProps) {
         </div>
       </section>
         <section>
-            <p>{localActive === "en" ? "invoice number" : "የኢንቮይስ ቁጥር"}</p>
+            <p>invoice number</p>
             <p className="text-sm text-gray-400">
             {props.invoice_number}
             </p>
           </section>
         <section>
-            <p>{localActive === "en" ? "date" : "ቀን"}</p>
+            <p>date</p>
             <p className="text-sm text-gray-400">
             {props.date}
             </p>
           </section>
         <section>
-            <p>{localActive === "en" ? "due date" : "ማስረከቢያ ቀን"}</p>
+            <p>due date</p>
             <p className="text-sm text-gray-400">
             {props.due_date}
             </p>

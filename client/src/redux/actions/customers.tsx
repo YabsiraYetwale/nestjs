@@ -1,13 +1,13 @@
 import { CREATE, DELETE, END_LOADING, FETCH, FETCH_ALL, START_LOADING, UPDATE } from '../actionTypes/index'
 import * as api from '../api/index'
 
-export const createCustomer=(customer:any,router:any,localActive:any)=>async(dispatch:any)=>{
+export const createCustomer=(customer:any,router:any)=>async(dispatch:any)=>{
 
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.createCustomer(customer)
         dispatch({type:CREATE,payload:data})
-        router.push(`/${localActive}/dashboard/customers`)
+        router.push(`/dashboard/customers`)
         console.log(data)
         dispatch({type:END_LOADING})
     } catch (error) {
@@ -26,7 +26,7 @@ export const fetchCustomers=(searchQuery:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const fetchCustomersBySearch=(searchQuery:any,router:any,localActive:any)=>async(dispatch:any)=>{
+export const fetchCustomersBySearch=(searchQuery:any,router:any)=>async(dispatch:any)=>{
 
     try {
         dispatch({type:START_LOADING})
@@ -34,13 +34,13 @@ export const fetchCustomersBySearch=(searchQuery:any,router:any,localActive:any)
         dispatch({type:FETCH_ALL,payload:data})
         dispatch({type:END_LOADING})
         if(searchQuery || data.clients.map((id:string)=>id)){
-            router.push(`/${localActive}/dashboard/customers?searchQuery=${searchQuery}`)
+            router.push(`/dashboard/customers?searchQuery=${searchQuery}`)
         }
         if(!searchQuery){
-            router.push(`/${localActive}/dashboard/customers`)
+            router.push(`/dashboard/customers`)
         }
        else if(data==="No matching clients found."){
-            router.push(`/${localActive}/dashboard/customers/no-result`)
+            router.push(`/dashboard/customers/no-result`)
         }
         return data.clients
     } catch (error) {
@@ -59,13 +59,13 @@ export const fetchCustomer=(id:any)=>async(dispatch:any)=>{
     }
 }
 
-export const updateCustomer=(id:String,customer:any,router:any,localActive:any)=>async(dispatch:any)=>{
+export const updateCustomer=(id:String,customer:any,router:any)=>async(dispatch:any)=>{
 
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateCustomer(id,customer)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/${localActive}/dashboard/customers/details/${id}`)
+        router.push(`/dashboard/customers/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -84,13 +84,13 @@ export const updateCustomerTemplate=(id:String,customer:any,router:any)=>async(d
         console.log(error)
     }
 }
-export const deleteCustomer=(id:String,router:any,localActive:any)=>async(dispatch:any)=>{
+export const deleteCustomer=(id:String,router:any)=>async(dispatch:any)=>{
 
     try {
         dispatch({type:START_LOADING})
         await api.deleteCustomer(id)
         dispatch({type:DELETE,payload:id})
-        router.push(`/${localActive}/dashboard/customers`)
+        router.push(`/dashboard/customers`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

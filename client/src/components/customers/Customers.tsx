@@ -10,7 +10,6 @@ import {useDispatch} from "react-redux";
 import { fetchCustomersBySearch } from "@/redux/actions/customers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {useLocale } from 'next-intl';
 import { CustomersProps } from "../schemas/customerProps";
 import Spinner from "../Spinner";
 
@@ -22,15 +21,14 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = useLocale();
 
   return (
     <div className="flex gap-2 items-center">
       <Link
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-        href={`/${localActive}/dashboard/customers/details/${id}`}
+        href={`/dashboard/customers/details/${id}`}
       >
-      {localActive === "en" ? "View" : "ዝርዝር"}
+      { "View" : "ዝርዝር"}
       </Link>
     </div>
   );
@@ -44,11 +42,10 @@ export default function Customers({}: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
   const columns: ColumnDef<CustomersProps>[] = [
   {
     accessorKey: "name",
-    header: (localActive === "en" ? "Name" : "ስም"),
+    header:"Name",
     cell: ({ row }: any) => {
       return (
         <div className="flex gap-2 items-center">
@@ -62,23 +59,23 @@ export default function Customers({}: Props) {
   },
   {
     accessorKey: "email",
-    header: (localActive === "en" ? "Email" : "ኢሜይል"),
+    header: "Email",
   },
   {
     accessorKey: "billing_address",
-    header: (localActive === "en" ? "Billing Address" : "የቢልንግ አድራሻ"),
+    header: "Billing Address",
   },
   {
     accessorKey: "contact_person",
-    header: (localActive === "en" ? "Contact Person" : "አገናኝ ሰው"),
+    header:"Contact Person",
   },
   {
     accessorKey: "phone",
-    header: (localActive === "en" ? "Phone" : "ስልክቁጥር"),
+    header: "Phone",
   },
   {
     accessorKey: "id",
-    header: (localActive === "en" ? "Manage" : "አስተዳድር"),
+    header: "Manage",
     cell: Cell,
   },
 ]
@@ -89,7 +86,7 @@ useEffect(() => {
   const fetchData = async () => {
     setIsLoading(true); 
     try {
-      const response = await dispatch<any>(fetchCustomersBySearch(search,router,localActive));
+      const response = await dispatch<any>(fetchCustomersBySearch(search,router));
       setCustomer(response);
     } catch (error) {
       console.error('Error:', error);
@@ -104,7 +101,7 @@ useEffect(() => {
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   const response = await dispatch<any>(
-    fetchCustomersBySearch(search, router,localActive)
+    fetchCustomersBySearch(search, router)
   );
   setCustomer(response);
 };
@@ -119,7 +116,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={localActive === "en" ? "Search customers" : "ደንበኞችን ይፈልጉ"}
+              placeholder={ "Search customers" : "ደንበኞችን ይፈልጉ"}
               className="border lg:w-[20rem] w-[15rem]  h-[35px]"
             />
             <Button className="flex bg-blue-600 hover:bg-blue-500 h-[35px] border">

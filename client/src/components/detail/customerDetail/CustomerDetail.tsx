@@ -43,7 +43,7 @@ export default function CustomerDetail({ params }: any) {
   };
 
   const handleConfirm = () => {
-    dispatch<any>(deleteCustomer(id,router,''))
+    dispatch<any>(deleteCustomer(id,router))
   };
   return (
     <>

@@ -17,7 +17,6 @@ import Link from 'next/link';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { forgotPassword, signIn } from '@/redux/actions/auth';
-import {useLocale } from 'next-intl';
 
 
 const FormSchema = z.object({
@@ -28,7 +27,6 @@ const FormSchema = z.object({
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -37,7 +35,7 @@ const ForgotPasswordPage = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    dispatch<any>(forgotPassword(values,router,localActive))
+    dispatch<any>(forgotPassword(values,router))
 
   };
 
@@ -63,7 +61,7 @@ const ForgotPasswordPage = () => {
         name="email"
         render={({ field }: any) => (
           <FormItem>
-            <FormLabel>{localActive === "en" ? "Email" : "ኢሜይል"}</FormLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl>
               <Input
                 placeholder="mail@example.com"

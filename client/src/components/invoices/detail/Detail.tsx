@@ -16,7 +16,6 @@ import {
   markInvoiceStatusRead,
   markInvoiceStatusUnPaid,
 } from "@/redux/actions/invoices";
-import {useLocale } from 'next-intl';
 
 type InvoiceProps = {
   status: any;
@@ -31,7 +30,6 @@ type InvoiceProps = {
 export default function Detail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
   const id = params.id as string;
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
@@ -61,7 +59,7 @@ export default function Detail({ params }: any) {
     setIsPopUp(!isPopUp);
   };
   const handleConfirm = () => {
-    dispatch<any>(deleteInvoice(id, router,localActive));
+    dispatch<any>(deleteInvoice(id, router));
   };
   const handlePaid = async () => {
     await dispatch<any>(markInvoiceStatusPaid(id));
@@ -99,16 +97,16 @@ export default function Detail({ params }: any) {
     <div id="top"/>
     <div className="flex flex-col gap-5  w-full">
       
-        <PageTitle title={localActive === "en" ? "Invoice Details" : "የኢንቮይስ ዝርዝር"} />
+        <PageTitle title="Invoice Details"/>
         <Button
           className="sm:h-[40px] h-[30px] w-[100px] bg-transparent border border-green-500 text-green-500 hover:bg-transparent"
         >
-           <Link href={`/${localActive}/dashboard/invoices/template/${id}`}>{localActive === "en" ? "Actions" : "ድርጊቶች"}</Link>
+           <Link href={`/dashboard/invoices/template/${id}`}>"Actions"</Link>
         </Button> 
       <section className="grid grid-cols-1  gap-4 transition-all">
         <CardContent className="grid grid-cols-2 gap-5">
           <section className="flex items-center gap-4">
-            <p>{localActive === "en" ? "Status" : "ሁኔታ"}</p>
+            <p>"Status"</p>
             <p
               className={`${invoice?.status === "paid" && "text-green-400"} ${
                 invoice?.status === "unpaid" && "text-red-400"
@@ -127,32 +125,32 @@ export default function Detail({ params }: any) {
               } sm:grid-cols-3 grid-cols-1 lg:gap-5 gap-3`}
             >
               <Button className="bg-blue-600 sm:h-[40px] h-[30px] hover:bg-blue-500">
-                <Link href={`/${localActive}/dashboard/invoices/edit/${id}`}>{localActive === "en" ? "Edit" : "አሻሽል"}</Link>
+                <Link href={`/dashboard/invoices/edit/${id}`}>Edit</Link>
               </Button>
 
               <Button
                 onClick={handleDelete}
                 className="sm:h-[40px] h-[30px] bg-red-600 hover:bg-red-500"
               >
-                {localActive === "en" ? "Delete" : "ሰርዝ"}
+                "Delete
               </Button>
               <div className="flex absolute lg:right-[30rem] right-[3rem] top-[20rem] top-[15rem]  bg-gray-200 flex-row justify-center items-center">
                 {isDelete && (
                   <CardContent className="w-[300px] flex flex-coljustify-center items-center">
                     <>
-                      <div>{localActive === "en" ? "Are Sou Sure To Delete" : "ለመሰረዝ እርግጠኛ ነዎት"}</div>
+                      <div>Are Sou Sure To Delete</div>
                       <div className="flex gap-5 flex-row justify-center items-center">
                         <Button
                           onClick={handleConfirm}
                           className="bg-red-600 hover:bg-red-500 w-[100px]"
                         >
-                          {localActive === "en" ? "Yes" : "አዎ"}
+                          Yes
                         </Button>
                         <Button
                           onClick={handleDelete}
                           className="bg-blue-600 hover:bg-blue-500 w-[100px]"
                         >
-                          {localActive === "en" ? "No" : "የለም"}
+                          No
                         </Button>
                       </div>
                     </>
@@ -221,7 +219,7 @@ export default function Detail({ params }: any) {
             <section className="flex flex-col justify-end ">
               <hr className="w-[270px] h-[30px]" />
               <div className="flex items-center gap-[7rem]">
-                <p> {localActive === "en" ? "Total Amount($)" : "ጠቅላላ  ዋጋ($)"}</p>
+                <p> Total Amount($)</p>
                 <p className="text-sm text-gray-400">{invoice?.total_amount}</p>
               </div>
             </section>

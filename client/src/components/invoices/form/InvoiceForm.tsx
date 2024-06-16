@@ -24,7 +24,6 @@ import { useEffect, useState } from "react";
 import { fetchCustomers } from "@/redux/actions/customers";
 import Link from "next/link";
 import { CardContent } from "../../Card";
-import { useLocale } from "next-intl";
 import { CustomersProps } from "../../schemas/customerProps";
 import { fetchCompanies } from "@/redux/actions/companies";
 import { CompanyProps } from "@/components/schemas/companyProps";
@@ -61,7 +60,6 @@ const InvoiceForm = ({ params }: any) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const router = useRouter();
-  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -117,12 +115,12 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router, localActive));
-      router.push(`/${localActive}/dashboard/invoices/details/${id}`);
+      dispatch<any>(updateInvoice(id, values, router));
+      router.push(`/dashboard/invoices/details/${id}`);
       console.log("valuess", values);
     } else {
       dispatch<any>(createInvoice(values, router));
-      router.push(`/${localActive}/dashboard/invoices`);
+      router.push(`/dashboard/invoices`);
     }
   };
   const removeLineItem = (index: number) => {
@@ -142,12 +140,10 @@ const InvoiceForm = ({ params }: any) => {
     <div className="flex flex-col gap-5 text-gray-600">
       <p className="font-bold md:text-[30px] text-[20px]">
         {id
-          ? localActive === "en"
-            ? "Edit Invoice"
-            : "ኢንቮይስ አሻሽል"
-          : localActive === "en"
-          ? "Create New Invoice"
-          : "አዲስ ኢንቮይስ ይፍጠሩ"}
+          ? "Edit Invoice"
+          : 
+          "Create New Invoice"
+          }
       </p>
       <Form {...form}>
         <form
@@ -160,9 +156,9 @@ const InvoiceForm = ({ params }: any) => {
                 onClick={() => setExistingCompany(true)}
                 className="text-blue-600 hover:text-blue-400  cursor-pointer"
               >
-                {localActive === "en"
-                  ? "If you want to send this invoice to other company click here"
-                  : "If you want to send this invoice to other company click here"}
+                {
+                   "If you want to send this invoice to other company click here"
+                }
               </p>
             )}
             {existingCompany && (
@@ -176,9 +172,9 @@ const InvoiceForm = ({ params }: any) => {
                         <option>
                           {" "}
                           --
-                          {localActive === "en"
-                            ? "choose company"
-                            : "company ይምረጡ"}{" "}
+                          {
+                            "choose company"
+                            }{" "}
                           --
                         </option>
                         {companies?.map((i, index) => (
@@ -201,7 +197,7 @@ const InvoiceForm = ({ params }: any) => {
                   render={({ field }: any) => (
                     <FormItem className="w-[80%] flex flex-col gap-[10px]  items-center">
                       <FormLabel>
-                        {localActive === "en" ? "Due Date" : "ማስረከቢያ ቀን"}
+                        {"Due Date"}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -221,7 +217,7 @@ const InvoiceForm = ({ params }: any) => {
                   render={({ field }: any) => (
                     <FormItem className="flex flex-col gap-[10px]  items-center">
                       <FormLabel>
-                        {localActive === "en" ? "Status" : "ሁኔታ"}
+                        {"Status"}
                       </FormLabel>
                       <FormControl>
                         <select
@@ -252,23 +248,23 @@ const InvoiceForm = ({ params }: any) => {
                       onClick={() => setExistingCustomer(false)}
                       className="font-bold cursor-pointer text-[20px] text-gray-600 hover:text-gray-400"
                     >
-                      {localActive === "en"
-                        ? "Customer Information"
-                        : "የደንበኛ መረጃ"}
+                      {
+                        "Customer Information"
+                       }
                     </p>
                     <div className="flex">
                       <div className="flex gap-2">
                         <p className="text-blue-600 hover:text-blue-400 font-bold ">
-                          {localActive === "en" ? "OR" : "ወይም"}
+                          {"OR"}
                         </p>
                         {!existingCustomer && (
                           <p
                             onClick={() => setExistingCustomer(true)}
                             className="text-blue-600 hover:text-blue-400 font-bold cursor-pointer"
                           >
-                            {localActive === "en"
-                              ? "Existing Customer"
-                              : "ነባር ደንበኛ"}
+                            {
+                               "Existing Customer"
+                              }
                           </p>
                         )}
                       </div>
@@ -286,9 +282,9 @@ const InvoiceForm = ({ params }: any) => {
                                   <option>
                                     {" "}
                                     --
-                                    {localActive === "en"
-                                      ? "choose email"
-                                      : "ኢሜይል ይምረጡ"}{" "}
+                                    {
+                                      "choose email"
+                                      }{" "}
                                     --
                                   </option>
                                   {customer?.map((i, index) => (
@@ -396,9 +392,9 @@ const InvoiceForm = ({ params }: any) => {
                 {!existingCustomer && (
                   <CardContent className="w-[100%] flex flex-col gap-5">
                     <p className="font-bold text-[20px] text-gray-600 bg-zinc-100 py-5 px-5 border-b border-s-zinc-200 w-[107.5%] relative top-[-19.5px] left-[-19px]">
-                      {localActive === "en"
-                        ? "Shipping Information"
-                        : "የመላክያ መረጃ"}
+                      {
+                        "Shipping Information"
+                       }
                     </p>
                     <div className="flex gap-5">
                       <FormField
@@ -568,11 +564,11 @@ const InvoiceForm = ({ params }: any) => {
               className="bg-blue-600 sm:h-[40px] h-[30px] w-[100px] hover:bg-blue-500 "
               type="submit"
             >
-              {localActive === "en" ? "Save" : "አስቀምጥ"}
+              {"Save"}
             </Button>
             <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
-              <Link href={`/${localActive}/dashboard/invoices`}>
-                {localActive === "en" ? "Cancel" : "ሰርዝ"}
+              <Link href={`/dashboard/invoices`}>
+                {"Cancel"}
               </Link>
             </Button>
           </div>

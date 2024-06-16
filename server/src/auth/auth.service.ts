@@ -118,7 +118,7 @@ export class AuthService {
       );
 
       const html = resetPasswordTemplate(
-        `https://invoice-frontend-blue.vercel.app/en/reset-password?token=${token}`,
+        `https://invoice-frontend-blue.vercel.app/reset-password?token=${token}`,
       );
 
       const mailerOptions: Mail.Options = {

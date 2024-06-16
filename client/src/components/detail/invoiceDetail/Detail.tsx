@@ -60,7 +60,7 @@ export default function Detail({ params }: any) {
     setIsPopUp(!isPopUp);
   };
   const handleConfirm = () => {
-    dispatch<any>(deleteInvoice(id, router,''));
+    dispatch<any>(deleteInvoice(id, router));
   };
   const handlePaid = async () => {
     await dispatch<any>(markInvoiceStatusPaid(id));

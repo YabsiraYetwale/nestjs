@@ -7,24 +7,24 @@ export function middleware(request: NextRequest) {
   const authToken = cookies().get("access-token")?.value;
 
   if (authToken == null || authToken === "") {
-    return NextResponse.redirect(new URL("/en/sign-in", request.url));
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   } else {
     try {
       const user: User = jwtDecode(authToken) as User;
-      if (request.nextUrl.pathname.startsWith("/en/dashboard")) {
+      if (request.nextUrl.pathname.startsWith("/dashboard")) {
         const roles = user.roles?.map((role:any) => role.role.name);
         if (roles?.includes("admin")) {
-          return NextResponse.redirect(new URL("/en/admin", request.url));
+          return NextResponse.redirect(new URL("/admin", request.url));
         }
       }
-      if (request.nextUrl.pathname.startsWith("/en/admin")) {
+      if (request.nextUrl.pathname.startsWith("/admin")) {
         const roles = user.roles?.map((role:any) => role.role.name);
         if (!roles?.includes("admin")) {
-          return NextResponse.redirect(new URL("/en/dashboard", request.url));
+          return NextResponse.redirect(new URL("/dashboard", request.url));
         }
       }
     } catch (error) {
-      return NextResponse.redirect(new URL("/en/sign-in", request.url));
+      return NextResponse.redirect(new URL("/sign-in", request.url));
     }
   }
 }

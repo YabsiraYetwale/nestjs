@@ -21,7 +21,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchCompanies } from '@/redux/actions/companies';
 import { CompanyProps } from '../../schemas/companyProps';
-import {useLocale } from 'next-intl';
 
 const FormSchema = z
   .object({
@@ -38,7 +37,6 @@ const FormSchema = z
 const UserForm = ({params}:any) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const localActive = useLocale();
   const id = params.id as string;
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -83,10 +81,10 @@ useEffect(() => {
    
      const onSubmit = (values: z.infer<typeof FormSchema>) => {
        if(id){
-         dispatch<any>(updateUser(id,values,router,localActive));
+         dispatch<any>(updateUser(id,values,router));
        }
        else{
-         dispatch<any>(createUser(values,router,localActive));
+         dispatch<any>(createUser(values,router));
        }
      };
 
@@ -172,7 +170,7 @@ useEffect(() => {
         {id?'Update':'Create'} User
         </Button>
         <Button className="bg-red-600 sm:h-[40px] h-[30px]  hover:bg-red-500">
-                <Link href={`/${localActive}/users`}>Cancel</Link>
+                <Link href={`/users`}>Cancel</Link>
               </Button>
         </div>
       </form>

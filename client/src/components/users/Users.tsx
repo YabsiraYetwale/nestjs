@@ -8,7 +8,6 @@ import Link from "next/link";
 import {useDispatch} from "react-redux";
 import { fetchUsers } from "@/redux/actions/auth";
 import { Users } from "@/components/schemas/userProps";
-import {useLocale } from 'next-intl';
 
 type Props = {};
 
@@ -25,7 +24,6 @@ type CellProps = {
 
 const Cell: React.FC<CellProps> = ({ row }) => {
   const id = row.getValue("id");
-  const localActive = useLocale();
 
   return (
     <div className="flex gap-2 items-center">
@@ -33,7 +31,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
         className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
         href={`/users/details/${id}`}
       >
-        {localActive === "en" ? "View" : "ዝርዝር"}
+        {"View" : "ዝርዝር"}
       </Link>
     </div>
   );
@@ -43,11 +41,10 @@ const Cell: React.FC<CellProps> = ({ row }) => {
 export default function UsersPage({}: Props) {
   const [user, setUser] = useState<Users[] | null>(null);
   const dispatch = useDispatch();
-  const localActive = useLocale();
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "username",
-      header: (localActive === "en" ? "User Name" : "የተጠቃሚ ስም "),
+      header: ("User Name"),
       cell: ({ row }: any) => {
         return (
           <div className="flex gap-2 items-center">
@@ -61,15 +58,15 @@ export default function UsersPage({}: Props) {
     },
     {
       accessorKey: "email",
-      header: (localActive === "en" ? "Email" : " ኢሜይል"),
+      header: ("Email"),
     },
     {
       accessorKey: "role",
-      header: (localActive === "en" ? "Role" : "ሚና"),
+      header: ("Role"),
     },
     {
       accessorKey: "id",
-      header: (localActive === "en" ? "Manage" : "አስተዳድር"),
+      header: ("Manage"),
       cell: Cell,
     },
   ];

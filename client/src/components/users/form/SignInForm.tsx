@@ -18,7 +18,6 @@ import GoogleSignInButton from '../GoogleSignInButton';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/redux/actions/auth';
-import {useLocale } from 'next-intl';
 import {useState,useEffect } from 'react';
 import { ClipLoader } from "react-spinners";
 
@@ -37,7 +36,6 @@ const FormSchema = z.object({
 const SignInForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -100,7 +98,7 @@ const SignInForm = () => {
         />
       </div>
       <div className="mt-2">
-        <Link href={`/${localActive}/forgot-password`}>
+        <Link href={`/forgot-password`}>
           <p className="text-sm underline text-blue-700 hover:font-medium duration-100">
             Forgot your password?
           </p>
@@ -121,7 +119,7 @@ const SignInForm = () => {
     <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
     <p className="text-center text-sm text-gray-600 mt-2">
       If you don&apos;t have an account, register&nbsp;
-      <Link className="text-blue-500 hover:underline" href={`/${localActive}/sign-up`}>
+      <Link className="text-blue-500 hover:underline" href={`/sign-up`}>
         here
       </Link>
     </p>

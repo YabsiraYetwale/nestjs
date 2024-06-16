@@ -31,27 +31,22 @@ export const fetchInvoice=(id:any)=>async(dispatch:any)=>{
 }
 
 
-export const fetchInvoicesBySearch=(searchQuery:any,router:any,localActive:any)=>async(dispatch:any)=>{
+export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:any)=>{
   
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.fetchInvoicesBySearch(searchQuery)
         
         if(searchQuery || data?.invoices?.map((id:string)=>id)){
-            if (localActive==='en') {
-                router.push(`/${localActive}/dashboard/invoices?searchQuery=${searchQuery}`)
-            }
-            else{
-                router.push(`/${localActive}/dashboard/invoices?searchQuery=${searchQuery}`)
-            }
-            console.log('localActive',localActive)
+            
+                router.push(`/dashboard/invoices?searchQuery=${searchQuery}`)
         }
         if(!searchQuery){
 
-            router.push(`/${localActive}/dashboard/invoices`)
+            router.push(`/dashboard/invoices`)
         }
        else if(data==="No matching invoices found."){
-            router.push(`/${localActive}/dashboard/invoices/no-result`)
+            router.push(`/dashboard/invoices/no-result`)
         }
        dispatch({type:END_LOADING})
        return data?.invoices
@@ -90,12 +85,12 @@ export const markInvoiceStatusRead=(id:any)=>async(dispatch:any)=>{
         console.log(error)
     }
 }
-export const updateInvoice=(id:String,invoice:any,router:any,localActive:any)=>async(dispatch:any)=>{
+export const updateInvoice=(id:String,invoice:any,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         const {data}= await api.updateInvoice(id,invoice)
         dispatch({type:UPDATE,payload:data})
-        router.push(`/${localActive}/dashboard/invoices/details/${id}`)
+        router.push(`/dashboard/invoices/details/${id}`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)
@@ -112,12 +107,12 @@ export const updateInvoiceTemplate=(id:String,invoice:any,router:any)=>async(dis
         console.log(error)
     }
 }
-export const deleteInvoice=(id:String,router:any,localActive:any)=>async(dispatch:any)=>{
+export const deleteInvoice=(id:String,router:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})
         await api.deleteInvoice(id)
         dispatch({type:DELETE,payload:id})
-        router.push(`/${localActive}/dashboard/invoices`)
+        router.push(`/dashboard/invoices`)
         dispatch({type:END_LOADING})
     } catch (error) {
         console.log(error)

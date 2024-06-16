@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useLocale } from 'next-intl';
 
 const FormSchema = z.object({
   templateVersion:z.string().optional()
@@ -37,7 +36,6 @@ export default function Template({ params }: any) {
   const id = params.id as string;
   const router = useRouter();
   const dispatch = useDispatch();
-  const localActive = useLocale();
   const [invoice, setInvoice] = useState<InvoiceProps | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -89,7 +87,7 @@ const onSubmit = async (values: z.infer<typeof FormSchema>) => {
                   onClick={handleSendEmail}
                   className="bg-transparent border border border-purple-600 text-purple-600 hover:bg-transparent"
                   >
-                      <span>{localActive === "en" ? "Download/Print Pdf" : "PDFን ያውርዱ"}</span>
+                      <span>Download/Print Pdf</span>
                   </Button>
                 );
               }}
@@ -100,7 +98,7 @@ const onSubmit = async (values: z.infer<typeof FormSchema>) => {
               onClick={handleSendEmail}
               className="bg-transparent border border border-purple-600 text-purple-600 hover:bg-transparent"
             >
-              {localActive === "en" ? "Email" : "ኢሜይል"}
+              Email
             </Button>
           </div>
         </div>

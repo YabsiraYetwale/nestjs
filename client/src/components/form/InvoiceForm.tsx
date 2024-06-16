@@ -27,6 +27,7 @@ import { Client } from "@/models/client";
 import Link from "next/link";
 import { CardContent } from "../Card";
 import { Textarea } from "../ui/textarea";
+
 const LineItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
   quantity: z.coerce.number().gte(1, "Quantity must be 1 and above"),
@@ -96,7 +97,7 @@ const InvoiceForm = ({ params }: any) => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     if (id) {
-      dispatch<any>(updateInvoice(id, values, router,''));
+      dispatch<any>(updateInvoice(id, values, router));
       router.push(`/invoices/details/${id}`);
       console.log("valuess", values);
     } else {

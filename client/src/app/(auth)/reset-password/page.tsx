@@ -17,7 +17,6 @@ import Link from 'next/link';
 import {useDispatch} from 'react-redux';
 import { useRouter } from 'next/navigation';
 import {resetPassword} from '@/redux/actions/auth';
-import {useLocale } from 'next-intl';
 import {useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
@@ -35,7 +34,6 @@ const FormSchema = z.object({
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
  const searchParams = useSearchParams();
  const token = searchParams.get('token');
 
@@ -61,7 +59,7 @@ const ResetPasswordPage = () => {
             name='password'
             render={({ field }:any) => (
               <FormItem>
-                <FormLabel>{localActive === "en" ? "Password" : "የይለፍ ቃል"}</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
@@ -78,7 +76,7 @@ const ResetPasswordPage = () => {
             name='confirmPassword'
             render={({ field }:any) => (
               <FormItem>
-                <FormLabel>{localActive === "en" ? "Confirm Password" : "የይለፍ ቃል"}</FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
@@ -92,7 +90,7 @@ const ResetPasswordPage = () => {
           />
         </div>
         <Button className='w-full mt-6 bg-blue-600 hover:bg-blue-500' type='submit'>
-          {localActive === "en" ? "Reset Password" : "Reset Password"}
+          Reset Password
         </Button>
       </form>      
     </Form>

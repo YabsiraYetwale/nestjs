@@ -7,7 +7,6 @@ import { Button } from "../../ui/button";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteUser, fetchUser } from "@/redux/actions/auth";
-import {useLocale } from 'next-intl';
 
 type UserProps = {
   username: string;
@@ -17,7 +16,6 @@ type UserProps = {
 export default function UserDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
   const id = params.id as string;
 
   const [user, setUser] = useState<UserProps | null>(null);
@@ -38,7 +36,7 @@ export default function UserDetail({ params }: any) {
     setIsDelete(!isDelete);
   };
   const handleConfirm = () => {
-    dispatch<any>(deleteUser(id,router,localActive))
+    dispatch<any>(deleteUser(id,router))
   };
   return (
     <div className='flex flex-col gap-[170px]'>
@@ -63,19 +61,19 @@ export default function UserDetail({ params }: any) {
         {isDelete && (
           <CardContent className="w-[300px] flex flex-coljustify-center items-center">
             <>
-            <div>{localActive === "en" ? "Are Sou Sure To Delete" : "ለመሰረዝ እርግጠኛ ነዎት"}</div>
+            <div>{"Are Sou Sure To Delete"}</div>
             <div className="flex gap-5 flex-row justify-center items-center">
             <Button
               onClick={handleConfirm}
               className="bg-red-600 hover:bg-red-500 w-[100px]"
             >
-             {localActive === "en" ? "Yes" : "አዎ"}
+             {"Yes"}
             </Button>
             <Button
               onClick={handleDelete}
               className="bg-blue-600 hover:bg-blue-500 w-[100px]"
             >
-              {localActive === "en" ? "No" : "የለም"}
+              {"No"}
             </Button>
             </div>
             </>
@@ -83,16 +81,16 @@ export default function UserDetail({ params }: any) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/${localActive}/users/edit/${id}`}>
+        <Link href={`/users/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
-          {localActive === "en" ? "Edit" : "አሻሽል"}
+          {"Edit"}
           </Button>
         </Link>
         <Button
           onClick={handleDelete}
           className="bg-red-600 hover:bg-red-500 w-[100px]"
         >
-          {localActive === "en" ? "Delete" : "ሰርዝ"}
+          {"Delete"}
         </Button>
       </CardContent>
     </div>

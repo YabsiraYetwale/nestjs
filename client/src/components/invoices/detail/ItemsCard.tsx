@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchInvoice } from "@/redux/actions/invoices";
 import React from "react";
-import {useLocale } from 'next-intl';
 import { ColumnDef,ItemDataTable } from "@/components/ItemDataTable";
 
 type Props = {
@@ -27,28 +26,27 @@ type Item = {
 const ItemsPage = ({ params }: Props) => {
   const [items, setItems] = useState<Invoice | null>(null);
   const dispatch = useDispatch();
-  const localActive = useLocale();
   const id = params.id as string;
   const columns: ColumnDef<Item>[] = [
     {
       accessorKey: "description",
-      header:(localActive === "en" ? "Item" : "ዕቃ"),
+      header:"Item",
     },
     {
       accessorKey: "quantity",
-      header:(localActive === "en" ? "Quantity" : "ብዛት"),
+      header:"Quantity" ,
     },
     {
       accessorKey: "unit_price",
-      header:(localActive === "en" ? "Unit Price($)" : "የንጥል ዋጋ($)"),
+      header:"Unit Price($)",
     },
     {
       accessorKey: "tax_rate",
-      header:(localActive === "en" ? "Tax Rate(%)" : "የታክስ ተመን(%)"),
+      header:"Tax Rate(%)",
     },
     {
       accessorKey: "amount",
-      header:(localActive === "en" ? "Amount($)" : " ዋጋ"),
+      header:"Amount($)",
       cell: ({ row }: any) => {
         return (
           <div className="flex gap-2 items-center">

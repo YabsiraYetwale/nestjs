@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { deleteCustomer, fetchCustomer } from "@/redux/actions/customers";
 import InvoiceCard from "./invoicesCard";
-import {useLocale } from 'next-intl';
 
 type CustomerProps = {
   name: string;
@@ -22,7 +21,6 @@ type CustomerProps = {
 export default function CustomerDetail({ params }: any) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const localActive = useLocale();
   const id = params.id as string;
   const [customer, setCustomer] = useState<CustomerProps | null>(null);
   const [isDelete, setIsDelete] = useState(false);
@@ -45,7 +43,7 @@ export default function CustomerDetail({ params }: any) {
   };
 
   const handleConfirm = () => {
-    dispatch<any>(deleteCustomer(id,router,localActive))
+    dispatch<any>(deleteCustomer(id,router))
   };
   return (
     <>
@@ -64,10 +62,10 @@ export default function CustomerDetail({ params }: any) {
           <section className="flex flex-col gap-5 relative sm:left-0 left-[-4.5rem]">
           <div className="flex gap-5">
           <div onClick={()=>setIsOverView(true)} className={`${isOverView && "underline"} font-bold text-[20px] ${isOverView? "text-gray-600":"text-gray-400"}  cursor-pointer`}>
-          {localActive === "en" ? "OverView" : "አጠቃላይ እይታ"} 
+          OverView 
             </div>
           <div onClick={()=>setIsOverView(false)} className={`${!isOverView && "underline"} font-bold text-[20px] ${!isOverView? "text-gray-600":"text-gray-400"}  cursor-pointer`}>
-          {localActive === "en" ? "Invoices" : "ደረሰኞች"}
+          Invoices
             </div>
           </div>
           <>
@@ -75,21 +73,21 @@ export default function CustomerDetail({ params }: any) {
             <>
             <div className="grid grid-cols-2  md:gap-[300px] gap-5 sm:gap-5  lg:gap-[400px]">
               <div className="flex flex-col gap-2 ">
-                <div className="font-bold text-gray-400">{localActive === "en" ? "Phone Number" : "ስልክ ቁጥር"}</div>
+                <div className="font-bold text-gray-400">Phone Number</div>
                 <p className="text-sm text-gray-400">{customer?.phone}</p>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="font-bold text-gray-400">{localActive === "en" ? "Email Address" : "ኢሜል አድራሻ"}</div>
+                <div className="font-bold text-gray-400">Email Address</div>
                 <p className="text-sm text-gray-400">{customer?.email}</p>
               </div>
             </div>
             <div className="flex gap-5 justify-between items-center">
               <div className="flex flex-col gap-2">
-                <div className="font-bold text-gray-400">{localActive === "en" ? "Contact Person" : "የእውቂያ ሰው"}</div>
+                <div className="font-bold text-gray-400">Contact Person</div>
                 <p className="text-sm text-gray-400">{customer?.contact_person}</p>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="font-bold text-gray-400">{localActive === "en" ? "Billing Address" : "የክፍያ አድራሻ"}</div>
+                <div className="font-bold text-gray-400">Billing Address</div>
                 <p className="text-sm text-gray-400">
                   {customer?.billing_address}
                 </p>
@@ -109,19 +107,19 @@ export default function CustomerDetail({ params }: any) {
         {isDelete && (
           <CardContent className="w-[300px] flex flex-coljustify-center  items-center">
             <>
-            <div>{localActive === "en" ? "Are Sou Sure To Delete" : "ለመሰረዝ እርግጠኛ ነዎት"}</div>
+            <div>Are Sou Sure To Delete</div>
             <div className="flex gap-5 flex-row justify-center items-center">
             <Button
               onClick={handleConfirm}
               className="bg-red-600 hover:bg-red-500 w-[100px]"
             >
-              {localActive === "en" ? "Yes" : "አዎ"}
+              Yes
             </Button>
             <Button
               onClick={handleDelete}
               className="bg-blue-600 hover:bg-blue-500 w-[100px]"
             >
-              {localActive === "en" ? "No" : "የለም"}
+              No
             </Button>
             </div>
             </>
@@ -129,16 +127,16 @@ export default function CustomerDetail({ params }: any) {
         )}
       </div>
       <CardContent className="flex flex-row justify-between">
-        <Link href={`/${localActive}/dashboard/customers/edit/${id}`}>
+        <Link href={`/dashboard/customers/edit/${id}`}>
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px]">
-            {localActive === "en" ? "Edit" : "አሻሽል"}
+            Edit
           </Button>
         </Link>
         <Button
           onClick={handleDelete}
           className="bg-red-600 hover:bg-red-500 w-[100px]"
         >
-          {localActive === "en" ? "Delete" : "ሰርዝ"}
+          {Delete" : "ሰርዝ"}
         </Button>
       </CardContent>
     </div>
