@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useTranslations, useLocale } from "next-intl";
 import Goup from "@/components/customers/Goup";
-import Invoices from "@/components/invoices/Invoices";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
+import Invoices from "@/components/invoices/InvoicesAdmin";
 
  function InvoicesPage() {
  
@@ -20,7 +20,7 @@ import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
             <Link href={`/admin/invoices/addInvoice`}>Add New</Link>
           </Button>
         </div>
-        <InvoicesAdmin/>
+        <Invoices/>
       </div>
       <Goup />
     {/* </ProtectedRoute> */}
