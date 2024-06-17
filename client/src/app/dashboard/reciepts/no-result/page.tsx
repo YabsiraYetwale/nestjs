@@ -10,7 +10,7 @@ return (
     <div className="flex flex-col relative top-[140px] items-center justify-center align-center text-center">
            <div className="text-[30px] font-bold"> No Result</div>
            <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px]">
-         <Link href={`/admin/invoices`}>
+         <Link href={`/dashboard/reciepts`}>
             Go Back
         </Link>
         </Button>
@@ -18,4 +18,3 @@ return (
     </ProtectedRoute>
   );
 }
-

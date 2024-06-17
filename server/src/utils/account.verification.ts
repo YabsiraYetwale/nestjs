@@ -5,7 +5,7 @@ import { verifyAccountTemplate } from './mails/verifty-account.template';
 export const mailerOption=(email:string,activationCode:string,token:string)=>{
   const mailerOptions: Mail.Options = {
     from: {
-      name: `Yabsira Yetwale`,
+      name: `Invoice System`,
       address: `yabsirayetwale@gmail.com`,
     },
     to: email,

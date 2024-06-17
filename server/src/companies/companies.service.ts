@@ -55,6 +55,18 @@ export class CompaniesService {
       return {company}
     }
   }
+  async getCompaniesByUserId(userId: string) {
+    const companies = await this.prismaService.Company.findMany({
+      where:{
+        users:{
+          some: {
+            userId
+          }
+        }
+      }
+    })
+    return {companies};
+  }
 
   async createCompany(createCompanyDto:CreateCompanyDto){
   
@@ -62,7 +74,6 @@ export class CompaniesService {
     const company = await this.prismaService.Company.create({data:{
       ...post,
       users:{
-
         create:userId.map(userId=>({userId}))
       }
     }})

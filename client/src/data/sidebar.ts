@@ -31,6 +31,12 @@ export const regularLinks: Link[] = [
     variant: "ghost",
   },
   {
+    title: "Reciepts",
+    href: "/dashboard/reciepts",
+    icon: Activity,
+    variant: "ghost",
+  },
+  {
     title: "Customers",
     href: "/dashboard/customers",
     icon: UsersRound,

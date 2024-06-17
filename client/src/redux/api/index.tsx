@@ -53,6 +53,12 @@ export const markInvoiceStatusRead =   (id:String) => API.put(`/invoices/${id}/m
 // send invoice via email
 export const sendInvoice = (id:String) => API.get(`/mailer/${id}`);
 
+// Reciept
+export const fetchReciepts = () => API.get("/reciepts");
+export const fetchReciept = (id:String) => API.get(`/reciepts/${id}`);
+export const fetchRecieptsBySearch = (searchQuery:any) =>API.get(`/reciepts?searchQuery=${searchQuery}`);
+
+
 // Item
 export const createItem = (item:any) => API.post("/items", item);
 export const updateItem = (id:String,item:any) => API.put(`/items/${id}`, item);

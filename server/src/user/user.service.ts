@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { addDays } from 'date-fns';
@@ -93,12 +93,15 @@ export class UserService {
 
   async deleteUser(id: string) {
   
+    const existingUser = await this.prisma.User.findUnique({ where: id  });
+    if (!existingUser) {
+      throw new HttpException("user doesn't exist", 404);
+    }
     const deletedUser = await this.prisma.User.delete({ where: id  });
     if (!deletedUser) {
       throw new Error("Failed to delete user");
     } else {
       return { message: "user deleted successfully" }
     }
-  
 }
 }

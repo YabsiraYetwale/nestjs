@@ -54,6 +54,29 @@ export const fetchInvoicesBySearch=(searchQuery:any,router:any)=>async(dispatch:
         console.log(error)
     }
 }
+export const fetchInvoicesBySearchAdmin=(searchQuery:any,router:any)=>async(dispatch:any)=>{
+  
+    try {
+        dispatch({type:START_LOADING})
+        const {data}= await api.fetchInvoicesBySearch(searchQuery)
+        
+        if(searchQuery || data?.invoices?.map((id:string)=>id)){
+            
+                router.push(`/admin/invoices?searchQuery=${searchQuery}`)
+        }
+        if(!searchQuery){
+
+            router.push(`/admin/invoices`)
+        }
+       else if(data==="No matching invoices found."){
+            router.push(`/admin/invoices/no-result`)
+        }
+       dispatch({type:END_LOADING})
+       return data?.invoices
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const markInvoiceStatusPaid=(id:any)=>async(dispatch:any)=>{
     try {
         dispatch({type:START_LOADING})

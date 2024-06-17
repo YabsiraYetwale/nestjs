@@ -6,6 +6,7 @@ import { ClientsModule } from './clients/clients.module';
 import { PrismaModule } from 'prisma/prisma.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { InvoicesStatusModule } from './invoices/status/invoices-Status.module';
+import { RecieptsModule } from './reciepts/reciepts.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { CompaniesModule } from './companies/companies.module';
 import { TemplateVersionModule } from './template-version/template-version.module';
@@ -27,6 +28,7 @@ import { AdditionalFieldsModule } from './additionalFields/additionalFields.modu
     ClientsModule,
     InvoicesModule,
     InvoicesStatusModule,
+    RecieptsModule,
     PrismaModule,
     NotificationsModule,
     CompaniesModule,

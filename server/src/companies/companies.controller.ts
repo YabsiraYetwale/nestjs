@@ -39,6 +39,10 @@ export class CompaniesController {
   getOneCompany(@Param() id: string) {
     return this.companiesService.getOneCompany(id);
   }
+  @Get('user/:userId')
+  async getCompaniesByUserId(@Param('userId') userId: string) {
+    return  this.companiesService.getCompaniesByUserId(userId);
+  }
 
   @Post()
   createCompany(@Body() createCompanyDto:CreateCompanyDto){

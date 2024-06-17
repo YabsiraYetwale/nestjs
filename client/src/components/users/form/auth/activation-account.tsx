@@ -13,6 +13,13 @@ import { useRouter } from 'next/navigation';
 import { activateAccount } from '@/redux/actions/auth';
 
 const ActivationPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      < ActivationForm  />
+    </Suspense>
+  );
+};
+const ActivationForm = () => {
   const [activation_code, setActivationCode] = useState('');
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -24,7 +31,6 @@ const ActivationPage = () => {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
     <CardWrapper
       headerLabel="Activate Your Account"
       backButtonLabel={"Don't have an account? Sign up"}
@@ -59,7 +65,6 @@ const ActivationPage = () => {
         </form>
       </div>
     </CardWrapper>
-    </Suspense>
   );
 };
 

@@ -17,10 +17,10 @@ import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
         <div className="flex sm:gap-[9rem] gap-[15rem]">
           <PageTitle title='Invoices' />
           <Button className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[35px] relative top-[4px] left-[-90px]">
-            <Link href={`/dashboard/invoices/addInvoice`}>Add New</Link>
+            <Link href={`/admin/invoices/addInvoice`}>Add New</Link>
           </Button>
         </div>
-        <Invoices/>
+        <InvoicesAdmin/>
       </div>
       <Goup />
     {/* </ProtectedRoute> */}
