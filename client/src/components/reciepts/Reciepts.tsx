@@ -55,7 +55,7 @@ const Cell: React.FC<CellProps> = ({ row }) => {
       <div className="flex gap-2 items-center">
         <Link
           className="bg-blue-600 px-5 py-2 text-white rounded-[10px]"
-          href={`/dashboard/reciepts/details/${id}`}
+          href={`/dashboard/reciepts/template/${id}`}
         >
           {"View"}
           
@@ -84,23 +84,6 @@ function Reciepts({}: Props) {
   { 
     accessorKey: "client.name",
     header:("Customer Name"),
-  },
-  {
-    accessorKey: "status",
-    header: ("Status"),
-    cell: ({ row }: any) => {
-      return (
-        <div
-          className={cn("font-medium w-fit px-4 py-2 rounded-lg", {
-            "text-red-600": row.getValue("status") === "unpaid",
-            "text-orange-600": row.getValue("status") === "read",
-            "text-green-600": row.getValue("status") === "paid",
-          })}
-        >
-          {row.getValue("status")}
-        </div>
-      );
-    },
   },
   {                                      
     accessorKey: "date",

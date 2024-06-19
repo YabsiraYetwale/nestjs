@@ -67,6 +67,7 @@ export default function Detail({ params }: any) {
       ...prevInvoice,
       status: "paid",
     }));
+    router.push(`/dashboard/reciepts/template/${id}`)
     setIsPopUp(false);
   };
 
